@@ -1,2 +1,2 @@
 # Pulsar-ML
-Politecnico of TurinMachine Learning and Pattern Recognition
+Politecnico of Turin Machine Learning and Pattern Recognition
