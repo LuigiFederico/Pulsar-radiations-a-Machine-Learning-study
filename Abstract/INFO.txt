@@ -1,25 +1,17 @@
-# Pulsar-ML 
-### Politecnico of Turin
-### Machine Learning and Pattern Recognition
-Professor: S. Cumani
->Authors:
->	* Carluccio Alex ([ GitHub profile ](https://github.com/LordAssalt))
->	* Federico Luigi ([ GitHub profile ](https://github.com/LuigiFederico))
-****
-***
-
-# Abstract
 The dataset is taken from the UCI repository (Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science)
 
 Link to the dataset: https://archive.ics.uci.edu/ml/datasets/HTRU2
 
 Below you can find the UCI description
 
->Source:
+================================================================================
+
+Source:
+
 Dr Robert Lyon, University of Manchester, School of Physics and Astronomy, Alan Turing Building, Manchester M13 9PL, United Kingdom, robert.lyon '@' manchester.ac.uk
 
----
-## Data Set Information:
+
+Data Set Information:
 
 HTRU2 is a data set which describes a sample of pulsar candidates collected during the High Time Resolution Universe Survey (South) [1].
 
@@ -44,23 +36,23 @@ Attribute Information:
 
 Each candidate is described by 8 continuous variables, and a single class variable. The first four are simple statistics obtained from the integrated pulse profile (folded profile). This is an array of continuous variables that describe a longitude-resolved version of the signal that has been averaged in both time and frequency (see [3] for more details). The remaining four variables are similarly obtained from the DM-SNR curve (again see [3] for more details). These are summarised below:
 
->1. Mean of the integrated profile.
->2. Standard deviation of the integrated profile.
->3. Excess kurtosis of the integrated profile.
->4. Skewness of the integrated profile.
->5. Mean of the DM-SNR curve.
->6. Standard deviation of the DM-SNR curve.
->7. Excess kurtosis of the DM-SNR curve.
->8. Skewness of the DM-SNR curve.
->9. Class
->
->HTRU 2 Summary
->* 17,898 total examples.
->* 1,639 positive examples.
->* 16,259 negative examples.
-> 
----
-## Relevant Papers:
+1. Mean of the integrated profile.
+2. Standard deviation of the integrated profile.
+3. Excess kurtosis of the integrated profile.
+4. Skewness of the integrated profile.
+5. Mean of the DM-SNR curve.
+6. Standard deviation of the DM-SNR curve.
+7. Excess kurtosis of the DM-SNR curve.
+8. Skewness of the DM-SNR curve.
+9. Class
+
+HTRU 2 Summary
+17,898 total examples.
+1,639 positive examples.
+16,259 negative examples.
+
+
+Relevant Papers:
 
 [1] M. J. Keith et al., 'The High Time Resolution Universe Pulsar Survey - I. System Configuration and Initial Discoveries',2010, Monthly Notices of the Royal Astronomical Society, vol. 409, pp. 619-627. DOI: 10.1111/j.1365-2966.2010.17325.x
 
@@ -82,9 +74,9 @@ Each candidate is described by 8 continuous variables, and a single class variab
 
 [10] R. J. Lyon, 'PulsarFeatureLab', 2015, [Web Link].
 
----
 
-## Citation Request:
+
+Citation Request:
 
 If you use the dataset in your work, please cite us using the following paper:
 
@@ -94,13 +86,11 @@ If possible, please also cite the DOI of the data set directly:
 
 R. J. Lyon, HTRU2, DOI: 10.6084/m9.figshare.3080389.v1.
 
----
-
-## Acknowledgements
+Acknowledgements
 
 This data was obtained with the support of grant EP/I028099/1 for the University of Manchester Centre for Doctoral Training in Computer Science, from the UK Engineering and Physical Sciences Research Council (EPSRC). The raw observational data was collected by the High Time Resolution Universe Collaboration using the Parkes Observatory, funded by the Commonwealth of Australia and managed by the CSIRO.
 
-___
+================================================================================
 
 The dataset has been split into Train and Evaluation (Test) data
 
