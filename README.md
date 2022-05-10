@@ -58,7 +58,8 @@ Each candidate is described by 8 continuous variables, and a single class variab
 >* 17,898 total examples.
 >* 1,639 positive examples.
 >* 16,259 negative examples.
-> 
+>
+
 ---
 ## Relevant Papers:
 
