@@ -1,4 +1,4 @@
-# Last edit: /05/2022 - Alex
+# Last edit: 10/05/2022 - Alex
 
 import matplotlib.pyplot as plt
 
@@ -38,6 +38,7 @@ def plot_hist(D, L, bi=10):
        plt.hist(D0[idx, :], bins=bi, density=True, alpha=0.4, label='Non-Pulsar')
        plt.hist(D1[idx, :], bins=bi, density=True, alpha=0.4, label='Pulsar')
        plt.legend()
+       plt.suptitle("Number of Bins:" + str(bi))
        plt.tight_layout()  
        
     plt.show()

@@ -1,4 +1,4 @@
-# Last edit: 09/05/2022 - Luigi
+# Last edit: 10/05/2022 - Alex
 
 import numpy
 from lib.plots import plot_hist, plot_scatter
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     D_Train, L_Train = load('data/Train.txt')
     D_Test, L_Test = load('data/Test.txt')
  
-    plot_hist(D_Train, L_Train)
+    plot_hist(D_Train, L_Train, 70)
     plot_scatter(D_Train, L_Train)
     
     D_PCA = PCA(D_Train, m)
