@@ -1,4 +1,4 @@
-# Last edit: 10/05/2022 - Alex
+# Last edit: 14/05/2022 - Luigi
 
 import numpy
 import lib.plots as plt
@@ -24,34 +24,41 @@ def load(fname):
 
 
 if __name__ == '__main__':
-    m = 6
     
+    #-----------------------#
+    #   TRAINING SECTION    #
+    #-----------------------#
+    m = 8
     hLabels = {
          0:'Non-Pulsar',
          1:'Pulsar'
         }
-    
     D_Train, L_Train = load('data/Train.txt')
-    D_Test, L_Test = load('data/Test.txt')
- 
-<<<<<<< Updated upstream
-    plot_hist(D_Train, L_Train, 70)
-    plot_scatter(D_Train, L_Train)
-=======
-    #plt.plot_hist(D_Train, L_Train, bi=100, title='D_Train')
-    #plt.plot_scatter(D_Train, L_Train)
-    print(D_Train.shape)
->>>>>>> Stashed changes
     
+    # Data observation
+    #plt.plot_hist(D_Train, L_Train, showClass=False, title='DATASET')
+    #plt.plot_scatter(D_Train, L_Train)
+    #plt.plot_hist(D_Train, L_Train, title='CLASSES')
+    plt.plot_scatter_matrix(D_Train, L_Train, 'Train set')
     
     D_PCA = PCA(D_Train, m)
-    D_LDA = LDA(D_Train, L_Train, m=3, n=2)
-    print(D_LDA.shape)
+    D_LDA = LDA(D_Train, L_Train, m, n=2)
     D_LDA = numpy.dot(D_LDA.T, D_Train)
-    print(D_LDA.shape)
     
-    #plt.plot_hist(D_PCA, L_Train, bi=100, title='PCA')
-    plt.plot_hist(D_LDA, L_Train, bi=100, title='LDA')
+    plt.plot_scatter_matrix(D_PCA, L_Train, 'PCA')
+    plt.plot_scatter_matrix(D_LDA, L_Train)
+
+    #-------------------------#
+    #   EVALUATION SECTION    #
+    #-------------------------#
+    ## D_Test, L_Test = load('data/Test.txt')
+
+
+
+
+
+
+
 
 
 
