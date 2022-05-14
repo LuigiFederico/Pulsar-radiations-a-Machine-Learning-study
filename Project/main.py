@@ -1,7 +1,7 @@
 # Last edit: 10/05/2022 - Alex
 
 import numpy
-from lib.plots import plot_hist, plot_scatter
+import lib.plots as plt
 from lib.dim_reduction import PCA, LDA
 
 def load(fname):
@@ -34,13 +34,24 @@ if __name__ == '__main__':
     D_Train, L_Train = load('data/Train.txt')
     D_Test, L_Test = load('data/Test.txt')
  
+<<<<<<< Updated upstream
     plot_hist(D_Train, L_Train, 70)
     plot_scatter(D_Train, L_Train)
+=======
+    #plt.plot_hist(D_Train, L_Train, bi=100, title='D_Train')
+    #plt.plot_scatter(D_Train, L_Train)
+    print(D_Train.shape)
+>>>>>>> Stashed changes
+    
     
     D_PCA = PCA(D_Train, m)
-    D_LDA = LDA(D_Train, L_Train, m, n=2)
+    D_LDA = LDA(D_Train, L_Train, m=3, n=2)
+    print(D_LDA.shape)
+    D_LDA = numpy.dot(D_LDA.T, D_Train)
+    print(D_LDA.shape)
     
-    
+    #plt.plot_hist(D_PCA, L_Train, bi=100, title='PCA')
+    plt.plot_hist(D_LDA, L_Train, bi=100, title='LDA')
 
 
 
