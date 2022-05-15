@@ -80,7 +80,7 @@ def plot_scatter(D, L):
         plt.show()
 
         
-def plot_scatter_matrix(D, L):
+def plot_scatter_matrix(D, L, subtitles=True):
     
     D0 = D[:, L == 0]
     D1 = D[:, L == 1]
@@ -95,7 +95,8 @@ def plot_scatter_matrix(D, L):
             axs[idx1, idx2].scatter(D0[idx1, :], D0[idx2, :], label='Non-Pulsar', color='blue')
             axs[idx1, idx2].scatter(D1[idx1, :], D1[idx2, :], label='Pulsar', color='red')
             axs[idx1, idx2].set(xlabel = hFea[idx1], ylabel=hFea[idx2])
-    plt.legend()
+    if subtitles:
+        plt.legend()
     plt.tight_layout()
     plt.rcParams["figure.figsize"] = (50, 50)
     plt.show() 
