@@ -1,7 +1,6 @@
-# Last edit: 15/05/2022 - Luigi
-
-
+# Last edit: 15/05/2022 - Alex
 import numpy
+import sys
 
 # -------------------- #
 #     SPLIT DATASET    #
@@ -154,6 +153,55 @@ def k_fold_LOO(D, L, seed=0):
 #     CLASS UNBLANACE    #
 # ---------------------- #
 
+def over_sampling(D,L,numOfCopies=2):
+    '''
+    Over Sapmling Algorithm. Select the class that has the minor number of samples and makes a specific number of copies.
+    
+    Parameters
+    ----------
+    D : Dataset to over_sampling    
+    L : Labels of the input dataset
+    numOfCopies : Number of copies requested.The default is 2.
+
+    Returns
+    -------
+    D_final : Oversampled Dataset on Minor Class
+    L_final : Labels of the output dataset
+    '''
+    
+    unique, counts = numpy.unique(L, return_counts=True)
+    samplesDistribution=dict(zip(unique, counts))
+    minorClass=min(samplesDistribution, key=samplesDistribution.get)
+    # With that we know the class that we need to duplicate
+    
+    # Now we split D and L into 2 parts,
+    # D_minor is the D that we want to duplicate
+    D_minor=D[:,L==minorClass]
+    L_minor=L[L==minorClass]
+    # D_major is the D that we don't want to duplicate
+    D_major=D[:,L!=minorClass]
+    L_major=L[L!=minorClass]
+    
+    # We replicate the D_minor
+    D_replicated=numpy.repeat(D_minor,numOfCopies,1)
+    L_replicated=numpy.repear(L_minor,numOfCopies)
+    
+    # Now we concatenate the D_replicated and L_replicated with D_major and L_major
+    D_united=numpy.concatenate((D_replicated,D_major))
+    L_united=numpy.concatenate((L_replicated,L_major))
+    
+    # Define a permutation 
+    if( D_united.shape[1]==L_united.shape[0]):
+        P = numpy.random.permutation(D_united.shape[1])
+    else:
+        print("Error with shape of Matrices while Over Sampling")
+        sys.exit()
+    
+    # Applying permutation to D_final and L_final
+    D_final=D_united[:,P]
+    L_final=L_united[P]
+    
+    return D_final,L_final
 
 
 
