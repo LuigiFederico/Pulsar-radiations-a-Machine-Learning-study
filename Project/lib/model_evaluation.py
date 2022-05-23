@@ -28,14 +28,14 @@ def computeConfusionMatrix(TrueLabels, PredictedLabels, NumOfClass):
     return ConfusionMatrix
 
 
-def computeROC(llRateos, TrueLabels, NumOfClass=2):
+def computeROC(TrueLabels, llRateos, NumOfClass=2):
     '''
     Parameters
     ----------
-    llRateos : Type: Numpy Array 
-               Description: Array of LogLikelihood Rateos.
     TrueLabels : Type: Numpy Array 
                  Description: Array of correct labels.
+    llRateos : Type: Numpy Array 
+               Description: Array of LogLikelihood Rateos.
     NumOfClass : Type: Integer
                  Description: Number of different classes.
 
@@ -155,7 +155,7 @@ def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     return dcf_u / numpy.min(numpy.dot(CostMatrix, pi_vec))
 
 
-def computeMinDCF(llRateos,TrueLabel,pi,CostMatrix):
+def computeMinDCF(TrueLabel, llRateos, pi, CostMatrix):
     '''
     Compute the minimum DCF value. This function can work only in binary case We suggest to insert 
     for pi values the float number of the prior probability for True Class, but, if not possible, 
