@@ -224,6 +224,7 @@ def computeBayesErrorPlot(TrueLabel_1 ,llRateos_1 ,CostMatrix ,Num=21 ,TrueLabel
     '''    
     
     effPriorLogOdds = numpy.linspace(-3, 3, Num)
+    PlotLegend=[]
     
     # Create 2 array of 0 that will contain the DCF and minDCF values from the first Model
     dcf_1=numpy.zeros(Num)
@@ -242,7 +243,9 @@ def computeBayesErrorPlot(TrueLabel_1 ,llRateos_1 ,CostMatrix ,Num=21 ,TrueLabel
            # Compute the DCF Normalized and minDCF
            dcf_1[i]=computeNormalizedDCF(TrueLabel_1, PredLabel_1,pi,CostMatrix)
            mindcf_1[i]=computeMinDCF(TrueLabel_1, llRateos_1 ,pi,CostMatrix)
-
+           
+           # Create the plot Legend
+           PlotLegend=["DCF Model1", "minDCF Model1"]
     else:
         
         # Create other 2 array of 0 that will contain the DCF and minDCF values from the secon Model
@@ -267,10 +270,15 @@ def computeBayesErrorPlot(TrueLabel_1 ,llRateos_1 ,CostMatrix ,Num=21 ,TrueLabel
         pylab.plot(effPriorLogOdds, dcf_2, label='DCF', color='g') 
         pylab.plot(effPriorLogOdds, mindcf_2, label='min DCF', color='y') 
         
+        # Create the plot Legend
+        PlotLegend=["DCF Model2", "minDCF Model2","DCF Model1", "minDCF Model1"]
+        
     # Plot the DCF and minDCF for the first Model. This part of code is out of if statement
     # Because it will be executed in both of cases
     pylab.plot(effPriorLogOdds, dcf_1, label='DCF', color='r') 
     pylab.plot(effPriorLogOdds, mindcf_1, label='min DCF', color='b') 
+    pylab.legend(PlotLegend)
     pylab.ylim([0, 1.1])
     pylab.xlim([-3, 3])
+    
     
