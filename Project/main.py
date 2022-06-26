@@ -1,4 +1,4 @@
-# Last edit: 14/05/2022 - Luigi
+# Last edit: 26/06/2022 - Luigi
 
 import numpy
 import lib.plots as plt
@@ -42,30 +42,29 @@ if __name__ == '__main__':
     D_Train, L_Train = load('data/Train.txt')
 
     # Plot evaluation
-    #plt.plot_scatter_matrix(D_Train, L_Train, 'Train set')
+    P = numpy.abs(numpy.corrcoef(D_Train)) # Abs value of Pearson correlation coeficient
+    P = numpy.round(P, 2)
+    plt.plot_heatmap(P)
 
-    # handle class unbalance
-    D_Train, L_Train = prep.random_under_sampling(D_Train, L_Train, n_kill=0.5)
-    
 
     #------------------------------#
     #  Model training with K-FOLD  #
     #------------------------------#
-    K = 10  # k-fold parameter
+    # K = 5  # k-fold parameter
 
-    Kfold_subsets = prep.k_fold(D_Train, L_Train, K)
+    # Kfold_subsets = prep.k_fold(D_Train, L_Train, K)
 
-    for i in range(K):
-        DT_kfold = Kfold_subsets[i][0][0]  # Data Train
-        LT_kfold = Kfold_subsets[i][0][1]  # Label Train
-        DE_kfold = Kfold_subsets[i][1][0]  # Data Test (evaluation)
-        LE_kfold = Kfold_subsets[i][1][1]  # Label Test (evaluation)
+    # for i in range(K):
+    #     DT_kfold = Kfold_subsets[i][0][0]  # Data Train
+    #     LT_kfold = Kfold_subsets[i][0][1]  # Label Train
+    #     DE_kfold = Kfold_subsets[i][1][0]  # Data Test (evaluation)
+    #     LE_kfold = Kfold_subsets[i][1][1]  # Label Test (evaluation)
 
-        # Dimentionality reduction: PCA / LDA
-        # NOTA: valutare se vanno usate o meno, dai plot direi di no
-        DT_PCA = dim_red.PCA(DT_kfold, m)
-        W_LDA = dim_red.LDA(DT_kfold, LT_kfold, m)
-        DT_LDA = numpy.dot(W_LDA.T, DT_kfold)
+    #     # Dimentionality reduction: PCA / LDA
+    #     # NOTA: valutare se vanno usate o meno, dai plot direi di no
+    #     DT_PCA = dim_red.PCA(DT_kfold, m)
+    #     W_LDA = dim_red.LDA(DT_kfold, LT_kfold, m)
+    #     DT_LDA = numpy.dot(W_LDA.T, DT_kfold)
 
         # Model training
 
@@ -74,13 +73,13 @@ if __name__ == '__main__':
     #----------------------------------#
     #  Model training with SPLIT 2TO1  #
     #----------------------------------#
-    (DT_2to1, LT_2to1), (DE_2to1, LE_2to1) = prep.split_db_2to1(D_Train, L_Train)
+    # (DT_2to1, LT_2to1), (DE_2to1, LE_2to1) = prep.split_db_2to1(D_Train, L_Train)
 
-    # Dimentionality reduction: PCA / LDA
-    # NOTA: valutare se vanno usate o meno, dai plot direi di no
-    DT_PCA = dim_red.PCA(DT_2to1, m)
-    W_LDA = dim_red.LDA(DT_2to1, LT_2to1, m)
-    DT_LDA = numpy.dot(W_LDA.T, DT_2to1)
+    # # Dimentionality reduction: PCA / LDA
+    # # NOTA: valutare se vanno usate o meno, dai plot direi di no
+    # DT_PCA = dim_red.PCA(DT_2to1, m)
+    # W_LDA = dim_red.LDA(DT_2to1, LT_2to1, m)
+    # DT_LDA = numpy.dot(W_LDA.T, DT_2to1)
 
     # Model training
 

@@ -216,12 +216,12 @@ def random_under_sampling(D, L, n_kill=0.8, class_major=0):
     Parameters
     ----------
     D : Dataset matrix
-    
+
     L : Labels of the dataset
-        
+
     n_kill : float between 0 and 1. The default is 0.8
         Percentage of samples to throw.
-    
+
     class_major : The default is 0.
         Class label of the major class
 
