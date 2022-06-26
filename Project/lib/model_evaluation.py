@@ -1,4 +1,4 @@
-# Last edit: 22/05/2022 - Alex
+# Last edit: 23/05/2022 - Alex
 
 import numpy
 import pylab
@@ -28,14 +28,14 @@ def computeConfusionMatrix(TrueLabels, PredictedLabels, NumOfClass):
     return ConfusionMatrix
 
 
-def computeROC(llRateos, TrueLabels, NumOfClass=2):
+def computeROC(TrueLabels, llRateos, NumOfClass=2):
     '''
     Parameters
     ----------
-    llRateos : Type: Numpy Array 
-               Description: Array of LogLikelihood Rateos.
     TrueLabels : Type: Numpy Array 
                  Description: Array of correct labels.
+    llRateos : Type: Numpy Array 
+               Description: Array of LogLikelihood Rateos.
     NumOfClass : Type: Integer
                  Description: Number of different classes.
 
@@ -155,7 +155,7 @@ def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     return dcf_u / numpy.min(numpy.dot(CostMatrix, pi_vec))
 
 
-def computeMinDCF(llRateos,TrueLabel,pi,CostMatrix):
+def computeMinDCF(TrueLabel, llRateos, pi, CostMatrix):
     '''
     Compute the minimum DCF value. This function can work only in binary case We suggest to insert 
     for pi values the float number of the prior probability for True Class, but, if not possible, 
@@ -195,3 +195,90 @@ def computeMinDCF(llRateos,TrueLabel,pi,CostMatrix):
     
     # Return the minimu DCF
     return minDCF
+
+
+def computeBayesErrorPlot(TrueLabel_1 ,llRateos_1 ,CostMatrix ,Num=21 ,TrueLabel_2=None ,llRateos_2=None):
+    '''
+    Compute the Bayes Error Plot for one or two Models. In the first case the function takes a maximum of 4 values, in the second 
+    case the function takes 6 vslues. The red and blue lines are for the first model, the yellow and green lines for the second model.
+
+    Parameters
+    ----------
+    TrueLabels : Type: Numpy Array 
+                 Description: Array of correct labels.
+    llRateos_1 : Type: Numpy Array 
+                 Description: Array of LogLikelihood Rateos.
+    CostMatrix : Type: Numpy Array 
+                 Description: Matrix of costs. Depends from the application.
+    Num :        Type: Int
+                 Description: Number of samples into Numpy Linspace
+    TrueLabel_2 : Type: Numpy Array 
+                  Description: Array of correct labels.
+    llRateos_2 : Type: Numpy Array 
+                 Description: Array of LogLikelihood Rateos.
+
+    Returns
+    -------
+    None.
+
+    '''    
+    
+    effPriorLogOdds = numpy.linspace(-3, 3, Num)
+    PlotLegend=[]
+    
+    # Create 2 array of 0 that will contain the DCF and minDCF values from the first Model
+    dcf_1=numpy.zeros(Num)
+    mindcf_1=numpy.zeros(Num)
+    
+    # Check if the user provides 1 model to plot or 2 models
+    if ( llRateos_2 is None and TrueLabel_2 is None) :
+        
+        for i,p in enumerate(effPriorLogOdds):
+            
+           # Define the threshold using the value p from the effPriorLogOdds and assign a label using this t
+           pi=1/(1+numpy.exp(-p))
+           t=-numpy.log(((pi*CostMatrix[0,1])/((1-pi)*CostMatrix[1,0])))
+           PredLabel_1=numpy.int32(llRateos_1>t)
+
+           # Compute the DCF Normalized and minDCF
+           dcf_1[i]=computeNormalizedDCF(TrueLabel_1, PredLabel_1,pi,CostMatrix)
+           mindcf_1[i]=computeMinDCF(TrueLabel_1, llRateos_1 ,pi,CostMatrix)
+           
+           # Create the plot Legend
+           PlotLegend=["DCF Model1", "minDCF Model1"]
+    else:
+        
+        # Create other 2 array of 0 that will contain the DCF and minDCF values from the secon Model
+        dcf_2=numpy.zeros(Num)
+        mindcf_2=numpy.zeros(Num)
+        
+        for i,p in enumerate(effPriorLogOdds):
+            
+           # Define the threshold using the value p from the effPriorLogOdds and assign a label using this t
+           pi=1/(1+numpy.exp(-p))
+           t=-numpy.log(((pi*CostMatrix[0,1])/((1-pi)*CostMatrix[1,0])))
+           PredLabel_1=numpy.int32(llRateos_1>t)
+           PredLabel_2=numpy.int32(llRateos_2>t)
+
+           # Compute the DCF Normalized and minDCF for both Models
+           dcf_1[i]=computeNormalizedDCF(TrueLabel_1, PredLabel_1, pi, CostMatrix)
+           mindcf_1[i]=computeMinDCF(TrueLabel_1, llRateos_1 , pi, CostMatrix)
+           dcf_2[i]=computeNormalizedDCF(TrueLabel_2, PredLabel_2, pi, CostMatrix)
+           mindcf_2[i]=computeMinDCF(TrueLabel_2, llRateos_2 , pi, CostMatrix)
+           
+        # Plot the DCF and minDCF for the secon Model
+        pylab.plot(effPriorLogOdds, dcf_2, label='DCF', color='g') 
+        pylab.plot(effPriorLogOdds, mindcf_2, label='min DCF', color='y') 
+        
+        # Create the plot Legend
+        PlotLegend=["DCF Model2", "minDCF Model2","DCF Model1", "minDCF Model1"]
+        
+    # Plot the DCF and minDCF for the first Model. This part of code is out of if statement
+    # Because it will be executed in both of cases
+    pylab.plot(effPriorLogOdds, dcf_1, label='DCF', color='r') 
+    pylab.plot(effPriorLogOdds, mindcf_1, label='min DCF', color='b') 
+    pylab.legend(PlotLegend)
+    pylab.ylim([0, 1.1])
+    pylab.xlim([-3, 3])
+    
+    
