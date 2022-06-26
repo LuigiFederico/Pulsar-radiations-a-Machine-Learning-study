@@ -28,7 +28,6 @@ def covariance_matrix(D):
     return C
 
 
- 
 def PCA(D, m):
     """
     Principal Component Analysis

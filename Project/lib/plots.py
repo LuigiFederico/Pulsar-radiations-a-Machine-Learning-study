@@ -38,13 +38,13 @@ def plot_hist(D, L, title='', showClass=True):
         plt.suptitle(title, fontsize=16)
         plt.xlabel(hFea[idx])
         if showClass:
-            plt.hist(D0[idx, :], bins=50, histtype='stepfilled',
-                     density=True, label='Non-Pulsar', color='blue', alpha=0.4)
-            plt.hist(D1[idx, :], bins=50, histtype='stepfilled',
-                     density=True, label='Pulsar', color='red', alpha=0.4)
+            plt.hist(D0[idx, :], bins=70, histtype='stepfilled',
+                     density=True, label='Non-Pulsar', color='blue', alpha=0.5)
+            plt.hist(D1[idx, :], bins=70, histtype='stepfilled',
+                     density=True, label='Pulsar', color='red', alpha=0.5)
         else:
-            plt.hist(D[idx, :], bins=50, histtype='stepfilled',
-                     density=True, label='Dataset', color='green', alpha=0.4)
+            plt.hist(D[idx, :], bins=70, histtype='stepfilled',
+                     density=True, label='Dataset', color='green', alpha=0.5)
         plt.legend()
         plt.tight_layout()
 
@@ -122,8 +122,7 @@ def plot_heatmap(D, title=''):
     ax.set_yticks(np.arange(len(L)))
 
     # Rotate the tick labels and set their alignment
-    plt.setp(ax.get_xticklabels(), rotation=45,
-             ha="right", rotation_mode="anchor")
+    plt.setp(ax.get_xticklabels(), ha="right", rotation_mode="anchor")
 
     # Loop over data dimensions and create text annotations
     for i in range(len(L)):
