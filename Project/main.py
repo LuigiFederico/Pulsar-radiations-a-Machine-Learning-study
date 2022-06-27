@@ -36,15 +36,20 @@ if __name__ == '__main__':
     # Histogram plot
     plt.plot_hist(D_Train, L_Train)
     
-    # Heat plot of the abs value of Pearson coef
+    # Heat (TrainData) plot of the abs value of Pearson coef
     P = numpy.abs(numpy.corrcoef(D_Train))
     P = numpy.round(P, 2)
     plt.plot_heatmap(P, title='Feature correlation')
     
     # Gaussianization to clear the outliers
-    #D_Gaussianization=prep.gaussianization(D_Train)
+    D_Gaussianization=prep.gaussianization(D_Train)
     # Histogram plot of the new features Gaussianized
-    #plt.plot_hist(D_Gaussianization, L_Train)
+    plt.plot_hist(D_Gaussianization, L_Train)
+    
+    # Heat (GaussianizedData) plot of the abs value of Pearson coef
+    P = numpy.abs(numpy.corrcoef(D_Gaussianization))
+    P = numpy.round(P, 2)
+    plt.plot_heatmap(P, title='Gaussianized Feature correlation')
 
 
     #########################

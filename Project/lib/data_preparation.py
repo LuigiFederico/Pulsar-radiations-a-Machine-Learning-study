@@ -1,11 +1,10 @@
 # Last edit: 15/05/2022 - Alex
 import numpy
 import sys
-
+from scipy.stats import norm
 # -------------------- #
 #     SPLIT DATASET    #
 # -------------------- #
-
 
 def split_db_2to1(D, L, seed=0, ratio=2.0/3.0):
     """
@@ -154,18 +153,34 @@ def k_fold_LOO(D, L, seed=0):
     return subsets
 
 def gaussianization (D_Train, D_Evaluation=0):
-    # if D_Evaluation is equal to 0 we are using the function to gaussianize train data
+    
+    # If D_Evaluation is equal to 0 we are using the function to gaussianize Training Data
     if(D_Evaluation!=0):
-        D_Gaussianized = numpy.zeros([D_Evaluation.shape[0], D_Evaluation.shape[1]])
+        
+        # Create a temporary array to takes the stack values
+        Stack = numpy.zeros([D_Evaluation.shape[0], D_Evaluation.shape[1]])
+        
+        # Iterate over each samples and calculate tha stack
         for row_count,(i,row_samples) in D_Train, enumerate(D_Evaluation):
             for (j,x) in enumerate(row_samples):
-                D_Gaussianized[i,j]=((row_count<x).sum() + 1 )/(D_Train.shape[1]+2)
+                Stack[i,j]=((row_count<x).sum() + 1 )/(D_Train.shape[1]+2)
     
     else:
-        D_Gaussianized = numpy.zeros([D_Train.shape[0], D_Train.shape[1]])
+        
+        # Create a temporary array to takes the stack values
+        Stack = numpy.zeros([D_Train.shape[0], D_Train.shape[1]])
+        
+        # Iterate over each samples and calculate tha stack
         for (i,row) in enumerate(D_Train):
             for (j,x) in enumerate(row):
-                D_Gaussianized[i,j]=(((row < x).sum() + 1 )/(D_Train.shape[1]+2))
+                Stack[i,j]=(((row < x).sum() + 1 )/(D_Train.shape[1]+2))
                 
+    # Create the Final Matrix that will contain the Gaussianized Data
+    D_Gaussianized=numpy.zeros([Stack.shape[0],Stack.shape[1]])
+    
+    # Iterate over each row to aplly the ppf function
+    for (i,row) in enumerate(Stack):
+        temp=numpy.array([norm.ppf(row)])
+        D_Gaussianized[i,:]=temp
         
     return D_Gaussianized
