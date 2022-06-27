@@ -1,4 +1,3 @@
-# Last edit: 15/05/2022 - Alex
 import numpy
 import sys
 from scipy.stats import norm
@@ -152,10 +151,11 @@ def k_fold_LOO(D, L, seed=0):
 
     return subsets
 
+
 def gaussianization (D_Train, D_Evaluation=0):
     
     # If D_Evaluation is equal to 0 we are using the function to gaussianize Training Data
-    if(D_Evaluation!=0):
+    if(D_Evaluation != 0):
         
         # Create a temporary array to takes the stack values
         Stack = numpy.zeros([D_Evaluation.shape[0], D_Evaluation.shape[1]])
@@ -163,7 +163,7 @@ def gaussianization (D_Train, D_Evaluation=0):
         # Iterate over each samples and calculate tha stack
         for row_count,(i,row_samples) in D_Train, enumerate(D_Evaluation):
             for (j,x) in enumerate(row_samples):
-                Stack[i,j]=((row_count<x).sum() + 1 )/(D_Train.shape[1]+2)
+                Stack[i,j] = ((row_count<x).sum() + 1 )/(D_Train.shape[1]+2)
     
     else:
         
@@ -173,14 +173,81 @@ def gaussianization (D_Train, D_Evaluation=0):
         # Iterate over each samples and calculate tha stack
         for (i,row) in enumerate(D_Train):
             for (j,x) in enumerate(row):
-                Stack[i,j]=(((row < x).sum() + 1 )/(D_Train.shape[1]+2))
+                Stack[i,j] = (((row < x).sum() + 1 ) / (D_Train.shape[1]+2))
                 
     # Create the Final Matrix that will contain the Gaussianized Data
-    D_Gaussianized=numpy.zeros([Stack.shape[0],Stack.shape[1]])
+    D_Gaussianized = numpy.zeros([Stack.shape[0], Stack.shape[1]])
     
     # Iterate over each row to aplly the ppf function
     for (i,row) in enumerate(Stack):
-        temp=numpy.array([norm.ppf(row)])
-        D_Gaussianized[i,:]=temp
+        temp = numpy.array([norm.ppf(row)])
+        D_Gaussianized[i,:] = temp
         
     return D_Gaussianized
+
+
+def kfold_DTrain_and_DGauss(DT, DG, L, K=5):
+    """
+    K-fold applied to the training dataset (DT) 
+    and gaussianized training dataset (DG).
+
+    Parameters
+    ----------
+    DT : Training dataset
+    DG : Gaussianized training dataset
+    L : Labels of the dataset
+    K : Number of output subset, optional (default=5)
+
+    Returns
+    -------
+    subsets_T : array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
+    subsets_G : array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
+
+    """
+    
+    folds_T = []   # array of tuple (DT_i, L_i)
+    subsets_T = [] # array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
+    folds_G = []   # array of tuple (DG_i, L_i)
+    subsets_G = [] # array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
+
+    # Split the dataset into k folds
+    numpy.random.seed(0)
+    idx = numpy.random.permutation(DT.shape[1])
+    l = 0
+    r0 = int(DT.shape[1] / K)
+    r = r0
+    for i in range(K):
+        if i == K-1:
+            r = DT.shape[1]
+        subset_i = idx[l:r]
+        DT_i = DT[:, subset_i]
+        DG_i = DG[:, subset_i]
+        L_i  = L[subset_i]
+        folds_T.append((DT_i, L_i))
+        folds_G.append((DG_i, L_i))
+        l = r
+        r = r + r0
+
+    # Generate the k subsets
+    for i in range(K):
+        test_T_i = folds_T[i]
+        test_G_i = folds_G[i]
+        first = True
+        
+        for j in range(K):
+            if j != i:
+                if first:
+                    DTrain_i = folds_T[j][0]
+                    DGauss_i = folds_G[j][0]
+                    LTrain_i = folds_T[j][1]
+                    first = False
+                else:
+                    DTrain_i = numpy.hstack([DTrain_i, folds_T[j][0]])
+                    DGauss_i = numpy.hstack([DGauss_i, folds_G[j][0]])
+                    LTrain_i = numpy.hstack([LTrain_i, folds_T[j][1]])
+        
+        subsets_T.append(((DTrain_i, LTrain_i), test_T_i))
+        subsets_G.append(((DGauss_i, LTrain_i), test_G_i))
+
+    return subsets_T, subsets_G
+    

@@ -1,10 +1,13 @@
-# Last edit: 26/06/2022 - Luigi
-
 import numpy
 import lib.plots as plt
 import lib.dim_reduction as dim_red
 import lib.data_preparation as prep
+import lib.MVG_models as MVG
 
+
+#########################
+#   ANALYSIS SECTION    #
+#########################
 
 def load(fname):
     DList = []
@@ -24,91 +27,113 @@ def load(fname):
 
     return numpy.hstack(DList), numpy.array(labelsList, dtype=numpy.int32)
 
+def feature_analysis(D, L, title=''):
+    # Histogram plot
+    plt.plot_hist(D, L)
+    
+    # Heat plot of the abs value of Pearson coef
+    P = numpy.abs(numpy.corrcoef(D))
+    P = numpy.round(P, 2)
+    plt.plot_heatmap(P, title)
+
+
+#########################
+#   TRAINING SECTION    #
+#########################
+
+# Generative models
+
+def kfold_MVG_compute(k_subsets, K, prior, f):
+    """
+    Wrapper function to compute minDCF of a MVG classifier as prior varies,
+    with/without PCA (m=7, m=6)
+    
+    Parameters
+    ----------
+    k_subsets : array retrieved form prop.Kfold function
+    K : K-fold parameter
+    prior : array of prior probabilities with len = 3
+    f : callback meaning the classifier to invoke
+
+    Returns
+    -------
+    An array minDCF_MVG containing the minDCF obtained as follow:
+       - minDCF_MVG[0] = f(k_subsets, K, prior[0])
+       - minDCF_MVG[1] = f(k_subsets, K, prior[1])
+       - minDCF_MVG[2] = f(k_subsets, K, prior[2])
+       - minDCF_MVG[3] = f(k_subsets, K, prior[0], usePCA=True, mPCA=7)
+       - minDCF_MVG[4] = f(k_subsets, K, prior[1], usePCA=True, mPCA=7)
+       - minDCF_MVG[5] = f(k_subsets, K, prior[2], usePCA=True, mPCA=7)
+       - minDCF_MVG[6] = f(k_subsets, K, prior[0], usePCA=True, mPCA=6)
+       - minDCF_MVG[7] = f(k_subsets, K, prior[1], usePCA=True, mPCA=6)
+       - minDCF_MVG[8] = f(k_subsets, K, prior[2], usePCA=True, mPCA=6)
+        
+    """
+    minDCF_MVG = [] # 0,1,2 -> prior, noPCA ; 3,4,5 -> prior, PCA m=7; 6,7,8 -> prior, PCA m=6
+    
+    minDCF_MVG.append( f(k_subsets, K, prior[0]) )
+    minDCF_MVG.append( f(k_subsets, K, prior[1]) )
+    minDCF_MVG.append( f(k_subsets, K, prior[2]) )
+    minDCF_MVG.append( f(k_subsets, K, prior[0], usePCA=True, mPCA=7) )
+    minDCF_MVG.append( f(k_subsets, K, prior[1], usePCA=True, mPCA=7) )
+    minDCF_MVG.append( f(k_subsets, K, prior[2], usePCA=True, mPCA=7) )
+    minDCF_MVG.append( f(k_subsets, K, prior[0], usePCA=True, mPCA=6) )
+    minDCF_MVG.append( f(k_subsets, K, prior[1], usePCA=True, mPCA=6) )
+    minDCF_MVG.append( f(k_subsets, K, prior[2], usePCA=True, mPCA=6) )
+  
+    
+
+
 
 if __name__ == '__main__':
 
-    
     #-----------------#
     #  Data analysis  #
     #-----------------#
     D_Train, L_Train = load('data/Train.txt')
+    feature_analysis(D_Train, L_Train, 'Feature correlation')
 
-    # Histogram plot
-    plt.plot_hist(D_Train, L_Train)
-    
-    # Heat (TrainData) plot of the abs value of Pearson coef
-    P = numpy.abs(numpy.corrcoef(D_Train))
-    P = numpy.round(P, 2)
-    plt.plot_heatmap(P, title='Feature correlation')
-    
     # Gaussianization to clear the outliers
-    D_Gaussianization=prep.gaussianization(D_Train)
-    # Histogram plot of the new features Gaussianized
-    plt.plot_hist(D_Gaussianization, L_Train)
-    
-    # Heat (GaussianizedData) plot of the abs value of Pearson coef
-    P = numpy.abs(numpy.corrcoef(D_Gaussianization))
-    P = numpy.round(P, 2)
-    plt.plot_heatmap(P, title='Gaussianized Feature correlation')
+    D_Gaussianization = prep.gaussianization(D_Train)
+    feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
 
-
-    #########################
-    #   TRAINING SECTION    #
-    #########################
-    m = 6  # PCA and LDA parameter
-    hLabels = { 0: 'Non-Pulsar', 1: 'Pulsar' }
     
     #------------------------------#
     #  Model training with K-FOLD  #
     #------------------------------#
     K = 5  # k-fold parameter
+    k_subsets, k_gauss_subsets = prep.kfold_DTrain_and_DGauss(D_Train, D_Gaussianization, L_Train, K)
+    prior = [0.5, 0.1, 0.9]
+    pi_T = [0.5, 0.1, 0.9]
 
-    Kfold_subsets = prep.k_fold(D_Train, L_Train, K)
-
-    for i in range(K):
-        DT_kfold = Kfold_subsets[i][0][0]  # Data Train
-        LT_kfold = Kfold_subsets[i][0][1]  # Label Train
-        DE_kfold = Kfold_subsets[i][1][0]  # Data Test (evaluation)
-        LE_kfold = Kfold_subsets[i][1][1]  # Label Test (evaluation)
-
-        # Dimentionality reduction: PCA / LDA
-        DT_PCA = dim_red.PCA(DT_kfold, m)
-        W_LDA = dim_red.LDA(DT_kfold, LT_kfold, m)
-        DT_LDA = numpy.dot(W_LDA.T, DT_kfold)
-        
-        # Gaussianized dataset
-        # TODO: Gaussianization of the k-fold dataset fragmet
-
-        # MVG
-        # TODO: GMV full-cov, diag-cov, tied full-cov, tied diag-cov
-                
-        # LR
-        # TODO: LR with pi_T=[0.5, 0.1, 0.9], Quadratic LR
-        
-        # SVM
-        # TODO: SVM with pi_T as above, Quadratic SVM, RBF kernel SVM
-        
-        # GMM
-        # TODO: GMM full-cov, diag-cov, tied full-cov, tied diag-cov
-        
-        
-        
-        
-    #----------------------------#
-    #  Model quality evaluation  #
-    #----------------------------#    
+    # MVG 
+    # Without gaussianization
+    minDCF_MVG_Full = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Full)
+    minDCF_MVG_Diag = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Diag)
+    minDCF_MVG_TiedFull = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedFull)
+    minDCF_MVG_TiedDiag = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
     
-    # MVG
-    # TODO: minDCF evaluation
+    # With gaussianization
+    minDCF_MVG_Full = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Full)
+    minDCF_MVG_Diag = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Diag)
+    minDCF_MVG_TiedFull = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedFull)
+    minDCF_MVG_TiedDiag = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
     
+            
     # LR
-    # TODO: minDCF evaluation, comparison with the previous ones
+    # Without gaussianization
+    # With gaussianization
+
     
     # SVM
-    # TODO: minDCF evaluation, comparison with the previous ones
+    # Without gaussianization
+    # With gaussianization
+    
     
     # GMM
-    # TODO: minDCF evaluation, comparison with the previous ones
+    # Without gaussianization
+    # With gaussianization
+   
 
 
     

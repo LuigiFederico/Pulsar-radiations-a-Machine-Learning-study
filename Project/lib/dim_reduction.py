@@ -1,5 +1,3 @@
-# Last edit: 09/05/2022 - Luigi
-
 import numpy
 import scipy.linalg
 

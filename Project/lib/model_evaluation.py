@@ -1,5 +1,3 @@
-# Last edit: 23/05/2022 - Alex
-
 import numpy
 import pylab
 
