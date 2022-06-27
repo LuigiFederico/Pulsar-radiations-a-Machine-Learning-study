@@ -153,3 +153,19 @@ def k_fold_LOO(D, L, seed=0):
 
     return subsets
 
+def gaussianization (D_Train, D_Evaluation=0):
+    # if D_Evaluation is equal to 0 we are using the function to gaussianize train data
+    if(D_Evaluation!=0):
+        D_Gaussianized = numpy.zeros([D_Evaluation.shape[0], D_Evaluation.shape[1]])
+        for row_count,(i,row_samples) in D_Train, enumerate(D_Evaluation):
+            for (j,x) in enumerate(row_samples):
+                D_Gaussianized[i,j]=((row_count<x).sum() + 1 )/(D_Train.shape[1]+2)
+    
+    else:
+        D_Gaussianized = numpy.zeros([D_Train.shape[0], D_Train.shape[1]])
+        for (i,row) in enumerate(D_Train):
+            for (j,x) in enumerate(row):
+                D_Gaussianized[i,j]=(((row < x).sum() + 1 )/(D_Train.shape[1]+2))
+                
+        
+    return D_Gaussianized

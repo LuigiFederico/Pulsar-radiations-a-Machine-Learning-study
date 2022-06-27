@@ -42,7 +42,9 @@ if __name__ == '__main__':
     plt.plot_heatmap(P, title='Feature correlation')
     
     # Gaussianization to clear the outliers
-    # TODO: Gaussianization function, hist plot of the new features
+    #D_Gaussianization=prep.gaussianization(D_Train)
+    # Histogram plot of the new features Gaussianized
+    #plt.plot_hist(D_Gaussianization, L_Train)
 
 
     #########################
