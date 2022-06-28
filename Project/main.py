@@ -74,14 +74,15 @@ def kfold_MVG_compute(k_subsets, K, prior, f):
     minDCF_MVG.append( f(k_subsets, K, prior[0]) )
     minDCF_MVG.append( f(k_subsets, K, prior[1]) )
     minDCF_MVG.append( f(k_subsets, K, prior[2]) )
-    minDCF_MVG.append( f(k_subsets, K, prior[0], usePCA=True, mPCA=7) )
-    minDCF_MVG.append( f(k_subsets, K, prior[1], usePCA=True, mPCA=7) )
-    minDCF_MVG.append( f(k_subsets, K, prior[2], usePCA=True, mPCA=7) )
-    minDCF_MVG.append( f(k_subsets, K, prior[0], usePCA=True, mPCA=6) )
-    minDCF_MVG.append( f(k_subsets, K, prior[1], usePCA=True, mPCA=6) )
-    minDCF_MVG.append( f(k_subsets, K, prior[2], usePCA=True, mPCA=6) )
+    #minDCF_MVG.append( f(k_subsets, K, prior[0]) ) #usePCA=True, mPCA=7
+    #minDCF_MVG.append( f(k_subsets, K, prior[1]) ) #usePCA=True, mPCA=7
+    #minDCF_MVG.append( f(k_subsets, K, prior[2]) ) #usePCA=True, mPCA=7
+    #minDCF_MVG.append( f(k_subsets, K, prior[0]) ) #usePCA=True, mPCA=6
+    #minDCF_MVG.append( f(k_subsets, K, prior[1]) ) #usePCA=True, mPCA=6
+    #minDCF_MVG.append( f(k_subsets, K, prior[2]) ) #usePCA=True, mPCA=6
   
-    
+    print (minDCF_MVG)
+    return 0
 
 
 
@@ -103,8 +104,8 @@ if __name__ == '__main__':
     #------------------------------#
     K = 5  # k-fold parameter
     k_subsets, k_gauss_subsets = prep.kfold_DTrain_and_DGauss(D_Train, D_Gaussianization, L_Train, K)
-    prior = [0.5, 0.1, 0.9]
-    pi_T = [0.5, 0.1, 0.9]
+    prior = [0.5, 0.9, 0.1]
+    pi_T = [0.5, 0.9, 0.1]
 
     # MVG 
     # Without gaussianization

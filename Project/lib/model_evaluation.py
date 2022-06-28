@@ -1,38 +1,39 @@
 import numpy
 import pylab
 
-def computeConfusionMatrix(TrueLabels, PredictedLabels, NumOfClass):
+
+def computeConfusionMatrix(TrueLabels, PredictedLabels):
     '''
     Parameters
     ----------
-    TrueLabels : Type: Numpy Array 
+    TrueLabels : Type: Numpy Array
                  Description: Array of correct labels.
-    
-    PredictedLabels : Type: Numpy Array 
+
+    PredictedLabels : Type: Numpy Array
                       Description: Array of predicted labels.
-                
-    NumOfClass : Type: Integer
-                 Description: Number of different classes.
 
     Returns
     -------
-    ConfusionMatrix : Type: Numpy Multidimensional Array 
+    ConfusionMatrix : Type: Numpy Multidimensional Array
                       Description: Confusion Matrix.
     '''
-    ConfusionMatrix=numpy.zeros((NumOfClass,NumOfClass))
-    for i in range(NumOfClass):
-        for j in range(NumOfClass):
-            ConfusionMatrix[i,j]=((PredictedLabels==i)*(TrueLabels==j)).sum()
+    ConfusionMatrix = numpy.zeros((2, 2))
+    for i in range(2):
+        for j in range(2):
+            ConfusionMatrix[i, j] = (
+                (PredictedLabels == i)*(TrueLabels == j)).sum()
     return ConfusionMatrix
 
 
 def computeROC(TrueLabels, llRateos, NumOfClass=2):
     '''
+    Compute ROC Curve
+    
     Parameters
     ----------
-    TrueLabels : Type: Numpy Array 
+    TrueLabels : Type: Numpy Array
                  Description: Array of correct labels.
-    llRateos : Type: Numpy Array 
+    llRateos : Type: Numpy Array
                Description: Array of LogLikelihood Rateos.
     NumOfClass : Type: Integer
                  Description: Number of different classes.
@@ -41,37 +42,35 @@ def computeROC(TrueLabels, llRateos, NumOfClass=2):
     -------
     None.
     '''
-    
-    thresolds=numpy.concatenate([ numpy.array([-numpy.inf]), llRateos, numpy.array([numpy.inf])])
+
+    thresolds = numpy.concatenate(
+        [numpy.array([-numpy.inf]), llRateos, numpy.array([numpy.inf])])
     thresolds.sort()
-    FPR=numpy.zeros(thresolds.size)
-    TPR=numpy.zeros(thresolds.size)
-    
-    for z,t in enumerate(thresolds):
-        PredictedLabels=numpy.int32(llRateos>t)
-        Conf=computeConfusionMatrix(TrueLabels,PredictedLabels,NumOfClass)
-        FPR[z]= Conf[1,0] / (Conf[1,0]+Conf[0,0])
-        TPR[z]= Conf[1,1] / (Conf[1,1]+Conf[0,1])
-    pylab.plot(FPR,TPR)
+    FPR = numpy.zeros(thresolds.size)
+    TPR = numpy.zeros(thresolds.size)
+
+    for z, t in enumerate(thresolds):
+        PredictedLabels = numpy.int32(llRateos > t)
+        Conf = computeConfusionMatrix(TrueLabels, PredictedLabels, NumOfClass)
+        FPR[z] = Conf[1, 0] / (Conf[1, 0]+Conf[0, 0])
+        TPR[z] = Conf[1, 1] / (Conf[1, 1]+Conf[0, 1])
+    pylab.plot(FPR, TPR)
     pylab.show()
-        
+
 
 def computeDCFu(TrueLabel, PredLabel, pi, CostMatrix):
     '''
-    Compute the DCFu value. This function can work in binary case and also in multiclass
-    case. In Binary case we suggest to insert for pi values the float number of the prior
-    probability for True Class, but, if not possible, can also be used the prior vec probabilites
-    formatted in this way: [False Class Prob, True Class Prob]
+    Compute the DCFu value. 
 
     Parameters
     ----------
-    TrueLabels : Type: Numpy Array 
+    TrueLabels : Type: Numpy Array
                  Description: Array of correct labels.
-    PredictedLabels : Type: Numpy Array 
+    PredictedLabels : Type: Numpy Array
                       Description: Array of predicted labels.
-    pi : Type: Numpy Array or Float Single Value 
+    pi : Type: Numpy Array or Float Single Value
          Description: Array of prior probabilies or Single probabilities of TrueClass.
-    CostMatrix : Type: Numpy Array 
+    CostMatrix : Type: Numpy Array
                  Description: Matrix of costs. Depends from the application.
 
     Returns
@@ -80,45 +79,25 @@ def computeDCFu(TrueLabel, PredLabel, pi, CostMatrix):
            Description: DCFu Value.
 
     '''
-    
-    # Compute the number of classes == dimension of the CostMatrix
-    dimension = CostMatrix.shape[0]
-    
+
     # Compute Confusion Matrix using TrueLabels and PredLabesl
-    ConfusionM = computeConfusionMatrix(TrueLabel, PredLabel, dimension)
-    
+    ConfusionM = computeConfusionMatrix(TrueLabel, PredLabel)
+
     # Compute MissclassRateos by dividing each element by the sum of values of its column
-    MisclassRateos = ConfusionM / ConfusionM.sum(axis=0)
+    FNR = ConfusionM[0][1]/(ConfusionM[0][1]+ConfusionM[1][1])
+    FPR = ConfusionM[1][0]/(ConfusionM[0][0]+ConfusionM[1][0])
     
-    # If Dimension is 2 and pi is only a float, then we need to create the pi vec
-    # Else we don't need to create nothing
-    if(dimension==2 and (isinstance(pi, float))):
-        pi_vec = numpy.array([(1-pi), pi])
-    else:
-        pi_vec = pi
+    cfn=CostMatrix[0][1]
+    cfp=CostMatrix[1][0]
+   
+    return (pi*cfn*FNR +(1-pi)*cfp*FPR)
     
-    # Calculate the product between MisclassRateos and CostMatrix
-    # We use the MisclassRateos transposed because the product is calculated
-    # In the formula colum by column, and this can be replicated in Matrix product
-    # Transposing one of the 2 matrices
-    # In conclusion we takes only the diagonal elements because corrisponding
-    # To the correct products
-    # What we obtain correspond to the following formula
-    # SemFin=Sum_{i=1}^k R_{ij}C_{ij}
-    # With R the MisclassRateos and C the CostMatrix
-    SemFin = numpy.dot(MisclassRateos.T, CostMatrix).diagonal()
-    
-    # Return the product by SemFin and pi_vec
-    # Sum_{j=1}^k pi_{j} * SemFin
-    return numpy.dot(SemFin, pi_vec.T)
+   
 
 
 def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     '''
-    Compute the Normalized DCF value. This function can work in binary case and also in multiclass
-    case. In Binary case we suggest to insert for pi values the float number of the prior
-    probability for True Class, but, if not possible, can also be used the prior vec probabilites
-    formatted in this way: [False Class Prob, True Class Prob]
+    Compute the Normalized DCF value. 
 
     Parameters
     ----------
@@ -141,23 +120,18 @@ def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     # Calculate the DCFu value
     dcf_u = computeDCFu(TrueLabel, PredLabel, pi, CostMatrix)
     
-    # If Dimension is 2 and pi is only a float, then we need to create the pi vec
-    # Else we don't need to create nothing
-    if(CostMatrix.shape[0]==2 and (isinstance(pi, float))):
-        pi_vec = numpy.array([(1-pi),pi])
-    else:
-        pi_vec = pi
+    cfn=CostMatrix[0][1]
+    cfp=CostMatrix[1][0]
     
-    # Return the DCFu value divided by the minimum values from the product 
-    # By CostMatrix and pi_vec
-    return dcf_u / numpy.min(numpy.dot(CostMatrix, pi_vec))
+    denomin = numpy.array([pi*cfn, (1-pi)*cfp])
+    index = numpy.argmin (denomin) 
+    
+    return dcf_u/denomin[index]
 
 
 def computeMinDCF(TrueLabel, llRateos, pi, CostMatrix):
     '''
-    Compute the minimum DCF value. This function can work only in binary case We suggest to insert 
-    for pi values the float number of the prior probability for True Class, but, if not possible, 
-    can also be used the prior vec probabilites formatted in this way: [False Class Prob, True Class Prob]
+    Compute the minimum DCF value. 
 
     Parameters
     ----------
