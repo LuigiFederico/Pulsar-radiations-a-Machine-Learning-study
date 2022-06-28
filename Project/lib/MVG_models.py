@@ -56,11 +56,11 @@ def empirical_cov(X):
     cov = numpy.dot((X-mu), (X-mu).T) / X.shape[1]
     return cov    
 
+
+
 #-------------------#
 #  MVG classifiers  #
 #-------------------#
-
-
 
 def MVG_Full(DT,LT,DE,LE,prior):
     
@@ -85,7 +85,6 @@ def MVG_Full(DT,LT,DE,LE,prior):
     llr = LS1-LS0 # log-likelihood ratios
     
     return LabelPred, llr
-
 
 
 def MVG_Diag(DT,LT,DE,LE,prior):
@@ -113,7 +112,6 @@ def MVG_Diag(DT,LT,DE,LE,prior):
     return LabelPred, llr
 
 
-
 def MVG_TiedFull(DT,LT,DE,LE,prior):
     
     mean0=empirical_mean(DT[:, LT == 0]) # Mean of the Gaussian Curve for Class 0
@@ -139,7 +137,6 @@ def MVG_TiedFull(DT,LT,DE,LE,prior):
     llr = LS1-LS0 # log-likelihood ratios
     
     return LabelPred, llr
-
 
 
 def MVG_TiedDiag(DT,LT,DE,LE,prior):
@@ -170,6 +167,7 @@ def MVG_TiedDiag(DT,LT,DE,LE,prior):
 
 
 
+
 #------------------------#
 #  Kfold implementation  #
 #------------------------#
@@ -192,8 +190,7 @@ def kfold_MVG_Full(k_subsets, K, prior=0.5):
     minDCF = ev.computeMinDCF(LE, scores, prior, numpy.array([[0,1],[1,0]])) # Compute the minDCF
     
     return minDCF     
- 
-
+   
    
 def kfold_MVG_Diag(k_subsets, K, prior=0.5):
     
@@ -213,8 +210,7 @@ def kfold_MVG_Diag(k_subsets, K, prior=0.5):
     minDCF=ev.computeMinDCF(LE, scores, prior, numpy.array([[0,1],[1,0]])) # Compute the minDCF
     
     return minDCF    
- 
-    
+  
  
 def kfold_MVG_TiedFull(k_subsets, K, prior=0.5):
     
@@ -234,8 +230,7 @@ def kfold_MVG_TiedFull(k_subsets, K, prior=0.5):
     minDCF=ev.computeMinDCF(LE, scores, prior, numpy.array([[0,1],[1,0]])) # Compute the minDCF
     
     return minDCF     
-
-    
+  
 
 def kfold_MVG_TiedDiag(k_subsets, K, prior=0.5):
     
@@ -255,6 +250,62 @@ def kfold_MVG_TiedDiag(k_subsets, K, prior=0.5):
     minDCF = ev.computeMinDCF(LE, scores, prior, numpy.array([[0,1],[1,0]])) # Compute the minDCF
     
     return minDCF    
+
+
+
+#-------------------------------#
+#  Single split implementation  #
+#-------------------------------#
+
+def single_split_MVG_Full(split, prior=0.5):
+    DT, LT = split[0] # Train Data and Labels
+    DE, LE = split[1] # Test Data and Labels
+
+    predLabels, llRateos = MVG_Full(DT, LT, DE, LE, prior)
+    
+    minDCF = ev.computeMinDCF(LE, llRateos, prior, numpy.array([[0,1],[1,0]]))
+
+    return minDCF
+
+
+def single_split_MVG_Diag(split, prior=0.5):
+    DT, LT = split[0] # Train Data and Labels
+    DE, LE = split[1] # Test Data and Labels
+
+    predLabels, llRateos = MVG_Diag(DT, LT, DE, LE, prior)
+    
+    minDCF = ev.computeMinDCF(LE, llRateos, prior, numpy.array([[0,1],[1,0]]))
+
+    return minDCF
+
+
+def single_split_MVG_TiedFull(split, prior=0.5):
+    DT, LT = split[0] # Train Data and Labels
+    DE, LE = split[1] # Test Data and Labels
+
+    predLabels, llRateos = MVG_TiedFull(DT, LT, DE, LE, prior)
+    
+    minDCF = ev.computeMinDCF(LE, llRateos, prior, numpy.array([[0,1],[1,0]]))
+
+    return minDCF
+
+
+def single_split_MVG_TiedDiag(split, prior=0.5):
+    DT, LT = split[0] # Train Data and Labels
+    DE, LE = split[1] # Test Data and Labels
+
+    predLabels, llRateos = MVG_TiedDiag(DT, LT, DE, LE, prior)
+    
+    minDCF = ev.computeMinDCF(LE, llRateos, prior, numpy.array([[0,1],[1,0]]))
+
+    return minDCF
+
+
+
+
+
+
+
 
 
 

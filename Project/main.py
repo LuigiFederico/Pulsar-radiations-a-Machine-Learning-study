@@ -74,17 +74,110 @@ def kfold_MVG_compute(k_subsets, K, prior, f):
     minDCF_MVG.append( f(k_subsets, K, prior[0]) )
     minDCF_MVG.append( f(k_subsets, K, prior[1]) )
     minDCF_MVG.append( f(k_subsets, K, prior[2]) )
-    #minDCF_MVG.append( f(k_subsets, K, prior[0]) ) #usePCA=True, mPCA=7
-    #minDCF_MVG.append( f(k_subsets, K, prior[1]) ) #usePCA=True, mPCA=7
-    #minDCF_MVG.append( f(k_subsets, K, prior[2]) ) #usePCA=True, mPCA=7
-    #minDCF_MVG.append( f(k_subsets, K, prior[0]) ) #usePCA=True, mPCA=6
-    #minDCF_MVG.append( f(k_subsets, K, prior[1]) ) #usePCA=True, mPCA=6
-    #minDCF_MVG.append( f(k_subsets, K, prior[2]) ) #usePCA=True, mPCA=6
   
-    print (minDCF_MVG)
+    print (numpy.around(minDCF_MVG, 3)) # rounded
+    #print(minDCF_MVG)
     return minDCF_MVG
 
 
+def single_split_MVG_compute(split, prior, f):
+    minDCF_MVG = []
+    
+    minDCF_MVG.append( f(split, prior[0]) )
+    minDCF_MVG.append( f(split, prior[1]) )
+    minDCF_MVG.append( f(split, prior[2]) )
+    
+    print (numpy.around(minDCF_MVG, 3)) # rounded
+    #print(minDCF_MVG)
+    return minDCF_MVG
+    
+        
+def MVG_models(subsets, splits, prior, K):
+    print('########   MVG   ########\n')
+    
+    print('------- K FOLD -------')
+    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
+    
+    print('\nTraining dataset')
+    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Full)
+    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Diag)
+    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedFull)
+    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
+    
+    print('\nTraining dataset with PCA m = 7')
+    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_Full)
+    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_Diag)
+    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_TiedFull)
+    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_TiedDiag)
+    
+    print('\nTraining dataset with PCA m = 6')
+    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_Full)
+    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_Diag)
+    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_TiedFull)
+    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_TiedDiag)
+    
+    print('\nGaussianized dataset')
+    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Full)
+    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Diag)
+    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedFull)
+    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
+
+    print('\nGaussianized with PCA m = 7')
+    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_Full)
+    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_Diag)
+    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_TiedFull)
+    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_TiedDiag)
+
+    print('\nGaussianized with PCA m = 6')
+    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_Full)
+    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_Diag)
+    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_TiedFull)
+    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_TiedDiag)
+    
+    print('----------------------\n')
+    
+    
+    print('------- SINGLE SPLIT -------')
+    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
+    
+    print('\nTraining dataset')
+    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_Full)
+    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_Diag)
+    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_TiedFull)
+    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_TiedDiag)
+    
+    print('\nTraining dataset with PCA m = 7')
+    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_Full)
+    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_Diag)
+    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_TiedFull)
+    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_TiedDiag)
+    
+    print('\nTraining dataset  with PCA m = 6')
+    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_Full)
+    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_Diag)
+    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_TiedFull)
+    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_TiedDiag)
+    
+    print('\nGaussianized dataset')
+    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_Full)
+    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_Diag)
+    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_TiedFull)
+    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_TiedDiag)
+    
+    print('\nGaussianized with PCA m = 7')
+    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_Full)
+    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_Diag)
+    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_TiedFull)
+    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_TiedDiag)
+    
+    print('\nGaussianized with PCA m = 6')
+    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_Full)
+    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_Diag)
+    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_TiedFull)
+    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_TiedDiag)
+    
+    print('----------------------------\n')
+    
 
 
 if __name__ == '__main__':
@@ -103,24 +196,18 @@ if __name__ == '__main__':
     #------------------------------#
     #  Model training with K-FOLD  #
     #------------------------------#
-    K = 5  # k-fold parameter
-    subsets = prep.kfold_computeAll(D_Train, D_Gaussianization, L_Train, K)
-    k_subsets, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
+    K = 5  # k-fold 
     prior = [0.5, 0.9, 0.1]
     pi_T = [0.5, 0.9, 0.1]
-
-    # MVG 
-    # Without gaussianization
-    minDCF_MVG_Full = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Full)
-    minDCF_MVG_Diag = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Diag)
-    minDCF_MVG_TiedFull = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedFull)
-    minDCF_MVG_TiedDiag = kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
     
-    # With gaussianization
-    minDCF_MVG_Full = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Full)
-    minDCF_MVG_Diag = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Diag)
-    minDCF_MVG_TiedFull = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedFull)
-    minDCF_MVG_TiedDiag = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
+    # K-fold
+    subsets = prep.kfold_computeAll(D_Train, D_Gaussianization, L_Train, K)
+    
+    # Single split 80-20
+    splits = prep.single_split_computeAll(D_Train, D_Gaussianization, L_Train)
+    
+    # MVG 
+    MVG_models(subsets, splits, prior, K)
     
     
     # LR
