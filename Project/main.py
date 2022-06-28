@@ -82,7 +82,8 @@ def kfold_MVG_compute(k_subsets, K, prior, f):
     #minDCF_MVG.append( f(k_subsets, K, prior[2]) ) #usePCA=True, mPCA=6
   
     print (minDCF_MVG)
-    return 0
+    return minDCF_MVG
+
 
 
 
@@ -92,18 +93,19 @@ if __name__ == '__main__':
     #  Data analysis  #
     #-----------------#
     D_Train, L_Train = load('data/Train.txt')
-    feature_analysis(D_Train, L_Train, 'Feature correlation')
+    #feature_analysis(D_Train, L_Train, 'Feature correlation')
 
     # Gaussianization to clear the outliers
     D_Gaussianization = prep.gaussianization(D_Train)
-    feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
+    #feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
 
     
     #------------------------------#
     #  Model training with K-FOLD  #
     #------------------------------#
     K = 5  # k-fold parameter
-    k_subsets, k_gauss_subsets = prep.kfold_DTrain_and_DGauss(D_Train, D_Gaussianization, L_Train, K)
+    subsets = prep.kfold_computeAll(D_Train, D_Gaussianization, L_Train, K)
+    k_subsets, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
     prior = [0.5, 0.9, 0.1]
     pi_T = [0.5, 0.9, 0.1]
 
@@ -120,7 +122,7 @@ if __name__ == '__main__':
     minDCF_MVG_TiedFull = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedFull)
     minDCF_MVG_TiedDiag = kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
     
-            
+    
     # LR
     # Without gaussianization
     # With gaussianization

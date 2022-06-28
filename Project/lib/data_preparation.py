@@ -1,6 +1,8 @@
 import numpy
 import sys
 from scipy.stats import norm
+from dim_reduction import PCA
+
 # -------------------- #
 #     SPLIT DATASET    #
 # -------------------- #
@@ -186,68 +188,65 @@ def gaussianization (D_Train, D_Evaluation=0):
     return D_Gaussianized
 
 
-def kfold_DTrain_and_DGauss(DT, DG, L, K=5):
-    """
-    K-fold applied to the training dataset (DT) 
-    and gaussianized training dataset (DG).
-
-    Parameters
-    ----------
-    DT : Training dataset
-    DG : Gaussianized training dataset
-    L : Labels of the dataset
-    K : Number of output subset, optional (default=5)
-
-    Returns
-    -------
-    subsets_T : array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
-    subsets_G : array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
-
-    """
+def ksplit(D, L, K, idx):
     
-    folds_T = []   # array of tuple (DT_i, L_i)
-    subsets_T = [] # array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
-    folds_G = []   # array of tuple (DG_i, L_i)
-    subsets_G = [] # array of tuple ((DTTrain_i, LTrain_i), (DTTsest_i, LTest_i))
-
-    # Split the dataset into k folds
-    numpy.random.seed(0)
-    idx = numpy.random.permutation(DT.shape[1])
+    folds = []   # array of tuple (D_i, L_i)
+    subsets = [] # array of tuple ((DTrain_i, LTrain_i), (DTsest_i, LTest_i))
+    
     l = 0
-    r0 = int(DT.shape[1] / K)
+    r0 = int(D.shape[1] / K)
     r = r0
+    
     for i in range(K):
         if i == K-1:
-            r = DT.shape[1]
+            r = D.shape[1]
         subset_i = idx[l:r]
-        DT_i = DT[:, subset_i]
-        DG_i = DG[:, subset_i]
+        D_i = D[:, subset_i]
         L_i  = L[subset_i]
-        folds_T.append((DT_i, L_i))
-        folds_G.append((DG_i, L_i))
+        folds.append((D_i, L_i))
         l = r
         r = r + r0
 
     # Generate the k subsets
     for i in range(K):
-        test_T_i = folds_T[i]
-        test_G_i = folds_G[i]
+        test_i = folds[i]
         first = True
         
         for j in range(K):
             if j != i:
                 if first:
-                    DTrain_i = folds_T[j][0]
-                    DGauss_i = folds_G[j][0]
-                    LTrain_i = folds_T[j][1]
+                    DTrain_i = folds[j][0]
+                    LTrain_i = folds[j][1]
                     first = False
                 else:
-                    DTrain_i = numpy.hstack([DTrain_i, folds_T[j][0]])
-                    DGauss_i = numpy.hstack([DGauss_i, folds_G[j][0]])
-                    LTrain_i = numpy.hstack([LTrain_i, folds_T[j][1]])
+                    DTrain_i = numpy.hstack([DTrain_i, folds[j][0]])
+                    LTrain_i = numpy.hstack([LTrain_i, folds[j][1]])
         
-        subsets_T.append(((DTrain_i, LTrain_i), test_T_i))
-        subsets_G.append(((DGauss_i, LTrain_i), test_G_i))
+        subsets.append(((DTrain_i, LTrain_i), test_i))
+        
+    return subsets
 
-    return subsets_T, subsets_G
+
+def kfold_computeAll(DTrain, DGauss, L, K=5):
+    """
+    Returns 4 elements corresponding to subsets 
+    of DTrain, DGauss, DGaussPCA7, DGaussPCA6.
+    The subsets are array of K tuple organized as follows:
+        [( (DTrain_i, LTrain_i), (DTsest_i, LTest_i) ), ....]
+    """
+    
+    # PCA on the gaussianized dataset
+    D_PCA7 = PCA(DGauss, 7)
+    D_PCA6 = PCA(DGauss, 6)
+
+    # Split the dataset into k folds
+    numpy.random.seed(0)
+    idx = numpy.random.permutation(DTrain.shape[1])
+    
+    subsets_T = ksplit(DTrain, L, K, idx)
+    subsets_G = ksplit(DGauss, L, K, idx)
+    subsets_PCA7 = ksplit(D_PCA7, L, K, idx)
+    subsets_PCA6 = ksplit(D_PCA6, L, K, idx)
+
+    return subsets_T, subsets_G, subsets_PCA7, subsets_PCA6
     

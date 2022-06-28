@@ -3,4 +3,5 @@
 # dependencies
 /Project/lib/__pycache__
 /Project/__pycache__
+/Project/.idea
 .DS_Store
