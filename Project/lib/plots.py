@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 hFea = {
     0: 'Mean of the integrated profile',
@@ -132,7 +133,20 @@ def plot_heatmap(D, title=''):
     plt.show()
 
 
-
+def plot_DCF(x, y, xlabel):
+    name= (str(random.uniform(0, 10))+".png")
+    print(name)
+    plt.figure()
+    plt.plot(x, y[0], label='min DCF prior=0.5', color='b')
+    plt.plot(x, y[1], label='min DCF prior=0.9', color='r')
+    plt.plot(x, y[2], label='min DCF prior=0.1', color='g')
+    plt.xlim([min(x), max(x)])
+    plt.xscale("log")
+    plt.legend(["min DCF prior=0.5", "min DCF prior=0.9", "min DCF prior=0.1"],loc='lower right')
+    plt.xlabel(xlabel)
+    plt.ylabel("min DCF")
+    plt.savefig(name)
+    return
 
 
 

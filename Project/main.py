@@ -3,6 +3,7 @@ import lib.plots as plt
 import lib.dim_reduction as dim_red
 import lib.data_preparation as prep
 import lib.MVG_models as MVG
+import lib.LR_models as LR
 
 
 #########################
@@ -93,6 +94,7 @@ def single_split_MVG_compute(split, prior, f):
     
         
 def MVG_models(subsets, splits, prior, K):
+
     print('########   MVG   ########\n')
     
     print('------- K FOLD -------')
@@ -177,8 +179,79 @@ def MVG_models(subsets, splits, prior, K):
     single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_TiedDiag)
     
     print('----------------------------\n')
-    
 
+
+# Discriminative models
+
+def kfold_LR_compute(k_subsets, K, prior, f):
+    
+    minDCF_LR = [] # 0,1,2 -> prior, noPCA ; 3,4,5 -> prior, PCA m=7; 6,7,8 -> prior, PCA m=6
+    lambdas=[]
+    
+    for p in prior :
+        minDCF_values, lambdas = f(k_subsets, K, p)
+        minDCF_LR.append(minDCF_values)
+    
+    plt.plot_DCF(lambdas, minDCF_LR, "λ")
+    print (numpy.around(minDCF_LR, 3)) # rounded
+    
+    return minDCF_LR
+
+
+def single_split_LR_compute(split, prior, f):
+    
+    minDCF_LR = [] # 0,1,2 -> prior, noPCA ; 3,4,5 -> prior, PCA m=7; 6,7,8 -> prior, PCA m=6
+    lambdas=[]
+    
+    for p in prior :
+        minDCF_values, lambdas = f( split , p)
+        minDCF_LR.append(minDCF_values)
+    
+    plt.plot_DCF(lambdas, minDCF_LR, "λ")
+    print (numpy.around(minDCF_LR, 3)) # rounded
+    
+    return minDCF_LR
+
+
+def LR_models(subsets, splits, prior, K):
+    print('########   LR   ########\n')
+    
+    print('------- K FOLD -------')
+    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
+    
+    print('\nTraining dataset')
+    kfold_LR_compute(k_subsets, K, prior, LR.kfold_LogReg)
+    
+    print('\nGaussianized dataset')
+    kfold_LR_compute(k_gauss_subsets, K, prior, LR.kfold_LogReg)
+    
+    
+    print('----------------------\n')
+    
+    
+    print('------- SINGLE SPLIT -------')
+    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
+    
+    print('\nTraining dataset')
+    single_split_LR_compute(train_split, prior, LR.single_split_LogReg)
+    
+    print('\nGaussianized dataset')
+    single_split_LR_compute(gauss_split, prior, LR.single_split_LogReg)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 if __name__ == '__main__':
 
@@ -186,11 +259,11 @@ if __name__ == '__main__':
     #  Data analysis  #
     #-----------------#
     D_Train, L_Train = load('data/Train.txt')
-    #feature_analysis(D_Train, L_Train, 'Feature correlation')
+    feature_analysis(D_Train, L_Train, 'Feature correlation')
 
     # Gaussianization to clear the outliers
     D_Gaussianization = prep.gaussianization(D_Train)
-    #feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
+    feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
 
     
     #------------------------------#
@@ -211,6 +284,7 @@ if __name__ == '__main__':
     
     
     # LR
+    LR_models(subsets, splits, prior, K)
     # Without gaussianization
     # With gaussianization
 
