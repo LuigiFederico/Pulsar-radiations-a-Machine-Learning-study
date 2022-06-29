@@ -38,9 +38,9 @@ def feature_analysis(D, L, title=''):
     plt.plot_heatmap(P, title)
 
 
-#########################
-#   TRAINING SECTION    #
-#########################
+########################
+#   MODELS TRAINING    #
+########################
 
 # Generative models
 
@@ -239,7 +239,31 @@ def LR_models(subsets, splits, prior, K):
     single_split_LR_compute(gauss_split, prior, LR.single_split_LogReg)
     
     
+def QuadLR_models(subsets, splits, prior, K):
+    print('########   Quadratic LR   ########\n')
     
+    print('------- K FOLD -------')
+    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
+    
+    print('\nTraining dataset')
+    kfold_LR_compute(k_subsets, K, prior, LR.kfold_QuadLogReg)
+    
+    print('\nGaussianized dataset')
+    kfold_LR_compute(k_gauss_subsets, K, prior, LR.kfold_QuadLogReg)
+    
+    
+    print('----------------------\n')
+    
+    
+    print('------- SINGLE SPLIT -------')
+    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
+    
+    print('\nTraining dataset')
+    single_split_LR_compute(train_split, prior, LR.single_plit_QuadLogReg)
+    
+    print('\nGaussianized dataset')
+    single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
+     
     
     
     
@@ -259,11 +283,11 @@ if __name__ == '__main__':
     #  Data analysis  #
     #-----------------#
     D_Train, L_Train = load('data/Train.txt')
-    feature_analysis(D_Train, L_Train, 'Feature correlation')
+    #feature_analysis(D_Train, L_Train, 'Feature correlation')
 
     # Gaussianization to clear the outliers
     D_Gaussianization = prep.gaussianization(D_Train)
-    feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
+    #feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
 
     
     #------------------------------#
@@ -280,14 +304,13 @@ if __name__ == '__main__':
     splits = prep.single_split_computeAll(D_Train, D_Gaussianization, L_Train)
     
     # MVG 
-    MVG_models(subsets, splits, prior, K)
-    
+    #MVG_models(subsets, splits, prior, K)
     
     # LR
-    LR_models(subsets, splits, prior, K)
-    # Without gaussianization
-    # With gaussianization
-
+    #LR_models(subsets, splits, prior, K)
+    
+    # QLR
+    QuadLR_models(subsets, splits, prior, K)
     
     # SVM
     # Without gaussianization
