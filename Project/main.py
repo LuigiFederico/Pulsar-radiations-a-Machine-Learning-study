@@ -333,7 +333,7 @@ if __name__ == '__main__':
     #QuadLR_models(subsets, splits, prior, K)
     
     # SVM
-    SVM_models(subsets, splits, prior, K)
+    #SVM_models(subsets, splits, prior, K)
     
     
     # GMM
