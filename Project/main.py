@@ -43,223 +43,116 @@ def feature_analysis(D, L, title=''):
 #   MODELS TRAINING    #
 ########################
 
-# Generative models
-
-def kfold_MVG_compute(k_subsets, K, prior, f):
-    """
-    Wrapper function to compute minDCF of a MVG classifier as prior varies,
-    with/without PCA (m=7, m=6)
-    
-    Parameters
-    ----------
-    k_subsets : array retrieved form prop.Kfold function
-    K : K-fold parameter
-    prior : array of prior probabilities with len = 3
-    f : callback meaning the classifier to invoke
-
-    Returns
-    -------
-    An array minDCF_MVG containing the minDCF obtained as follow:
-       - minDCF_MVG[0] = f(k_subsets, K, prior[0])
-       - minDCF_MVG[1] = f(k_subsets, K, prior[1])
-       - minDCF_MVG[2] = f(k_subsets, K, prior[2])
-       - minDCF_MVG[3] = f(k_subsets, K, prior[0], usePCA=True, mPCA=7)
-       - minDCF_MVG[4] = f(k_subsets, K, prior[1], usePCA=True, mPCA=7)
-       - minDCF_MVG[5] = f(k_subsets, K, prior[2], usePCA=True, mPCA=7)
-       - minDCF_MVG[6] = f(k_subsets, K, prior[0], usePCA=True, mPCA=6)
-       - minDCF_MVG[7] = f(k_subsets, K, prior[1], usePCA=True, mPCA=6)
-       - minDCF_MVG[8] = f(k_subsets, K, prior[2], usePCA=True, mPCA=6)
-        
-    """
-    minDCF_MVG = [] # 0,1,2 -> prior, noPCA ; 3,4,5 -> prior, PCA m=7; 6,7,8 -> prior, PCA m=6
-    
-    minDCF_MVG.append( f(k_subsets, K, prior[0]) )
-    minDCF_MVG.append( f(k_subsets, K, prior[1]) )
-    minDCF_MVG.append( f(k_subsets, K, prior[2]) )
-  
-    print (numpy.around(minDCF_MVG, 3)) # rounded
-    #print(minDCF_MVG)
-    return minDCF_MVG
-
-
-def single_split_MVG_compute(split, prior, f):
-    minDCF_MVG = []
-    
-    minDCF_MVG.append( f(split, prior[0]) )
-    minDCF_MVG.append( f(split, prior[1]) )
-    minDCF_MVG.append( f(split, prior[2]) )
-    
-    print (numpy.around(minDCF_MVG, 3)) # rounded
-    #print(minDCF_MVG)
-    return minDCF_MVG
-    
-        
+# Generative models      
 def MVG_models(subsets, splits, prior, K):
+
+    def kfold_MVG_compute(k_subsets, K, prior, title=''):
+        
+        print(title)
+        for k in MVG.MVG_models.keys():
+            minDCF = numpy.round( MVG.kfold_MVG(k_subsets, K, prior, MVG.MVG_models[k]), 3)
+            for p in prior:
+                print("- %s, prior = %.2f, minDCF = %.3f" % (k, p, minDCF))
+        print()
+        
+
+    def single_split_MVG_compute(split, prior, title=''):
+        
+        print(title)
+        for k in MVG.MVG_models.keys():
+            minDCF = numpy.round( MVG.single_split_MVG(split, prior, MVG.MVG_models[k]), 3)
+            for p in prior:
+                print("- %s, prior = %.2f, minDCF = %.3f" % (k, p, minDCF))
+        print()
+    
+    TrainMod = ['Training dataset',
+                'Training dataset + PCA m = 7',
+                'Training dataset + PCA m = 6',
+                'Gaussianized dataset',
+                'Gaussianized dataset + PCA m = 7',
+                'Gaussianized dataset + PCA m = 6']
 
     print('########   MVG   ########\n')
     
-    print('------- K FOLD -------')
-    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
-    
-    print('\nTraining dataset')
-    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Full)
-    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_Diag)
-    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedFull)
-    kfold_MVG_compute(k_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
-    
-    print('\nTraining dataset with PCA m = 7')
-    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_Full)
-    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_Diag)
-    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_TiedFull)
-    kfold_MVG_compute(k_subsets_PCA7, K, prior, MVG.kfold_MVG_TiedDiag)
-    
-    print('\nTraining dataset with PCA m = 6')
-    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_Full)
-    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_Diag)
-    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_TiedFull)
-    kfold_MVG_compute(k_subsets_PCA6, K, prior, MVG.kfold_MVG_TiedDiag)
-    
-    print('\nGaussianized dataset')
-    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Full)
-    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_Diag)
-    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedFull)
-    kfold_MVG_compute(k_gauss_subsets, K, prior, MVG.kfold_MVG_TiedDiag)
-
-    print('\nGaussianized with PCA m = 7')
-    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_Full)
-    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_Diag)
-    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_TiedFull)
-    kfold_MVG_compute(k_gauss_PCA7_subs, K, prior, MVG.kfold_MVG_TiedDiag)
-
-    print('\nGaussianized with PCA m = 6')
-    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_Full)
-    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_Diag)
-    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_TiedFull)
-    kfold_MVG_compute(k_gauss_PCA6_subs, K, prior, MVG.kfold_MVG_TiedDiag)
-    
-    print('----------------------\n')
-    
-    
-    print('------- SINGLE SPLIT -------')
-    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
-    
-    print('\nTraining dataset')
-    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_Full)
-    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_Diag)
-    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_TiedFull)
-    single_split_MVG_compute(train_split, prior, MVG.single_split_MVG_TiedDiag)
-    
-    print('\nTraining dataset with PCA m = 7')
-    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_Full)
-    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_Diag)
-    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_TiedFull)
-    single_split_MVG_compute(train_PCA7_split, prior, MVG.single_split_MVG_TiedDiag)
-    
-    print('\nTraining dataset  with PCA m = 6')
-    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_Full)
-    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_Diag)
-    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_TiedFull)
-    single_split_MVG_compute(train_PCA6_split, prior, MVG.single_split_MVG_TiedDiag)
-    
-    print('\nGaussianized dataset')
-    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_Full)
-    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_Diag)
-    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_TiedFull)
-    single_split_MVG_compute(gauss_split, prior, MVG.single_split_MVG_TiedDiag)
-    
-    print('\nGaussianized with PCA m = 7')
-    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_Full)
-    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_Diag)
-    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_TiedFull)
-    single_split_MVG_compute(gauss_PCA7_split, prior, MVG.single_split_MVG_TiedDiag)
-    
-    print('\nGaussianized with PCA m = 6')
-    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_Full)
-    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_Diag)
-    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_TiedFull)
-    single_split_MVG_compute(gauss_PCA6_split, prior, MVG.single_split_MVG_TiedDiag)
-    
-    print('----------------------------\n')
-
-
-# Discriminative models
-
-def kfold_LR_compute(k_subsets, K, prior, f):
-    
-    minDCF_LR = [] # 0,1,2 -> prior, noPCA ; 3,4,5 -> prior, PCA m=7; 6,7,8 -> prior, PCA m=6
-    lambdas=[]
-    
-    for p in prior :
-        minDCF_values, lambdas = f(k_subsets, K, p)
-        minDCF_LR.append(minDCF_values)
-    
-    #plt.plot_DCF(lambdas, minDCF_LR, "λ")
-    print (numpy.around(minDCF_LR, 3)) # rounded
-    
-    return minDCF_LR
-
-
-def single_split_LR_compute(split, prior, f):
-    
-    minDCF_LR = [] # 0,1,2 -> prior, noPCA ; 3,4,5 -> prior, PCA m=7; 6,7,8 -> prior, PCA m=6
-    lambdas=[]
-    
-    for p in prior :
-        minDCF_values, lambdas = f( split , p)
-        minDCF_LR.append(minDCF_values)
-    
-    #plt.plot_DCF(lambdas, minDCF_LR, "λ")
-    print (numpy.around(minDCF_LR, 3)) # rounded
-    
-    return minDCF_LR
-
-
-def LR_models(subsets, splits, prior, K):
-    
-    TrainMod=["Training dataset","Training dataset with PCA m = 7","Training dataset with PCA m = 6","Gaussianized dataset","Gaussianized with PCA m = 7","Gaussianized with PCA m = 6"]
-    
-    print('########   LR   ########\n')
-    
-    print('------- K FOLD -------')
-        
-    for (i,TrainLabel) in enumerate(TrainMod):
-        print('\n',TrainLabel)
-        kfold_LR_compute(subsets[i], K, prior, LR.kfold_LogReg)
-        
-    print('----------------------\n')
-    
-    print('------- SINGLE SPLIT -------')
-    
-    for (i,TrainLabel) in enumerate(TrainMod):
-        print('\n',TrainLabel)
-        single_split_LR_compute(splits[i], prior, LR.single_split_LogReg)
-        
-        
-def QuadLR_models(subsets, splits, prior, K):
-    print('########   Quadratic LR   ########\n')
-    
-    print('------- K FOLD -------')
-    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
-    
-    print('\nTraining dataset')
-    kfold_LR_compute(k_subsets, K, prior, LR.kfold_QuadLogReg)
-    
-    print('\nGaussianized dataset')
-    kfold_LR_compute(k_gauss_subsets, K, prior, LR.kfold_QuadLogReg)
-    
-    
-    print('----------------------\n')
-    
-    
-    print('------- SINGLE SPLIT -------')
-    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
-    
-    print('\nTraining dataset')
-    single_split_LR_compute(train_split, prior, LR.single_plit_QuadLogReg)
-    
-    print('\nGaussianized dataset')
-    single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
+    print('------- %d-FOLD -------\n' % K)
+    for (i, TrainLabel) in enumerate(TrainMod):
+        kfold_MVG_compute(subsets[i], K, prior, TrainLabel)
      
+    print('----- SINGLE SPLIT -----\n')
+    for(i, TrainLabel) in enumerate(TrainMod):
+        single_split_MVG_compute(splits[i], prior, TrainLabel)
+
+    
+# Discriminative models
+def LR_models(subsets, splits, prior, K, quadratic=False):
+    
+    def kfold_LR_compute(k_subsets, K, prior, f):   
+        minDCF_LR = []
+        lambdas = []
+        
+        for p in prior :
+            minDCF_values, lambdas = f(k_subsets, K, p)
+            minDCF_LR.append(minDCF_values)
+        #plt.plot_DCF(lambdas, minDCF_LR, "λ")
+        print (numpy.around(minDCF_LR, 3)) # rounded
+        
+        return minDCF_LR
+    
+    
+    def single_split_LR_compute(split, prior, f):
+        minDCF_LR = [] 
+        lambdas=[]
+        
+        for p in prior :
+            minDCF_values, lambdas = f( split , p)
+            minDCF_LR.append(minDCF_values)
+        #plt.plot_DCF(lambdas, minDCF_LR, "λ")
+        print (numpy.around(minDCF_LR, 3)) # rounded
+        
+        return minDCF_LR    
+    
+    
+    TrainMod=["Training dataset",
+              "Training dataset with PCA m = 7",
+              "Training dataset with PCA m = 6",
+              "Gaussianized dataset","Gaussianized with PCA m = 7",
+              "Gaussianized with PCA m = 6"]    
+        
+    if quadratic == False:
+        print('########   LR   ########\n')
+          
+        print('-------  %d-FOLD  -------\n' % K)
+        for (i, TrainLabel) in enumerate(TrainMod):
+            print('\n',TrainLabel)
+            kfold_LR_compute(subsets[i], K, prior, LR.kfold_LogReg)
+        
+        print('------- SINGLE SPLIT -------')
+        for (i,TrainLabel) in enumerate(TrainMod):
+            print('\n',TrainLabel)
+            single_split_LR_compute(splits[i], prior, LR.single_split_LogReg)
+            
+    else:
+        print('####  Quadratic LR  ####\n')
+        
+        print('------- K FOLD -------')
+        k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
+        
+        print('\nTraining dataset')
+        kfold_LR_compute(k_subsets, K, prior, LR.kfold_QuadLogReg)
+        
+        print('\nGaussianized dataset')
+        kfold_LR_compute(k_gauss_subsets, K, prior, LR.kfold_QuadLogReg)
+        
+        print('------- SINGLE SPLIT -------')
+        train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
+        
+        print('\nTraining dataset')
+        single_split_LR_compute(train_split, prior, LR.single_plit_QuadLogReg)
+        
+        print('\nGaussianized dataset')
+        single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
+    
+        
     
 def single_split_SVM(split, prior, f):
     
@@ -290,12 +183,7 @@ def SVM_models(subsets, splits, prior, K):
     single_split_SVM(gauss_split, prior, SVM.single_split_SVM)
     
     
-    
-    
-    
-    
-    
-    
+       
 
 if __name__ == '__main__':
 
@@ -327,10 +215,10 @@ if __name__ == '__main__':
     #MVG_models(subsets, splits, prior, K)
     
     # LR
-    #LR_models(subsets, splits, prior, K)
+    LR_models(subsets, splits, prior, K)
     
     # QLR
-    #QuadLR_models(subsets, splits, prior, K)
+    #LR_models(subsets, splits, prior, K, quadratic=True)
     
     # SVM
     #SVM_models(subsets, splits, prior, K)
