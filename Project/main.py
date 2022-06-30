@@ -4,6 +4,7 @@ import lib.dim_reduction as dim_red
 import lib.data_preparation as prep
 import lib.MVG_models as MVG
 import lib.LR_models as LR
+import lib.SVM_models as SVM
 
 
 #########################
@@ -192,7 +193,7 @@ def kfold_LR_compute(k_subsets, K, prior, f):
         minDCF_values, lambdas = f(k_subsets, K, p)
         minDCF_LR.append(minDCF_values)
     
-    plt.plot_DCF(lambdas, minDCF_LR, "λ")
+    #plt.plot_DCF(lambdas, minDCF_LR, "λ")
     print (numpy.around(minDCF_LR, 3)) # rounded
     
     return minDCF_LR
@@ -207,38 +208,33 @@ def single_split_LR_compute(split, prior, f):
         minDCF_values, lambdas = f( split , p)
         minDCF_LR.append(minDCF_values)
     
-    plt.plot_DCF(lambdas, minDCF_LR, "λ")
+    #plt.plot_DCF(lambdas, minDCF_LR, "λ")
     print (numpy.around(minDCF_LR, 3)) # rounded
     
     return minDCF_LR
 
 
 def LR_models(subsets, splits, prior, K):
+    
+    TrainMod=["Training dataset","Training dataset with PCA m = 7","Training dataset with PCA m = 6","Gaussianized dataset","Gaussianized with PCA m = 7","Gaussianized with PCA m = 6"]
+    
     print('########   LR   ########\n')
     
     print('------- K FOLD -------')
-    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
-    
-    print('\nTraining dataset')
-    kfold_LR_compute(k_subsets, K, prior, LR.kfold_LogReg)
-    
-    print('\nGaussianized dataset')
-    kfold_LR_compute(k_gauss_subsets, K, prior, LR.kfold_LogReg)
-    
-    
+        
+    for (i,TrainLabel) in enumerate(TrainMod):
+        print('\n',TrainLabel)
+        kfold_LR_compute(subsets[i], K, prior, LR.kfold_LogReg)
+        
     print('----------------------\n')
     
-    
     print('------- SINGLE SPLIT -------')
-    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
     
-    print('\nTraining dataset')
-    single_split_LR_compute(train_split, prior, LR.single_split_LogReg)
-    
-    print('\nGaussianized dataset')
-    single_split_LR_compute(gauss_split, prior, LR.single_split_LogReg)
-    
-    
+    for (i,TrainLabel) in enumerate(TrainMod):
+        print('\n',TrainLabel)
+        single_split_LR_compute(splits[i], prior, LR.single_split_LogReg)
+        
+        
 def QuadLR_models(subsets, splits, prior, K):
     print('########   Quadratic LR   ########\n')
     
@@ -265,9 +261,33 @@ def QuadLR_models(subsets, splits, prior, K):
     single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
      
     
+def single_split_SVM(split, prior, f):
     
+    minDCF_SVM = []
+    Cs=[]
     
+    for p in prior :
+        minDCF_values, Cs = f( split , p)
+        minDCF_SVM.append(minDCF_values)
     
+    #plt.plot_DCF(Cs, minDCF_SVM, "C")
+    print (numpy.around(minDCF_SVM, 3)) # rounded
+    
+    return minDCF_SVM
+    
+
+def SVM_models(subsets, splits, prior, K):
+    
+    print('########   SVM   ########\n')
+    
+    print('------- SINGLE SPLIT -------')
+    train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
+    
+    print('\nTraining dataset')
+    single_split_SVM(train_split, prior, SVM.single_split_SVM)
+    
+    print('\nGaussianized dataset')
+    single_split_SVM(gauss_split, prior, SVM.single_split_SVM)
     
     
     
@@ -310,11 +330,10 @@ if __name__ == '__main__':
     #LR_models(subsets, splits, prior, K)
     
     # QLR
-    QuadLR_models(subsets, splits, prior, K)
+    #QuadLR_models(subsets, splits, prior, K)
     
     # SVM
-    # Without gaussianization
-    # With gaussianization
+    SVM_models(subsets, splits, prior, K)
     
     
     # GMM

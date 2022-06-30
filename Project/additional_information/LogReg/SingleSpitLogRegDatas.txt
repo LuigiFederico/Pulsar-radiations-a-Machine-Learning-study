@@ -1,0 +1,228 @@
+########   LR   ########
+
+------- SINGLE SPLIT -------
+
+Training dataset
+
+
+For Lambda value:  1e-05  and Prior value equal to:  0.5  the minDCF value is:  0.09674288097675654
+For Lambda value:  1.7433288221999873e-05  and Prior value equal to:  0.5  the minDCF value is:  0.09711573705431059
+For Lambda value:  3.039195382313195e-05  and Prior value equal to:  0.5  the minDCF value is:  0.09674288097675654
+For Lambda value:  5.2983169062837125e-05  and Prior value equal to:  0.5  the minDCF value is:  0.09711573705431059
+For Lambda value:  9.236708571873866e-05  and Prior value equal to:  0.5  the minDCF value is:  0.09674288097675654
+For Lambda value:  0.00016102620275609394  and Prior value equal to:  0.5  the minDCF value is:  0.09748859313186466
+For Lambda value:  0.0002807216203941176  and Prior value equal to:  0.5  the minDCF value is:  0.09840493433941279
+For Lambda value:  0.0004893900918477494  and Prior value equal to:  0.5  the minDCF value is:  0.09986223283914104
+For Lambda value:  0.0008531678524172815  and Prior value equal to:  0.5  the minDCF value is:  0.10135365714935729
+For Lambda value:  0.0014873521072935117  and Prior value equal to:  0.5  the minDCF value is:  0.10399777550272374
+For Lambda value:  0.002592943797404667  and Prior value equal to:  0.5  the minDCF value is:  0.10671014547706618
+For Lambda value:  0.004520353656360245  and Prior value equal to:  0.5  the minDCF value is:  0.11111616678673897
+For Lambda value:  0.007880462815669913  and Prior value equal to:  0.5  the minDCF value is:  0.11633615187249587
+For Lambda value:  0.013738237958832637  and Prior value equal to:  0.5  the minDCF value is:  0.1211832808806987
+For Lambda value:  0.02395026619987486  and Prior value equal to:  0.5  the minDCF value is:  0.12494596746672734
+For Lambda value:  0.04175318936560404  and Prior value equal to:  0.5  the minDCF value is:  0.12606453569938952
+For Lambda value:  0.07278953843983153  and Prior value equal to:  0.5  the minDCF value is:  0.128674528242268
+For Lambda value:  0.12689610031679235  and Prior value equal to:  0.5  the minDCF value is:  0.13087753889710435
+For Lambda value:  0.22122162910704501  and Prior value equal to:  0.5  the minDCF value is:  0.13121626916417042
+For Lambda value:  0.38566204211634725  and Prior value equal to:  0.5  the minDCF value is:  0.1368091103274814
+For Lambda value:  0.6723357536499335  and Prior value equal to:  0.5  the minDCF value is:  0.14172449095666023
+For Lambda value:  1.1721022975334818  and Prior value equal to:  0.5  the minDCF value is:  0.14582590780975493
+For Lambda value:  2.043359717856944  and Prior value equal to:  0.5  the minDCF value is:  0.1453532021385508
+For Lambda value:  3.562247890262444  and Prior value equal to:  0.5  the minDCF value is:  0.14528495051757478
+For Lambda value:  6.2101694189156165  and Prior value equal to:  0.5  the minDCF value is:  0.14565780659512886
+For Lambda value:  10.82636733874054  and Prior value equal to:  0.5  the minDCF value is:  0.14450511255197868
+For Lambda value:  18.873918221350994  and Prior value equal to:  0.5  the minDCF value is:  0.14379352620735852
+For Lambda value:  32.90344562312671  and Prior value equal to:  0.5  the minDCF value is:  0.1411494078539921
+For Lambda value:  57.361525104486816  and Prior value equal to:  0.5  the minDCF value is:  0.14047194731985996
+For Lambda value:  100.0  and Prior value equal to:  0.5  the minDCF value is:  0.14081067758692603
+
+
+For Lambda value:  1e-05  and Prior value equal to:  0.9  the minDCF value is:  0.462364286707365
+For Lambda value:  1.7433288221999873e-05  and Prior value equal to:  0.9  the minDCF value is:  0.46124571847470275
+For Lambda value:  3.039195382313195e-05  and Prior value equal to:  0.9  the minDCF value is:  0.4601271502420406
+For Lambda value:  5.2983169062837125e-05  and Prior value equal to:  0.9  the minDCF value is:  0.46124571847470275
+For Lambda value:  9.236708571873866e-05  and Prior value equal to:  0.9  the minDCF value is:  0.46199143062981085
+For Lambda value:  0.00016102620275609394  and Prior value equal to:  0.9  the minDCF value is:  0.46646570356045963
+For Lambda value:  0.0002807216203941176  and Prior value equal to:  0.9  the minDCF value is:  0.4735499690339869
+For Lambda value:  0.0004893900918477494  and Prior value equal to:  0.9  the minDCF value is:  0.4801956546467979
+For Lambda value:  0.0008531678524172815  and Prior value equal to:  0.9  the minDCF value is:  0.4754799732049193
+For Lambda value:  0.0014873521072935117  and Prior value equal to:  0.9  the minDCF value is:  0.4634828549400271
+For Lambda value:  0.002592943797404667  and Prior value equal to:  0.9  the minDCF value is:  0.45975429416448654
+For Lambda value:  0.004520353656360245  and Prior value equal to:  0.9  the minDCF value is:  0.47436140497225704
+For Lambda value:  0.007880462815669913  and Prior value equal to:  0.9  the minDCF value is:  0.4944299093770145
+For Lambda value:  0.013738237958832637  and Prior value equal to:  0.9  the minDCF value is:  0.5214727183103933
+For Lambda value:  0.02395026619987486  and Prior value equal to:  0.9  the minDCF value is:  0.5266927033961502
+For Lambda value:  0.04175318936560404  and Prior value equal to:  0.9  the minDCF value is:  0.5255741351634879
+For Lambda value:  0.07278953843983153  and Prior value equal to:  0.9  the minDCF value is:  0.5356412492574477
+For Lambda value:  0.12689610031679235  and Prior value equal to:  0.9  the minDCF value is:  0.538119794234002
+For Lambda value:  0.22122162910704501  and Prior value equal to:  0.9  the minDCF value is:  0.5250698315196097
+For Lambda value:  0.38566204211634725  and Prior value equal to:  0.9  the minDCF value is:  0.5440854914748671
+For Lambda value:  0.6723357536499335  and Prior value equal to:  0.9  the minDCF value is:  0.5536040647632048
+For Lambda value:  1.1721022975334818  and Prior value equal to:  0.9  the minDCF value is:  0.5487569357550021
+For Lambda value:  2.043359717856944  and Prior value equal to:  0.9  the minDCF value is:  0.5584511937714077
+For Lambda value:  3.562247890262444  and Prior value equal to:  0.9  the minDCF value is:  0.5633640465627726
+For Lambda value:  6.2101694189156165  and Prior value equal to:  0.9  the minDCF value is:  0.5775983012929891
+For Lambda value:  10.82636733874054  and Prior value equal to:  0.9  the minDCF value is:  0.5915254237288136
+For Lambda value:  18.873918221350994  and Prior value equal to:  0.9  the minDCF value is:  0.6148181852652335
+For Lambda value:  32.90344562312671  and Prior value equal to:  0.9  the minDCF value is:  0.6254123535433969
+For Lambda value:  57.361525104486816  and Prior value equal to:  0.9  the minDCF value is:  0.643682301343546
+For Lambda value:  100.0  and Prior value equal to:  0.9  the minDCF value is:  0.6669750628799658
+
+
+For Lambda value:  1e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  1.7433288221999873e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  3.039195382313195e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  5.2983169062837125e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  9.236708571873866e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20606301899670118
+For Lambda value:  0.00016102620275609394  and Prior value equal to:  0.1  the minDCF value is:  0.20606301899670118
+For Lambda value:  0.0002807216203941176  and Prior value equal to:  0.1  the minDCF value is:  0.2026731884882266
+For Lambda value:  0.0004893900918477494  and Prior value equal to:  0.1  the minDCF value is:  0.2026731884882266
+For Lambda value:  0.0008531678524172815  and Prior value equal to:  0.1  the minDCF value is:  0.20596064156523716
+For Lambda value:  0.0014873521072935117  and Prior value equal to:  0.1  the minDCF value is:  0.21280855420316233
+For Lambda value:  0.002592943797404667  and Prior value equal to:  0.1  the minDCF value is:  0.21619838471163688
+For Lambda value:  0.004520353656360245  and Prior value equal to:  0.1  the minDCF value is:  0.22626549880559665
+For Lambda value:  0.007880462815669913  and Prior value equal to:  0.1  the minDCF value is:  0.2364349903310204
+For Lambda value:  0.013738237958832637  and Prior value equal to:  0.1  the minDCF value is:  0.23663974519394837
+For Lambda value:  0.02395026619987486  and Prior value equal to:  0.1  the minDCF value is:  0.23999544989193494
+For Lambda value:  0.04175318936560404  and Prior value equal to:  0.1  the minDCF value is:  0.24335115458992154
+For Lambda value:  0.07278953843983153  and Prior value equal to:  0.1  the minDCF value is:  0.2467068592879081
+For Lambda value:  0.12689610031679235  and Prior value equal to:  0.1  the minDCF value is:  0.2500966897963826
+For Lambda value:  0.22122162910704501  and Prior value equal to:  0.1  the minDCF value is:  0.2501649414173586
+For Lambda value:  0.38566204211634725  and Prior value equal to:  0.1  the minDCF value is:  0.25023319303833463
+For Lambda value:  0.6723357536499335  and Prior value equal to:  0.1  the minDCF value is:  0.2536230235468092
+For Lambda value:  1.1721022975334818  and Prior value equal to:  0.1  the minDCF value is:  0.2569787282447958
+For Lambda value:  2.043359717856944  and Prior value equal to:  0.1  the minDCF value is:  0.2569787282447958
+For Lambda value:  3.562247890262444  and Prior value equal to:  0.1  the minDCF value is:  0.2569787282447958
+For Lambda value:  6.2101694189156165  and Prior value equal to:  0.1  the minDCF value is:  0.2569787282447958
+For Lambda value:  10.82636733874054  and Prior value equal to:  0.1  the minDCF value is:  0.2569787282447958
+For Lambda value:  18.873918221350994  and Prior value equal to:  0.1  the minDCF value is:  0.2570128540552838
+For Lambda value:  32.90344562312671  and Prior value equal to:  0.1  the minDCF value is:  0.26348538277784095
+For Lambda value:  57.361525104486816  and Prior value equal to:  0.1  the minDCF value is:  0.27372312592424075
+For Lambda value:  100.0  and Prior value equal to:  0.1  the minDCF value is:  0.2839949948811284
+
+
+[[0.09674 0.09712 0.09674 0.09712 0.09674 0.09749 0.0984  0.09986 0.10135
+  0.104   0.10671 0.11112 0.11634 0.12118 0.12495 0.12606 0.12867 0.13088
+  0.13122 0.13681 0.14172 0.14583 0.14535 0.14528 0.14566 0.14451 0.14379
+  0.14115 0.14047 0.14081]
+ [0.46236 0.46125 0.46013 0.46125 0.46199 0.46647 0.47355 0.4802  0.47548
+  0.46348 0.45975 0.47436 0.49443 0.52147 0.52669 0.52557 0.53564 0.53812
+  0.52507 0.54409 0.5536  0.54876 0.55845 0.56336 0.5776  0.59153 0.61482
+  0.62541 0.64368 0.66698]
+ [0.20921 0.20921 0.20921 0.20921 0.20606 0.20606 0.20267 0.20267 0.20596
+  0.21281 0.2162  0.22627 0.23643 0.23664 0.24    0.24335 0.24671 0.2501
+  0.25016 0.25023 0.25362 0.25698 0.25698 0.25698 0.25698 0.25698 0.25701
+  0.26349 0.27372 0.28399]]
+
+
+Gaussianized dataset
+
+
+For Lambda value:  1e-05  and Prior value equal to:  0.5  the minDCF value is:  0.1024722253820195
+For Lambda value:  1.7433288221999873e-05  and Prior value equal to:  0.5  the minDCF value is:  0.1024722253820195
+For Lambda value:  3.039195382313195e-05  and Prior value equal to:  0.5  the minDCF value is:  0.10209936930446542
+For Lambda value:  5.2983169062837125e-05  and Prior value equal to:  0.5  the minDCF value is:  0.10209936930446542
+For Lambda value:  9.236708571873866e-05  and Prior value equal to:  0.5  the minDCF value is:  0.10372729685663368
+For Lambda value:  0.00016102620275609394  and Prior value equal to:  0.5  the minDCF value is:  0.10372729685663368
+For Lambda value:  0.0002807216203941176  and Prior value equal to:  0.5  the minDCF value is:  0.10410015293418773
+For Lambda value:  0.0004893900918477494  and Prior value equal to:  0.5  the minDCF value is:  0.10447300901174181
+For Lambda value:  0.0008531678524172815  and Prior value equal to:  0.5  the minDCF value is:  0.105523325623428
+For Lambda value:  0.0014873521072935117  and Prior value equal to:  0.5  the minDCF value is:  0.10626903777853614
+For Lambda value:  0.002592943797404667  and Prior value equal to:  0.5  the minDCF value is:  0.10887903032141458
+For Lambda value:  0.004520353656360245  and Prior value equal to:  0.5  the minDCF value is:  0.11020235341700477
+For Lambda value:  0.007880462815669913  and Prior value equal to:  0.5  the minDCF value is:  0.11413314121765948
+For Lambda value:  0.013738237958832637  and Prior value equal to:  0.5  the minDCF value is:  0.11789582780368811
+For Lambda value:  0.02395026619987486  and Prior value equal to:  0.5  the minDCF value is:  0.12277708262237894
+For Lambda value:  0.04175318936560404  and Prior value equal to:  0.5  the minDCF value is:  0.1283699237856899
+For Lambda value:  0.07278953843983153  and Prior value equal to:  0.5  the minDCF value is:  0.1304705570090623
+For Lambda value:  0.12689610031679235  and Prior value equal to:  0.5  the minDCF value is:  0.1327759450953627
+For Lambda value:  0.22122162910704501  and Prior value equal to:  0.5  the minDCF value is:  0.13613164979334927
+For Lambda value:  0.38566204211634725  and Prior value equal to:  0.5  the minDCF value is:  0.13850528950062563
+For Lambda value:  0.6723357536499335  and Prior value equal to:  0.5  the minDCF value is:  0.13921687584524578
+For Lambda value:  1.1721022975334818  and Prior value equal to:  0.5  the minDCF value is:  0.1411152820435041
+For Lambda value:  2.043359717856944  and Prior value equal to:  0.5  the minDCF value is:  0.1418609941986122
+For Lambda value:  3.562247890262444  and Prior value equal to:  0.5  the minDCF value is:  0.1418609941986122
+For Lambda value:  6.2101694189156165  and Prior value equal to:  0.5  the minDCF value is:  0.14196337163007622
+For Lambda value:  10.82636733874054  and Prior value equal to:  0.5  the minDCF value is:  0.14148813812105815
+For Lambda value:  18.873918221350994  and Prior value equal to:  0.5  the minDCF value is:  0.1411152820435041
+For Lambda value:  32.90344562312671  and Prior value equal to:  0.5  the minDCF value is:  0.14036956988839597
+For Lambda value:  57.361525104486816  and Prior value equal to:  0.5  the minDCF value is:  0.14074242596595002
+For Lambda value:  100.0  and Prior value equal to:  0.5  the minDCF value is:  0.14074242596595002
+
+
+For Lambda value:  1e-05  and Prior value equal to:  0.9  the minDCF value is:  0.5088398488352988
+For Lambda value:  1.7433288221999873e-05  and Prior value equal to:  0.9  the minDCF value is:  0.5080941366801907
+For Lambda value:  3.039195382313195e-05  and Prior value equal to:  0.9  the minDCF value is:  0.5066027123699745
+For Lambda value:  5.2983169062837125e-05  and Prior value equal to:  0.9  the minDCF value is:  0.5051112880597581
+For Lambda value:  9.236708571873866e-05  and Prior value equal to:  0.9  the minDCF value is:  0.5025012955168797
+For Lambda value:  0.00016102620275609394  and Prior value equal to:  0.9  the minDCF value is:  0.5006370151291094
+For Lambda value:  0.0002807216203941176  and Prior value equal to:  0.9  the minDCF value is:  0.4965355982760147
+For Lambda value:  0.0004893900918477494  and Prior value equal to:  0.9  the minDCF value is:  0.4942984618106903
+For Lambda value:  0.0008531678524172815  and Prior value equal to:  0.9  the minDCF value is:  0.49094275711270374
+For Lambda value:  0.0014873521072935117  and Prior value equal to:  0.9  the minDCF value is:  0.49802702258623094
+For Lambda value:  0.002592943797404667  and Prior value equal to:  0.9  the minDCF value is:  0.5267369405578939
+For Lambda value:  0.004520353656360245  and Prior value equal to:  0.9  the minDCF value is:  0.5400940355666781
+For Lambda value:  0.007880462815669913  and Prior value equal to:  0.9  the minDCF value is:  0.5522226013978944
+For Lambda value:  0.013738237958832637  and Prior value equal to:  0.9  the minDCF value is:  0.5314955952426093
+For Lambda value:  0.02395026619987486  and Prior value equal to:  0.9  the minDCF value is:  0.5147170717526763
+For Lambda value:  0.04175318936560404  and Prior value equal to:  0.9  the minDCF value is:  0.49980282865051384
+For Lambda value:  0.07278953843983153  and Prior value equal to:  0.9  the minDCF value is:  0.506887094124041
+For Lambda value:  0.12689610031679235  and Prior value equal to:  0.9  the minDCF value is:  0.5512569673529747
+For Lambda value:  0.22122162910704501  and Prior value equal to:  0.9  the minDCF value is:  0.5773354061603408
+For Lambda value:  0.38566204211634725  and Prior value equal to:  0.9  the minDCF value is:  0.5804497023470974
+For Lambda value:  0.6723357536499335  and Prior value equal to:  0.9  the minDCF value is:  0.5957368015268141
+For Lambda value:  1.1721022975334818  and Prior value equal to:  0.9  the minDCF value is:  0.5941796534334358
+For Lambda value:  2.043359717856944  and Prior value equal to:  0.9  the minDCF value is:  0.5908239487354493
+For Lambda value:  3.562247890262444  and Prior value equal to:  0.9  the minDCF value is:  0.5861525044553142
+For Lambda value:  6.2101694189156165  and Prior value equal to:  0.9  the minDCF value is:  0.5835425119124359
+For Lambda value:  10.82636733874054  and Prior value equal to:  0.9  the minDCF value is:  0.5813053754471115
+For Lambda value:  18.873918221350994  and Prior value equal to:  0.9  the minDCF value is:  0.5798139511368952
+For Lambda value:  32.90344562312671  and Prior value equal to:  0.9  the minDCF value is:  0.578322526826679
+For Lambda value:  57.361525104486816  and Prior value equal to:  0.9  the minDCF value is:  0.5775768146715708
+For Lambda value:  100.0  and Prior value equal to:  0.9  the minDCF value is:  0.5775768146715708
+
+
+For Lambda value:  1e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  1.7433288221999873e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  3.039195382313195e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  5.2983169062837125e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  9.236708571873866e-05  and Prior value equal to:  0.1  the minDCF value is:  0.20917984302127177
+For Lambda value:  0.00016102620275609394  and Prior value equal to:  0.1  the minDCF value is:  0.20917984302127177
+For Lambda value:  0.0002807216203941176  and Prior value equal to:  0.1  the minDCF value is:  0.21246729609828235
+For Lambda value:  0.0004893900918477494  and Prior value equal to:  0.1  the minDCF value is:  0.21243317028779435
+For Lambda value:  0.0008531678524172815  and Prior value equal to:  0.1  the minDCF value is:  0.20921396883175977
+For Lambda value:  0.0014873521072935117  and Prior value equal to:  0.1  the minDCF value is:  0.2057900125127972
+For Lambda value:  0.002592943797404667  and Prior value equal to:  0.1  the minDCF value is:  0.21250142190877036
+For Lambda value:  0.004520353656360245  and Prior value equal to:  0.1  the minDCF value is:  0.21938346035718348
+For Lambda value:  0.007880462815669913  and Prior value equal to:  0.1  the minDCF value is:  0.22280741667614604
+For Lambda value:  0.013738237958832637  and Prior value equal to:  0.1  the minDCF value is:  0.2294847002616312
+For Lambda value:  0.02395026619987486  and Prior value equal to:  0.1  the minDCF value is:  0.22629962461608463
+For Lambda value:  0.04175318936560404  and Prior value equal to:  0.1  the minDCF value is:  0.2296553293140712
+For Lambda value:  0.07278953843983153  and Prior value equal to:  0.1  the minDCF value is:  0.239824820839495
+For Lambda value:  0.12689610031679235  and Prior value equal to:  0.1  the minDCF value is:  0.23985894664998292
+For Lambda value:  0.22122162910704501  and Prior value equal to:  0.1  the minDCF value is:  0.23989307246047092
+For Lambda value:  0.38566204211634725  and Prior value equal to:  0.1  the minDCF value is:  0.23989307246047092
+For Lambda value:  0.6723357536499335  and Prior value equal to:  0.1  the minDCF value is:  0.23650324195199635
+For Lambda value:  1.1721022975334818  and Prior value equal to:  0.1  the minDCF value is:  0.24324877715845752
+For Lambda value:  2.043359717856944  and Prior value equal to:  0.1  the minDCF value is:  0.24324877715845752
+For Lambda value:  3.562247890262444  and Prior value equal to:  0.1  the minDCF value is:  0.24324877715845752
+For Lambda value:  6.2101694189156165  and Prior value equal to:  0.1  the minDCF value is:  0.2466044818564441
+For Lambda value:  10.82636733874054  and Prior value equal to:  0.1  the minDCF value is:  0.24663860766693207
+For Lambda value:  18.873918221350994  and Prior value equal to:  0.1  the minDCF value is:  0.24663860766693207
+For Lambda value:  32.90344562312671  and Prior value equal to:  0.1  the minDCF value is:  0.24663860766693207
+For Lambda value:  57.361525104486816  and Prior value equal to:  0.1  the minDCF value is:  0.24663860766693207
+For Lambda value:  100.0  and Prior value equal to:  0.1  the minDCF value is:  0.24663860766693207
+
+
+[[0.10247 0.10247 0.1021  0.1021  0.10373 0.10373 0.1041  0.10447 0.10552
+  0.10627 0.10888 0.1102  0.11413 0.1179  0.12278 0.12837 0.13047 0.13278
+  0.13613 0.13851 0.13922 0.14112 0.14186 0.14186 0.14196 0.14149 0.14112
+  0.14037 0.14074 0.14074]
+ [0.50884 0.50809 0.5066  0.50511 0.5025  0.50064 0.49654 0.4943  0.49094
+  0.49803 0.52674 0.54009 0.55222 0.5315  0.51472 0.4998  0.50689 0.55126
+  0.57734 0.58045 0.59574 0.59418 0.59082 0.58615 0.58354 0.58131 0.57981
+  0.57832 0.57758 0.57758]
+ [0.20921 0.20921 0.20921 0.20921 0.20918 0.20918 0.21247 0.21243 0.20921
+  0.20579 0.2125  0.21938 0.22281 0.22948 0.2263  0.22966 0.23982 0.23986
+  0.23989 0.23989 0.2365  0.24325 0.24325 0.24325 0.2466  0.24664 0.24664
+  0.24664 0.24664 0.24664]]
