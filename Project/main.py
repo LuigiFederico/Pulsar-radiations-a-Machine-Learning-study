@@ -84,29 +84,27 @@ def MVG_models(subsets, splits, prior, K):
 
     
 # Discriminative models
-def LR_models(subsets, splits, prior, K, quadratic=False):
+def LR_models(subsets, splits, prior, K, quadratic=False, pi_t=0.5):
     
-    def kfold_LR_compute(k_subsets, K, prior, f):   
+    def kfold_LR_compute(k_subsets, K, prior , pi_t, f):   
         minDCF_LR = []
         lambdas = []
         
         for p in prior :
-            minDCF_values, lambdas = f(k_subsets, K, p)
+            minDCF_values, lambdas = f(k_subsets, K, p, pi_t)
             minDCF_LR.append(minDCF_values)
-        #plt.plot_DCF(lambdas, minDCF_LR, "λ")
         print (numpy.around(minDCF_LR, 3)) # rounded
         
         return minDCF_LR
     
     
-    def single_split_LR_compute(split, prior, f):
+    def single_split_LR_compute(split, prior, pi_t, f):
         minDCF_LR = [] 
         lambdas=[]
         
         for p in prior :
-            minDCF_values, lambdas = f( split , p)
+            minDCF_values, lambdas = f( split , p, pi_t)
             minDCF_LR.append(minDCF_values)
-        #plt.plot_DCF(lambdas, minDCF_LR, "λ")
         print (numpy.around(minDCF_LR, 3)) # rounded
         
         return minDCF_LR    
@@ -124,12 +122,12 @@ def LR_models(subsets, splits, prior, K, quadratic=False):
         print('-------  %d-FOLD  -------\n' % K)
         for (i, TrainLabel) in enumerate(TrainMod):
             print('\n',TrainLabel)
-            kfold_LR_compute(subsets[i], K, prior, LR.kfold_LogReg)
+            kfold_LR_compute(subsets[i], K, prior, pi_t, LR.kfold_LogReg)
         
         print('------- SINGLE SPLIT -------')
         for (i,TrainLabel) in enumerate(TrainMod):
             print('\n',TrainLabel)
-            single_split_LR_compute(splits[i], prior, LR.single_split_LogReg)
+            single_split_LR_compute(splits[i], prior, pi_t, LR.single_split_LogReg)
             
     else:
         print('####  Quadratic LR  ####\n')
@@ -138,19 +136,19 @@ def LR_models(subsets, splits, prior, K, quadratic=False):
         k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets 
         
         print('\nTraining dataset')
-        kfold_LR_compute(k_subsets, K, prior, LR.kfold_QuadLogReg)
+        kfold_LR_compute(k_subsets, K, prior, pi_t, LR.kfold_QuadLogReg)
         
         print('\nGaussianized dataset')
-        kfold_LR_compute(k_gauss_subsets, K, prior, LR.kfold_QuadLogReg)
+        kfold_LR_compute(k_gauss_subsets, K, prior, pi_t, LR.kfold_QuadLogReg)
         
         print('------- SINGLE SPLIT -------')
         train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
         
         print('\nTraining dataset')
-        single_split_LR_compute(train_split, prior, LR.single_plit_QuadLogReg)
+        single_split_LR_compute(train_split, prior, pi_t, LR.single_plit_QuadLogReg)
         
         print('\nGaussianized dataset')
-        single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
+        single_split_LR_compute(gauss_split, prior, pi_t, LR.single_split_QuadLogReg)
     
         
 def SVM_models(subsets, splits, prior, K, mode='linear'):
@@ -223,7 +221,7 @@ if __name__ == '__main__':
     #------------------------------#
     K = 5  # k-fold 
     prior = [0.5, 0.9, 0.1]
-    pi_T = [0.5, 0.9, 0.1]
+    pi_t = [0.5, 0.9, 0.1]
     
     # K-fold
     subsets = prep.kfold_computeAll(D_Train, D_Gaussianization, L_Train, K)
@@ -235,10 +233,10 @@ if __name__ == '__main__':
     #MVG_models(subsets, splits, prior, K)
     
     # LR
-    #LR_models(subsets, splits, prior, K)
+    LR_models(subsets, splits, prior, K, pi_t=0.5)
     
     # QLR
-    #LR_models(subsets, splits, prior, K, quadratic=True)
+    #LR_models(subsets, splits, prior, K, quadratic=True, pi_t=0.5)
     
     # SVM
     #SVM_models(subsets, splits, prior, K, 'linear')
