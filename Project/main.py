@@ -153,14 +153,14 @@ def LR_models(subsets, splits, prior, K, quadratic=False):
         single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
     
         
-def SVM_models(subsets, splits, prior, K):
+def SVM_models(subsets, splits, prior, K, mode='linear'):
     
-    def single_split_SVM(split, prior, f):
+    def single_split_SVM(split, prior, f, mode):
         minDCF_SVM = []
-        Cs=[]
+        Cs = []
         
         for p in prior :
-            minDCF_values, Cs = f( split , p)
+            minDCF_values, Cs = f(split , p, mode)
             minDCF_SVM.append(minDCF_values)
         
         #plt.plot_DCF(Cs, minDCF_SVM, "C")
@@ -168,17 +168,40 @@ def SVM_models(subsets, splits, prior, K):
         
         return minDCF_SVM
     
-    print('########   SVM   ########\n')
+    def kfold_SVM(subset, prior, K, f, mode='linear'):
+        minDCF_SVM = []
+        Cs = []
+        
+        for p in prior:
+            minDCF_values, Cs = f(subset, K, p, mode)
+            minDCF_SVM.append(minDCF_values)
+        
+        #plt.plot_DCF(Cs, minDCF_SVM, "C")
+        print (numpy.around(minDCF_SVM, 3)) # rounded
+        
+        return minDCF_SVM
+    
+    
+    print('########  %s SVM  ########\n' % mode)
     
     print('------- SINGLE SPLIT -------')
     train_split, train_PCA7_split, train_PCA6_split, gauss_split, gauss_PCA7_split, gauss_PCA6_split = splits
     
     print('\nTraining dataset')
-    single_split_SVM(train_split, prior, SVM.single_split_SVM)
+    single_split_SVM(train_split, prior, SVM.single_split_SVM, mode)
     
     print('\nGaussianized dataset')
-    single_split_SVM(gauss_split, prior, SVM.single_split_SVM)
+    single_split_SVM(gauss_split, prior, SVM.single_split_SVM, mode)
     
+    
+    print('-------  %d-FOLD  -------\n' % K)
+    k_subset, k_subs_PCA7, k_subs_PCA6, k_guass, k_gauss_PCA7, k_gauss_PCA6 = subsets
+    
+    print('\nTraining dataset')
+    kfold_SVM(train_split, prior, K, SVM.kfold_SVM, mode)
+    
+    print('\nGaussianized dataset')
+    kfold_SVM(gauss_split, prior, K, SVM.kfold_SVM, mode)
     
        
 
@@ -218,7 +241,11 @@ if __name__ == '__main__':
     #LR_models(subsets, splits, prior, K, quadratic=True)
     
     # SVM
-    #SVM_models(subsets, splits, prior, K)
+    #SVM_models(subsets, splits, prior, K, 'linear')
+    #SVM_models(subsets, splits, prior, K, 'poly')
+    #SVM_models(subsets, splits, prior, K, 'RBF')
+    
+    
     
     
     # GMM
