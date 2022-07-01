@@ -153,23 +153,20 @@ def LR_models(subsets, splits, prior, K, quadratic=False):
         single_split_LR_compute(gauss_split, prior, LR.single_split_QuadLogReg)
     
         
-    
-def single_split_SVM(split, prior, f):
-    
-    minDCF_SVM = []
-    Cs=[]
-    
-    for p in prior :
-        minDCF_values, Cs = f( split , p)
-        minDCF_SVM.append(minDCF_values)
-    
-    #plt.plot_DCF(Cs, minDCF_SVM, "C")
-    print (numpy.around(minDCF_SVM, 3)) # rounded
-    
-    return minDCF_SVM
-    
-
 def SVM_models(subsets, splits, prior, K):
+    
+    def single_split_SVM(split, prior, f):
+        minDCF_SVM = []
+        Cs=[]
+        
+        for p in prior :
+            minDCF_values, Cs = f( split , p)
+            minDCF_SVM.append(minDCF_values)
+        
+        #plt.plot_DCF(Cs, minDCF_SVM, "C")
+        print (numpy.around(minDCF_SVM, 3)) # rounded
+        
+        return minDCF_SVM
     
     print('########   SVM   ########\n')
     
@@ -215,7 +212,7 @@ if __name__ == '__main__':
     #MVG_models(subsets, splits, prior, K)
     
     # LR
-    LR_models(subsets, splits, prior, K)
+    #LR_models(subsets, splits, prior, K)
     
     # QLR
     #LR_models(subsets, splits, prior, K, quadratic=True)
@@ -225,11 +222,7 @@ if __name__ == '__main__':
     
     
     # GMM
-    # Without gaussianization
-    # With gaussianization
-   
-
-
+    
     
         
     #----------------------------------#  
