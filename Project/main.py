@@ -5,6 +5,7 @@ import lib.data_preparation as prep
 import lib.MVG_models as MVG
 import lib.LR_models as LR
 import lib.SVM_models as SVM
+import lib.GMM_models as GMM
 
 
 #########################
@@ -213,7 +214,53 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
     print('\nGaussianized dataset')
     kfold_SVM(k_guass, prior, K, Cs, pi_t, SVM.kfold_SVM, mode)
     
-       
+  
+def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0.01 ):
+    
+    def single_split_GMM(split, prior, alpha, nComponents, mode='full', psi=0.01):
+
+        minDCF = numpy.round( 
+            GMM.single_split_GMM(split, prior, 
+                                 GMM.GMM_EM_models[mode]),
+                                 alpha, nComponents, psi)
+        for p in prior:
+            print("- %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, nComponents, p, minDCF))
+        print()
+    
+    def kfold_GMM(subset, K, prior, alpha, nComponents, mode='full', psi=0.01):
+        
+        minDCF = numpy.round( 
+            GMM.kfold_GMM(subset, K, prior,
+                          GMM.GMM_EM_models[mode]),
+                          alpha, nComponents, psi)
+            
+        for p in prior:
+            print("- %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, nComponents, p, minDCF))
+        print()
+        
+
+    print('########  GMM - %s-cov  ########\n' % mode)
+     
+    print('------- SINGLE SPLIT -------')
+    train_split, _, _, gauss_split, _, _ = splits
+    
+    print('\nTraining dataset')    
+    single_split_GMM(train_split, prior, alpha, nComponents, mode, psi)
+    
+    print('\nGaussianized dataset')    
+    single_split_GMM(gauss_split, prior, alpha, nComponents, mode, psi)
+    
+    print('-------  %d-FOLD  -------\n' % K)
+    k_subset, _, _, k_guass, _, _ = subsets    
+    
+    print('\nTraining dataset')    
+    kfold_GMM(k_subset, K, prior, alpha, nComponents, mode, psi)
+    
+    print('\nGaussianized dataset')      
+    kfold_GMM(k_guass, K, prior, alpha, nComponents, mode, psi)
+    
+
+     
 
 if __name__ == '__main__':
 
@@ -259,16 +306,25 @@ if __name__ == '__main__':
     #LR_models(subsets, splits, prior, K, lambdas, quadratic=True, pi_t=0.5)
     
     # SVM
-    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
+    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'balanced-linear')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF')
-    
-    
-    
+
     
     # GMM
+    nComponents = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    # BISOGNA ITERARE GLI nComponents PER CREAERE IL GRAFICO minDCF - numero_gaussiane
+    # DA SISTEMARE
     
+    GMM_models(subsets, splits, prior, K, alpha=0.1,
+               nComponents=nComponents, mode='full', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1,
+               nComponents=nComponents, mode='diag', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1,
+               nComponents=nComponents, mode='tied-full', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1,
+               nComponents=nComponents, mode='tied-diag', psi=0.01)
     
         
     #----------------------------------#  

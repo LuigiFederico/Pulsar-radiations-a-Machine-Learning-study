@@ -52,8 +52,8 @@ def MVG_Full(DT,LT,DE,LE,prior):
     
     SJoint = numpy.zeros((2, DE.shape[1]))
     
-    SJoint[0, :] = numpy.exp(LS0) * (1-prior)        #Product Between Densities LS0 and PriorProb
-    SJoint[1, :] = numpy.exp(LS1) * (prior)          #Product Between Densities LS1 and PriorProb
+    SJoint[0, :] = numpy.exp(LS0) * (1-prior) #Product Between Densities LS0 and PriorProb
+    SJoint[1, :] = numpy.exp(LS1) * (prior)   #Product Between Densities LS1 and PriorProb
     
     SMarginal = vrow(SJoint.sum(0))
     SPost = SJoint / SMarginal
@@ -61,7 +61,7 @@ def MVG_Full(DT,LT,DE,LE,prior):
     
     llr = LS1-LS0 # log-likelihood ratios
     
-    return llr,LabelPred
+    return llr, LabelPred
 
 
 def MVG_Diag(DT,LT,DE,LE,prior):
@@ -172,7 +172,7 @@ def kfold_MVG(k_subsets, K, prior, MVG_train):
         LE = numpy.concatenate(LE).ravel()    
         scores = numpy.concatenate(scores).ravel()
         minDCF = ev.computeMinDCF(LE, scores, p, numpy.array([[0,1],[1,0]])) # Compute the minDCF
-    minDCF_final.append(minDCF)
+        minDCF_final.append(minDCF)
         
     return minDCF_final    
    
@@ -185,7 +185,7 @@ def single_split_MVG(split, prior, MVG_train):
     for p in prior:
         llRateos,_ = MVG_train(DT, LT, DE, LE, p)
         minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
-    minDCF_final.append(minDCF)
+        minDCF_final.append(minDCF)
 
     return minDCF_final
 
