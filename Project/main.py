@@ -219,24 +219,24 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
     
     def single_split_GMM(split, prior, alpha, nComponents, mode='full', psi=0.01):
 
-        minDCF = numpy.round( 
-            GMM.single_split_GMM(split, prior, 
-                                 GMM.GMM_EM_models[mode]),
-                                 alpha, nComponents, psi)
+        minDCF_GMM = []
         for p in prior:
-            print("- %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, nComponents, p, minDCF))
-        print()
+            minDCF = GMM.single_split_GMM(split, p, 
+                                          mode, 
+                                          alpha, nComponents, psi)
+            minDCF_GMM.append(minDCF)
+        print (numpy.around(minDCF_GMM, 3)) # rounded
+        #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components",2)
     
     def kfold_GMM(subset, K, prior, alpha, nComponents, mode='full', psi=0.01):
-        
-        minDCF = numpy.round( 
-            GMM.kfold_GMM(subset, K, prior,
-                          GMM.GMM_EM_models[mode]),
-                          alpha, nComponents, psi)
-            
+        minDCF_GMM = []
         for p in prior:
-            print("- %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, nComponents, p, minDCF))
-        print()
+            minDCF = GMM.kfold_GMM(subset, K, p,
+                                   mode,
+                                   alpha, nComponents, psi)
+            minDCF_GMM.append(minDCF)
+        print (numpy.around(minDCF_GMM, 3)) # rounded
+        #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components",2)        
         
 
     print('########  GMM - %s-cov  ########\n' % mode)
@@ -313,18 +313,15 @@ if __name__ == '__main__':
 
     
     # GMM
-    nComponents = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+    nComponents = [2, 4, 8, 16, 32, 64]
+    #nComponents = 2 ** numpy.arange(3)
     # BISOGNA ITERARE GLI nComponents PER CREAERE IL GRAFICO minDCF - numero_gaussiane
     # DA SISTEMARE
     
-    GMM_models(subsets, splits, prior, K, alpha=0.1,
-               nComponents=nComponents, mode='full', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1,
-               nComponents=nComponents, mode='diag', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1,
-               nComponents=nComponents, mode='tied-full', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1,
-               nComponents=nComponents, mode='tied-diag', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
     
         
     #----------------------------------#  

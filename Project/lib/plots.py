@@ -133,7 +133,7 @@ def plot_heatmap(D, title=''):
     plt.show()
 
 
-def plot_DCF(x, y, xlabel):
+def plot_DCF(x, y, xlabel,base=10):
     name= (str(random.uniform(0, 10))+".png")
     print(name)
     plt.figure()
@@ -141,7 +141,7 @@ def plot_DCF(x, y, xlabel):
     plt.plot(x, y[1], label='min DCF prior=0.9', color='r')
     plt.plot(x, y[2], label='min DCF prior=0.1', color='g')
     plt.xlim([min(x), max(x)])
-    plt.xscale("log")
+    plt.xscale("log", base=base)
     plt.legend(["min DCF prior=0.5", "min DCF prior=0.9", "min DCF prior=0.1"],loc='lower right')
     plt.xlabel(xlabel)
     plt.ylabel("min DCF")

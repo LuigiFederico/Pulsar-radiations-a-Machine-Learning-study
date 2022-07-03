@@ -1,4 +1,3 @@
-
 import numpy
 import scipy
 import numpy.matlib
@@ -60,7 +59,6 @@ def GMM_EM_Full(X, gmm, psi = 0.01):
     
     return gmm
 
-
 def GMM_EM_Diag(X, gmm, psi = 0.01):
     thNew = None
     thOld = None
@@ -93,7 +91,6 @@ def GMM_EM_Diag(X, gmm, psi = 0.01):
         gmm = newGmm
     
     return gmm
-
 
 def GMM_EM_TiedFull(X, gmm, psi=0.01):
     thNew = None
@@ -187,7 +184,6 @@ def GMM_LBG(X, alpha, prior, nComponents, GMM_EM_train, psi = 0.01):
     gmm = [(prior, mvg.empirical_mean(X), mvg.empirical_cov(X))]
     # gmm = [(1, mvg.empirical_mean(X), mvg.empirical_cov(X))]
     
-    
     while len(gmm) <= nComponents:
         # # print(f'\nGMM has {len(gmm)} components')
         gmm = GMM_EM_train(X, gmm, psi)
@@ -217,10 +213,10 @@ GMM_EM_models = {
     'tied-full': GMM_EM_TiedFull,
     'tied-diag': GMM_EM_TiedDiag }
 
-def kfold_GMM(subset, K, prior, GMM_EM_train, alpha, nComponents, psi=0.01): 
+def kfold_GMM(subset, K, prior, mode, alpha, nComponents, psi=0.01): 
     minDCF_final = []  
     
-    for p in prior:
+    for Comp in nComponents:
         scores = []
         LE = []
         
@@ -231,8 +227,8 @@ def kfold_GMM(subset, K, prior, GMM_EM_train, alpha, nComponents, psi=0.01):
             DT_1 = DT_k[:, LT_k==1]
             
             # Train        
-            gmm_c0 = GMM_LBG(DT_0, alpha, p, nComponents, GMM_EM_train, psi)
-            gmm_c1 = GMM_LBG(DT_1, alpha, p, nComponents, GMM_EM_train, psi)
+            gmm_c0 = GMM_LBG(DT_0, alpha, prior, Comp, GMM_EM_models[mode], psi)
+            gmm_c1 = GMM_LBG(DT_1, alpha, prior, Comp, GMM_EM_models[mode], psi)
             
             # Test
             _, llr_0 = logpdf_GMM(DE_k, gmm_c0)
@@ -243,30 +239,32 @@ def kfold_GMM(subset, K, prior, GMM_EM_train, alpha, nComponents, psi=0.01):
             
         LE = numpy.concatenate(LE).ravel()
         scores = numpy.concatenate(scores).ravel()
-        minDCF = ev.computeMinDCF(LE, scores, p, numpy.array([[0,1],[1,0]]))
+        minDCF = ev.computeMinDCF(LE, scores, prior, numpy.array([[0,1],[1,0]]))
         minDCF_final.append(minDCF)
+        print("[%d K-Fold] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (K,mode, alpha, Comp, prior, minDCF))
     
     return minDCF_final
 
-def single_split_GMM(split, prior, GMM_EM_train, alpha, nComponents, psi=0.01):
+def single_split_GMM(split, prior, mode, alpha, nComponents, psi=0.01):
     DT, LT = split[0] # Train Data and Labels
     DE, LE = split[1] # Test Data and Labels
     DT_0 = DT[:, LT==0]
     DT_1 = DT[:, LT==1]
     minDCF_final = []  
-    
-    for p in prior:
+
+    for Comp in nComponents:
         # Train        
-        gmm_c0 = GMM_LBG(DT_0, alpha, p, nComponents, GMM_EM_train, psi)
-        gmm_c1 = GMM_LBG(DT_1, alpha, p, nComponents, GMM_EM_train, psi)
+        gmm_c0 = GMM_LBG(DT_0, alpha, prior, Comp, GMM_EM_models[mode], psi)
+        gmm_c1 = GMM_LBG(DT_1, alpha, prior, Comp, GMM_EM_models[mode], psi)
         
         # Test
         _, llr_0 = logpdf_GMM(DE, gmm_c0)
         _, llr_1 = logpdf_GMM(DE, gmm_c1)
         llRateos = llr_1 - llr_0
         
-        minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
+        minDCF = ev.computeMinDCF(LE, llRateos, prior, numpy.array([[0,1],[1,0]]))
         minDCF_final.append(minDCF)
+        print("[Single_Split] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, Comp, prior, minDCF))
     
     return minDCF_final
     
