@@ -7,6 +7,9 @@ from lib.dim_reduction import PCA
 #     SPLIT DATASET    #
 # -------------------- #
 
+def vcol(v):
+    return v.reshape((v.size, 1))
+
 def single_split(D, L, idxTrain, idxTest):
     DTR = D[:, idxTrain]    # Traning data
     DTE = D[:, idxTest]     # Test data
@@ -144,6 +147,14 @@ def gaussianization (D_Train, D_Evaluation=0):
         D_Gaussianized[i,:] = temp
         
     return D_Gaussianized
+
+
+def ZNormalization(D):
+    
+    mean = D.mean(axis=1)
+    standardDeviation = D.std(axis=1)
+    ZD = (D-vcol(mean))/vcol(standardDeviation)
+    return ZD, mean, standardDeviation
 
 
 def ksplit(D, L, K, idx):

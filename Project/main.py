@@ -229,6 +229,7 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
         #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components",2)
     
     def kfold_GMM(subset, K, prior, alpha, nComponents, mode='full', psi=0.01):
+        
         minDCF_GMM = []
         for p in prior:
             minDCF = GMM.kfold_GMM(subset, K, p,
@@ -288,6 +289,9 @@ if __name__ == '__main__':
     Cs = numpy.logspace(-2, -2, num=1)  #For Normal Use
     #Cs = numpy.logspace(-3, 1, num=30) #For Graphichs Use
     
+    nComponents = [8] #For Normal Use
+    nComponents = [2, 4, 8, 16, 32] #For Normal Use
+    
     # K-fold
     subsets = prep.kfold_computeAll(D_Train, D_Gaussianization, L_Train, K)
     
@@ -312,12 +316,7 @@ if __name__ == '__main__':
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF')
 
     
-    # GMM
-    nComponents = [2, 4, 8, 16, 32, 64]
-    #nComponents = 2 ** numpy.arange(3)
-    # BISOGNA ITERARE GLI nComponents PER CREAERE IL GRAFICO minDCF - numero_gaussiane
-    # DA SISTEMARE
-    
+    # GMM    
     GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
     GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
     GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
