@@ -181,7 +181,7 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         if mode == 'balanced-linear':
             for pi_T in pi_t:
                 for p in prior:
-                    minDCF_values, LabelPredicetd = f(k_subsets, Cs, pi_t, p, K, mode)
+                    minDCF_values, LabelPredicetd = f(k_subsets, Cs, pi_T, p, K, mode)
                     minDCF_SVM.append(minDCF_values)
             print (numpy.around(minDCF_SVM, 3)) # rounded
         else:            
