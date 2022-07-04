@@ -287,7 +287,7 @@ if __name__ == '__main__':
     #lambdas=numpy.logspace(-5, 2, num=30)  #For Graphichs Use
     
     Cs = numpy.logspace(-2, -2, num=1)  #For Normal Use
-    #Cs = numpy.logspace(-3, 1, num=30) #For Graphichs Use
+    #Cs = numpy.logspace(-4, -1, num=20) #For Graphichs Use
     
     nComponents = [8] #For Normal Use
     nComponents = [2, 4, 8, 16, 32] #For Normal Use
