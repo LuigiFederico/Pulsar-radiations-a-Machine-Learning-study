@@ -228,7 +228,7 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
         print (numpy.around(minDCF_GMM, 3)) # rounded
         #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components",2)
     
-    def kfold_GMM(subset, K, prior, alpha, nComponents, mode='full', psi=0.01):
+    def kfold_GMM(subset, K, prior, alpha, nComponents, mode='full', psi=0.01, title=''):
         
         minDCF_GMM = []
         for p in prior:
@@ -237,30 +237,32 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
                                    alpha, nComponents, psi)
             minDCF_GMM.append(minDCF)
         print (numpy.around(minDCF_GMM, 3)) # rounded
-        #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components",2)        
+        plt.plot_DCF(nComponents, minDCF_GMM, 
+                     "GMM Components", 2, title)        
         
 
     print('########  GMM - %s-cov  ########\n' % mode)
      
-    print('------- SINGLE SPLIT -------')
-    train_split, _, _, gauss_split, _, _ = splits
+    # print('------- SINGLE SPLIT -------')
+    # train_split, _, _, gauss_split, _, _ = splits
     
-    print('\nTraining dataset')    
-    single_split_GMM(train_split, prior, alpha, nComponents, mode, psi)
+    # print('\nTraining dataset')    
+    # single_split_GMM(train_split, prior, alpha, nComponents, mode, psi)
     
-    print('\nGaussianized dataset')    
-    single_split_GMM(gauss_split, prior, alpha, nComponents, mode, psi)
+    # print('\nGaussianized dataset')    
+    # single_split_GMM(gauss_split, prior, alpha, nComponents, mode, psi)
     
     print('-------  %d-FOLD  -------\n' % K)
     k_subset, _, _, k_guass, _, _ = subsets    
     
     print('\nTraining dataset')    
-    kfold_GMM(k_subset, K, prior, alpha, nComponents, mode, psi)
+    kfold_GMM(k_subset, K, prior, alpha, 
+              nComponents, mode, psi, 'GMM-'+mode+' Train')
     
     print('\nGaussianized dataset')      
-    kfold_GMM(k_guass, K, prior, alpha, nComponents, mode, psi)
+    kfold_GMM(k_guass, K, prior, alpha,
+              nComponents, mode, psi, 'GMM-'+mode+' Gauss')
     
-
      
 
 if __name__ == '__main__':
@@ -317,10 +319,10 @@ if __name__ == '__main__':
 
     
     # GMM    
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
+    #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
+    #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
     GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
+    #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
     
         
     #----------------------------------#  

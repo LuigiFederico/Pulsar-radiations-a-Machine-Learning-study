@@ -136,10 +136,13 @@ def plot_heatmap(D, title=''):
     plt.show()
 
 
-def plot_DCF(x, y, xlabel,base=10):
-    name= (str(random.uniform(0, 10))+".png")
+def plot_DCF(x, y, xlabel,base=10, title=''):
+    if title=='':
+        name= (str(random.uniform(0, 10))+".png")
+    else: name = title
     print(name)
     plt.figure()
+    #plt.suptitle(title, fontsize=16)
     plt.plot(x, y[0], label='min DCF prior=0.5', color='b')
     plt.plot(x, y[1], label='min DCF prior=0.9', color='r')
     plt.plot(x, y[2], label='min DCF prior=0.1', color='g')
