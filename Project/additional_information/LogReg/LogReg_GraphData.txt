@@ -1,0 +1,402 @@
+------------LR pi_t 0.5---------------
+########   LR   ########
+-------  5-FOLD  -------
+
+Training dataset
+
+[K_Fold] λ = 0.000010 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.116728
+[K_Fold] λ = 0.000023 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.116466
+[K_Fold] λ = 0.000055 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.116096
+[K_Fold] λ = 0.000127 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.114492
+[K_Fold] λ = 0.000298 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.115772
+[K_Fold] λ = 0.000695 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.117406
+[K_Fold] λ = 0.001624 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.122062
+[K_Fold] λ = 0.003793 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.127598
+[K_Fold] λ = 0.008859 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.136401
+[K_Fold] λ = 0.020691 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.142660
+[K_Fold] λ = 0.048329 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.146129
+[K_Fold] λ = 0.112884 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.152172
+[K_Fold] λ = 0.263665 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.159202
+[K_Fold] λ = 0.615848 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.159758
+[K_Fold] λ = 1.438450 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.160483
+[K_Fold] λ = 3.359818 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163367
+[K_Fold] λ = 7.847600 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163783
+[K_Fold] λ = 18.329807 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.164337
+[K_Fold] λ = 42.813324 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163798
+[K_Fold] λ = 100.000000 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.173203
+[K_Fold] λ = 0.000010 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.525057
+[K_Fold] λ = 0.000023 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.525057
+[K_Fold] λ = 0.000055 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.524317
+[K_Fold] λ = 0.000127 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.523824
+[K_Fold] λ = 0.000298 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.523592
+[K_Fold] λ = 0.000695 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.537376
+[K_Fold] λ = 0.001624 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.543420
+[K_Fold] λ = 0.003793 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.577286
+[K_Fold] λ = 0.008859 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.582038
+[K_Fold] λ = 0.020691 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.605682
+[K_Fold] λ = 0.048329 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.604355
+[K_Fold] λ = 0.112884 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.609934
+[K_Fold] λ = 0.263665 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.615803
+[K_Fold] λ = 0.615848 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.612117
+[K_Fold] λ = 1.438450 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.607228
+[K_Fold] λ = 3.359818 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.601707
+[K_Fold] λ = 7.847600 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.608034
+[K_Fold] λ = 18.329807 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.631808
+[K_Fold] λ = 42.813324 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.674953
+[K_Fold] λ = 100.000000 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.694469
+[K_Fold] λ = 0.000010 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.218668
+[K_Fold] λ = 0.000023 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.218776
+[K_Fold] λ = 0.000055 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.217666
+[K_Fold] λ = 0.000127 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.219886
+[K_Fold] λ = 0.000298 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.221860
+[K_Fold] λ = 0.000695 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.224266
+[K_Fold] λ = 0.001624 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.230848
+[K_Fold] λ = 0.003793 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.241811
+[K_Fold] λ = 0.008859 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.254963
+[K_Fold] λ = 0.020691 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.258911
+[K_Fold] λ = 0.048329 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.264029
+[K_Fold] λ = 0.112884 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.275345
+[K_Fold] λ = 0.263665 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.283626
+[K_Fold] λ = 0.615848 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.286554
+[K_Fold] λ = 1.438450 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.288204
+[K_Fold] λ = 3.359818 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.288096
+[K_Fold] λ = 7.847600 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.283626
+[K_Fold] λ = 18.329807 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.285797
+[K_Fold] λ = 42.813324 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.296976
+[K_Fold] λ = 100.000000 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.320796
+
+
+Gaussianized dataset
+ 
+[K_Fold] λ = 0.000010 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.124620
+[K_Fold] λ = 0.000023 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.124374
+[K_Fold] λ = 0.000055 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.123403
+[K_Fold] λ = 0.000127 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.124482
+[K_Fold] λ = 0.000298 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.124760
+[K_Fold] λ = 0.000695 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.125793
+[K_Fold] λ = 0.001624 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.127890
+[K_Fold] λ = 0.003793 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.130589
+[K_Fold] λ = 0.008859 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.135831
+[K_Fold] λ = 0.020691 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.141227
+[K_Fold] λ = 0.048329 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.148473
+[K_Fold] λ = 0.112884 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.153174
+[K_Fold] λ = 0.263665 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.158046
+[K_Fold] λ = 0.615848 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.158894
+[K_Fold] λ = 1.438450 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.162317
+[K_Fold] λ = 3.359818 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163581
+[K_Fold] λ = 7.847600 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163890
+[K_Fold] λ = 18.329807 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163782
+[K_Fold] λ = 42.813324 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163658
+[K_Fold] λ = 100.000000 , pi_t = 0.5 , prior = 0.5 , minDCF = 0.163412
+[K_Fold] λ = 0.000010 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.513878
+[K_Fold] λ = 0.000023 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.515481
+[K_Fold] λ = 0.000055 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.518811
+[K_Fold] λ = 0.000127 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.519333
+[K_Fold] λ = 0.000298 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.515140
+[K_Fold] λ = 0.000695 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.522787
+[K_Fold] λ = 0.001624 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.525885
+[K_Fold] λ = 0.003793 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.532821
+[K_Fold] λ = 0.008859 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.531631
+[K_Fold] λ = 0.020691 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.540047
+[K_Fold] λ = 0.048329 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.527206
+[K_Fold] λ = 0.112884 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.573659
+[K_Fold] λ = 0.263665 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.598377
+[K_Fold] λ = 0.615848 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.614004
+[K_Fold] λ = 1.438450 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.628558
+[K_Fold] λ = 3.359818 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.632642
+[K_Fold] λ = 7.847600 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.636682
+[K_Fold] λ = 18.329807 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.636436
+[K_Fold] λ = 42.813324 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.636559
+[K_Fold] λ = 100.000000 , pi_t = 0.5 , prior = 0.9 , minDCF = 0.636189
+[K_Fold] λ = 0.000010 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.233314
+[K_Fold] λ = 0.000023 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.233422
+[K_Fold] λ = 0.000055 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.235534
+[K_Fold] λ = 0.000127 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.235642
+[K_Fold] λ = 0.000298 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.234856
+[K_Fold] λ = 0.000695 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.232558
+[K_Fold] λ = 0.001624 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.234670
+[K_Fold] λ = 0.003793 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.238972
+[K_Fold] λ = 0.008859 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.247577
+[K_Fold] λ = 0.020691 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.259001
+[K_Fold] λ = 0.048329 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.269687
+[K_Fold] λ = 0.112884 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.276593
+[K_Fold] λ = 0.263665 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.286416
+[K_Fold] λ = 0.615848 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.290316
+[K_Fold] λ = 1.438450 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.294648
+[K_Fold] λ = 3.359818 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.296406
+[K_Fold] λ = 7.847600 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.299166
+[K_Fold] λ = 18.329807 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.300384
+[K_Fold] λ = 42.813324 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.300708
+[K_Fold] λ = 100.000000 , pi_t = 0.5 , prior = 0.1 , minDCF = 0.301062
+
+
+
+
+------------LR pi_t 0.1---------------
+########   LR   ########
+-------  5-FOLD  -------
+
+Training dataset
+
+[K_Fold] λ = 0.000010 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.113475
+[K_Fold] λ = 0.000023 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.112658
+[K_Fold] λ = 0.000055 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.113028
+[K_Fold] λ = 0.000127 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.114246
+[K_Fold] λ = 0.000298 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.117206
+[K_Fold] λ = 0.000695 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.118948
+[K_Fold] λ = 0.001624 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.124931
+[K_Fold] λ = 0.003793 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.135537
+[K_Fold] λ = 0.008859 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.141797
+[K_Fold] λ = 0.020691 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.146838
+[K_Fold] λ = 0.048329 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.155272
+[K_Fold] λ = 0.112884 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.158233
+[K_Fold] λ = 0.263665 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.161654
+[K_Fold] λ = 0.615848 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.161578
+[K_Fold] λ = 1.438450 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.160853
+[K_Fold] λ = 3.359818 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.162827
+[K_Fold] λ = 7.847600 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.162010
+[K_Fold] λ = 18.329807 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.160823
+[K_Fold] λ = 42.813324 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.171060
+[K_Fold] λ = 100.000000 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.182746
+[K_Fold] λ = 0.000010 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.557219
+[K_Fold] λ = 0.000023 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.559685
+[K_Fold] λ = 0.000055 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.556000
+[K_Fold] λ = 0.000127 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.553301
+[K_Fold] λ = 0.000298 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.559547
+[K_Fold] λ = 0.000695 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.570110
+[K_Fold] λ = 0.001624 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.574516
+[K_Fold] λ = 0.003793 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.589287
+[K_Fold] λ = 0.008859 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.590462
+[K_Fold] λ = 0.020691 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.615390
+[K_Fold] λ = 0.048329 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.612219
+[K_Fold] λ = 0.112884 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.606916
+[K_Fold] λ = 0.263665 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.610325
+[K_Fold] λ = 0.615848 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.606364
+[K_Fold] λ = 1.438450 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.607032
+[K_Fold] λ = 3.359818 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.637118
+[K_Fold] λ = 7.847600 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.666349
+[K_Fold] λ = 18.329807 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.691095
+[K_Fold] λ = 42.813324 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.726333
+[K_Fold] λ = 100.000000 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.777060
+[K_Fold] λ = 0.000010 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.210898
+[K_Fold] λ = 0.000023 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.212116
+[K_Fold] λ = 0.000055 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.211870
+[K_Fold] λ = 0.000127 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.212224
+[K_Fold] λ = 0.000298 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.216202
+[K_Fold] λ = 0.000695 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.225622
+[K_Fold] λ = 0.001624 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.242135
+[K_Fold] λ = 0.003793 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.254393
+[K_Fold] λ = 0.008859 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.258911
+[K_Fold] λ = 0.020691 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.261701
+[K_Fold] λ = 0.048329 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.268685
+[K_Fold] λ = 0.112884 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.273449
+[K_Fold] λ = 0.263665 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.276887
+[K_Fold] λ = 0.615848 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.280001
+[K_Fold] λ = 1.438450 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.281112
+[K_Fold] λ = 3.359818 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.276563
+[K_Fold] λ = 7.847600 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.285630
+[K_Fold] λ = 18.329807 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.296436
+[K_Fold] λ = 42.813324 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.312594
+[K_Fold] λ = 100.000000 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.367357
+
+
+Gaussianized dataset
+
+[K_Fold] λ = 0.000010 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.128153
+[K_Fold] λ = 0.000023 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.127814
+[K_Fold] λ = 0.000055 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.127444
+[K_Fold] λ = 0.000127 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.130681
+[K_Fold] λ = 0.000298 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.131775
+[K_Fold] λ = 0.000695 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.132439
+[K_Fold] λ = 0.001624 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.136849
+[K_Fold] λ = 0.003793 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.140626
+[K_Fold] λ = 0.008859 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.147209
+[K_Fold] λ = 0.020691 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.151541
+[K_Fold] λ = 0.048329 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.156335
+[K_Fold] λ = 0.112884 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.158046
+[K_Fold] λ = 0.263665 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.162487
+[K_Fold] λ = 0.615848 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.163797
+[K_Fold] λ = 1.438450 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.164306
+[K_Fold] λ = 3.359818 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.164645
+[K_Fold] λ = 7.847600 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.163658
+[K_Fold] λ = 18.329807 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.163288
+[K_Fold] λ = 42.813324 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.163165
+[K_Fold] λ = 100.000000 , pi_t = 0.1 , prior = 0.5 , minDCF = 0.163905
+[K_Fold] λ = 0.000010 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.521648
+[K_Fold] λ = 0.000023 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.520044
+[K_Fold] λ = 0.000055 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.520168
+[K_Fold] λ = 0.000127 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.519935
+[K_Fold] λ = 0.000298 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.520306
+[K_Fold] λ = 0.000695 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.524992
+[K_Fold] λ = 0.001624 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.517527
+[K_Fold] λ = 0.003793 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.518927
+[K_Fold] λ = 0.008859 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.526850
+[K_Fold] λ = 0.020691 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.557147
+[K_Fold] λ = 0.048329 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.587646
+[K_Fold] λ = 0.112884 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.608563
+[K_Fold] λ = 0.263665 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.620773
+[K_Fold] λ = 0.615848 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.635203
+[K_Fold] λ = 1.438450 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.632026
+[K_Fold] λ = 3.359818 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.635942
+[K_Fold] λ = 7.847600 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.634462
+[K_Fold] λ = 18.329807 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.634462
+[K_Fold] λ = 42.813324 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.634339
+[K_Fold] λ = 100.000000 , pi_t = 0.1 , prior = 0.9 , minDCF = 0.637792
+[K_Fold] λ = 0.000010 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.230062
+[K_Fold] λ = 0.000023 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.231202
+[K_Fold] λ = 0.000055 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.230986
+[K_Fold] λ = 0.000127 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.231742
+[K_Fold] λ = 0.000298 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.232744
+[K_Fold] λ = 0.000695 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.238049
+[K_Fold] λ = 0.001624 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.244709
+[K_Fold] λ = 0.003793 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.256595
+[K_Fold] λ = 0.008859 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.267173
+[K_Fold] λ = 0.020691 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.272663
+[K_Fold] λ = 0.048329 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.281760
+[K_Fold] λ = 0.112884 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.289098
+[K_Fold] λ = 0.263665 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.291210
+[K_Fold] λ = 0.615848 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.294078
+[K_Fold] λ = 1.438450 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.298194
+[K_Fold] λ = 3.359818 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.299412
+[K_Fold] λ = 7.847600 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.300522
+[K_Fold] λ = 18.329807 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.301602
+[K_Fold] λ = 42.813324 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.301602
+[K_Fold] λ = 100.000000 , pi_t = 0.1 , prior = 0.1 , minDCF = 0.301602
+
+
+
+
+
+
+
+------------LR pi_t 0.9---------------
+########   LR   ########
+-------  5-FOLD  -------
+
+
+Training dataset
+
+[K_Fold] λ = 0.000010 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.117900
+[K_Fold] λ = 0.000023 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.119118
+[K_Fold] λ = 0.000055 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.118501
+[K_Fold] λ = 0.000127 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.118763
+[K_Fold] λ = 0.000298 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.120490
+[K_Fold] λ = 0.000695 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.125254
+[K_Fold] λ = 0.001624 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.135845
+[K_Fold] λ = 0.003793 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.143785
+[K_Fold] λ = 0.008859 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.148903
+[K_Fold] λ = 0.020691 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.154130
+[K_Fold] λ = 0.048329 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.159033
+[K_Fold] λ = 0.112884 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.163675
+[K_Fold] λ = 0.263665 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.165293
+[K_Fold] λ = 0.615848 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.165633
+[K_Fold] λ = 1.438450 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.164862
+[K_Fold] λ = 3.359818 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.166419
+[K_Fold] λ = 7.847600 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.169857
+[K_Fold] λ = 18.329807 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.170581
+[K_Fold] λ = 42.813324 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.171152
+[K_Fold] λ = 100.000000 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.184781
+[K_Fold] λ = 0.000010 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.505367
+[K_Fold] λ = 0.000023 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.519384
+[K_Fold] λ = 0.000055 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.514233
+[K_Fold] λ = 0.000127 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.520124
+[K_Fold] λ = 0.000298 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.522591
+[K_Fold] λ = 0.000695 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.519043
+[K_Fold] λ = 0.001624 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.527967
+[K_Fold] λ = 0.003793 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.557429
+[K_Fold] λ = 0.008859 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.570923
+[K_Fold] λ = 0.020691 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.577809
+[K_Fold] λ = 0.048329 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.594800
+[K_Fold] λ = 0.112884 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.592950
+[K_Fold] λ = 0.263665 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.589496
+[K_Fold] λ = 0.615848 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.596614
+[K_Fold] λ = 1.438450 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.596875
+[K_Fold] λ = 3.359818 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.608620
+[K_Fold] λ = 7.847600 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.614504
+[K_Fold] λ = 18.329807 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.618503
+[K_Fold] λ = 42.813324 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.669294
+[K_Fold] λ = 100.000000 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.702116
+[K_Fold] λ = 0.000010 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.217744
+[K_Fold] λ = 0.000023 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.221428
+[K_Fold] λ = 0.000055 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.221182
+[K_Fold] λ = 0.000127 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.222430
+[K_Fold] λ = 0.000298 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.223294
+[K_Fold] λ = 0.000695 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.229276
+[K_Fold] λ = 0.001624 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.247361
+[K_Fold] λ = 0.003793 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.255965
+[K_Fold] λ = 0.008859 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.261515
+[K_Fold] λ = 0.020691 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.267359
+[K_Fold] λ = 0.048329 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.274913
+[K_Fold] λ = 0.112884 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.283872
+[K_Fold] λ = 0.263665 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.289098
+[K_Fold] λ = 0.615848 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.291102
+[K_Fold] λ = 1.438450 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.289638
+[K_Fold] λ = 3.359818 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.285768
+[K_Fold] λ = 7.847600 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.291564
+[K_Fold] λ = 18.329807 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.296868
+[K_Fold] λ = 42.813324 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.328536
+[K_Fold] λ = 100.000000 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.389468
+
+
+Gaussianized dataset
+
+[K_Fold] λ = 0.000010 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.127968
+[K_Fold] λ = 0.000023 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.127983
+[K_Fold] λ = 0.000055 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.127459
+[K_Fold] λ = 0.000127 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.125146
+[K_Fold] λ = 0.000298 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.127072
+[K_Fold] λ = 0.000695 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.126394
+[K_Fold] λ = 0.001624 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.130157
+[K_Fold] λ = 0.003793 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.134227
+[K_Fold] λ = 0.008859 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.140056
+[K_Fold] λ = 0.020691 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.143786
+[K_Fold] λ = 0.048329 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.150647
+[K_Fold] λ = 0.112884 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.156798
+[K_Fold] λ = 0.263665 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.158324
+[K_Fold] λ = 0.615848 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.160621
+[K_Fold] λ = 1.438450 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.162240
+[K_Fold] λ = 3.359818 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.164337
+[K_Fold] λ = 7.847600 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.164522
+[K_Fold] λ = 18.329807 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.164275
+[K_Fold] λ = 42.813324 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.164275
+[K_Fold] λ = 100.000000 , pi_t = 0.9 , prior = 0.5 , minDCF = 0.164275
+[K_Fold] λ = 0.000010 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.516148
+[K_Fold] λ = 0.000023 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.516395
+[K_Fold] λ = 0.000055 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.509590
+[K_Fold] λ = 0.000127 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.510823
+[K_Fold] λ = 0.000298 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.516990
+[K_Fold] λ = 0.000695 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.528707
+[K_Fold] λ = 0.001624 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.528112
+[K_Fold] λ = 0.003793 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.529476
+[K_Fold] λ = 0.008859 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.527670
+[K_Fold] λ = 0.020691 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.530412
+[K_Fold] λ = 0.048329 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.537921
+[K_Fold] λ = 0.112884 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.573304
+[K_Fold] λ = 0.263665 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.601642
+[K_Fold] λ = 0.615848 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.622268
+[K_Fold] λ = 1.438450 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.635849
+[K_Fold] λ = 3.359818 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.640012
+[K_Fold] λ = 7.847600 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.639642
+[K_Fold] λ = 18.329807 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.639272
+[K_Fold] λ = 42.813324 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.639149
+[K_Fold] λ = 100.000000 , pi_t = 0.9 , prior = 0.9 , minDCF = 0.639149
+[K_Fold] λ = 0.000010 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.231202
+[K_Fold] λ = 0.000023 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.232420
+[K_Fold] λ = 0.000055 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.232882
+[K_Fold] λ = 0.000127 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.232390
+[K_Fold] λ = 0.000298 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.233344
+[K_Fold] λ = 0.000695 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.234808
+[K_Fold] λ = 0.001624 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.234316
+[K_Fold] λ = 0.003793 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.238402
+[K_Fold] λ = 0.008859 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.252125
+[K_Fold] λ = 0.020691 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.265445
+[K_Fold] λ = 0.048329 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.268469
+[K_Fold] λ = 0.112884 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.281279
+[K_Fold] λ = 0.263665 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.286878
+[K_Fold] λ = 0.615848 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.294726
+[K_Fold] λ = 1.438450 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.298086
+[K_Fold] λ = 3.359818 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.298950
+[K_Fold] λ = 7.847600 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.300060
+[K_Fold] λ = 18.329807 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.300060
+[K_Fold] λ = 42.813324 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.300060
+[K_Fold] λ = 100.000000 , pi_t = 0.9 , prior = 0.1 , minDCF = 0.301170
