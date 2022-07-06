@@ -123,13 +123,13 @@ if __name__ == '__main__':
     #MVG_models(subsets, splits, prior, K)
     
     # LR
-    #print("------------LR pi_t 0.5---------------")
+    print("------------LR pi_t 0.5---------------")
     LR_models(subsets, splits, prior, K , lambdas, pi_t=0.5)
     
-    #print("------------LR pi_t 0.1---------------")
+    print("------------LR pi_t 0.1---------------")
     LR_models(subsets, splits, prior, K , lambdas, pi_t=0.1)
     
-    #print("------------LR pi_t 0.9---------------")
+    print("------------LR pi_t 0.9---------------")
     LR_models(subsets, splits, prior, K , lambdas, pi_t=0.9)
     
     # QLR
