@@ -70,10 +70,17 @@ def plot_minDCFs_LR(minDCFs):
         DCFs = minDCFs[key]
         plot_DCF(lambdas, DCFs, "λ", title=key)
         #print(DCFs)
-
+        
+def plot_minDCFs_SVM(minDCFs):
+    Cs = numpy.logspace(-4, -1, num=20) #For Graphichs Use
+    
+    for key in minDCFs.keys():
+        DCFs = minDCFs[key]
+        plot_DCF(Cs, DCFs, "C", title=key)
+        #print(DCFs)
 
 if __name__ == '__main__':
     #minDCFs = extract_minDCFs("LogReg_GraphData.txt", 20)
-    minDCFs = extract_minDCFs("minDCFs_QLR.txt", 20)
-    
-    plot_minDCFs_LR(minDCFs)
+    minDCFs = extract_minDCFs("RawBalancedSVM_pi_T=0_5.txt", 20)
+    print (minDCFs)
+    plot_minDCFs_SVM(minDCFs)
