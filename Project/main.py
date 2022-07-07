@@ -191,6 +191,18 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
                 minDCF_SVM.append(minDCF_values)
             plt.plot_DCF(Cs, minDCF_SVM, "C", title)
             print (numpy.around(minDCF_SVM), 3)
+
+        elif mode=='RBF':
+            gammas=numpy.logspace(-3,-1,3) # prior=0.5
+            for gamma in gammas:
+                minDCF_values, LabelPredicetd = f(k_subsets, Cs, pi_t, 0.5, K, mode, gamma)
+                minDCF_SVM.append(minDCF_values)
+            print (numpy.around(minDCF_SVM, 3)) # rounded
+            plt.plot_DCF(Cs, minDCF_SVM, "C")
+            print (numpy.around(minDCF_SVM), 3)
+            
+            return minDCF_SVM
+            
                     
         else:            
             for p in prior:
@@ -201,7 +213,7 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         return minDCF_SVM
     
     
-    # print('########  %s SVM  ########\n' % mode)
+    print('########  %s SVM  ########\n' % mode)
     
     # print('------- SINGLE SPLIT -------')
     # train_split, _, _, gauss_split, _, _ = splits
@@ -214,16 +226,17 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
     
     
     print('-------  %d-FOLD  -------\n' % K)
-    k_subset, _, _, k_guass, _, k_gauss_PCA6 = subsets
+    
+    k_subsets, k_subsets_PCA7, k_subsets_PCA6, k_gauss_subsets, k_gauss_PCA7_subs, k_gauss_PCA6_subs = subsets    
     
     print('\nTraining dataset')
-    kfold_SVM(k_subset, prior, K, Cs, pi_t, SVM.kfold_SVM, mode, title="SVM_Raw_prior5")
+    kfold_SVM(k_subsets, prior, K, Cs, pi_t, SVM.kfold_SVM, mode, title="SVM_Raw_prior5")
     
     # print('\nGaussianized dataset')
     # kfold_SVM(k_guass, prior, K, Cs, pi_t, SVM.kfold_SVM, mode)
     
     print('\nGaussianized dataset + PCA m=6')
-    kfold_SVM(k_guass, prior, K, Cs, pi_t, SVM.kfold_SVM, mode, title="SVM_GaussPCA6_prior5")
+    kfold_SVM(k_gauss_PCA6_subs, prior, K, Cs, pi_t, SVM.kfold_SVM, mode, title="SVM_GaussPCA6_prior5")
     
   
 def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0.01 ):
@@ -299,7 +312,7 @@ if __name__ == '__main__':
     lambdas=numpy.logspace(-5,-5, 1)         #For Normal Use
     #lambdas=numpy.logspace(-5, 2, num=30)  #For Graphichs Use
     
-    #Cs = numpy.logspace(-2, -2, num=1)  #For Normal Use
+    #Cs = numpy.logspace(-1, -1, num=1)  #For Normal Use
     Cs = numpy.logspace(-4, -1, num=10) #For Graphichs Use
     
     nComponents = [8] #For Normal Use
