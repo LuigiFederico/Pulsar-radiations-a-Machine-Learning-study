@@ -174,9 +174,8 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         return minDCF_SVM
     
     
-    def kfold_SVM(k_subsets, prior, K, Cs, pi_t, f, mode='linear'):
+    def kfold_SVM(k_subsets, prior, K, Cs, pi_t, f, mode='linear', title=''):
         minDCF_SVM = []
-        
         
         if mode == 'balanced-linear':
             for pi_T in pi_t:
@@ -184,6 +183,15 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
                     minDCF_values, LabelPredicetd = f(k_subsets, Cs, pi_T, p, K, mode)
                     minDCF_SVM.append(minDCF_values)
             print (numpy.around(minDCF_SVM, 3)) # rounded
+        
+        elif mode=='poly': # prior=0.5
+            c_vec = [0, 1, 10, 30]
+            for c in c_vec:
+                minDCF_values, LabelPredicted = f(k_subsets, Cs, c=c, mode=mode)
+                minDCF_SVM.append(minDCF_values)
+            plt.plot_DCF(Cs, minDCF_SVM, "C", title)
+            print (numpy.around(minDCF_SVM), 3)
+                    
         else:            
             for p in prior:
                 minDCF_values, LabelPredicetd = f(k_subsets, Cs, pi_t, p, K, mode)
@@ -193,26 +201,29 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         return minDCF_SVM
     
     
-    print('########  %s SVM  ########\n' % mode)
+    # print('########  %s SVM  ########\n' % mode)
     
-    print('------- SINGLE SPLIT -------')
-    train_split, _, _, gauss_split, _, _ = splits
+    # print('------- SINGLE SPLIT -------')
+    # train_split, _, _, gauss_split, _, _ = splits
     
-    print('\nTraining dataset')
-    single_split_SVM(train_split, prior, Cs, pi_t, SVM.single_split_SVM, mode)
+    # print('\nTraining dataset')
+    # single_split_SVM(train_split, prior, Cs, pi_t, SVM.single_split_SVM, mode)
     
-    print('\nGaussianized dataset')
-    single_split_SVM(gauss_split, prior, Cs, pi_t, SVM.single_split_SVM, mode)
+    # print('\nGaussianized dataset')
+    # single_split_SVM(gauss_split, prior, Cs, pi_t, SVM.single_split_SVM, mode)
     
     
     print('-------  %d-FOLD  -------\n' % K)
-    k_subset, _, _, k_guass, _, _ = subsets
+    k_subset, _, _, k_guass, _, k_gauss_PCA6 = subsets
     
     print('\nTraining dataset')
-    kfold_SVM(k_subset, prior, K, Cs, pi_t, SVM.kfold_SVM, mode)
+    kfold_SVM(k_subset, prior, K, Cs, pi_t, SVM.kfold_SVM, mode, title="SVM_Raw_prior5")
     
-    print('\nGaussianized dataset')
-    kfold_SVM(k_guass, prior, K, Cs, pi_t, SVM.kfold_SVM, mode)
+    # print('\nGaussianized dataset')
+    # kfold_SVM(k_guass, prior, K, Cs, pi_t, SVM.kfold_SVM, mode)
+    
+    print('\nGaussianized dataset + PCA m=6')
+    kfold_SVM(k_guass, prior, K, Cs, pi_t, SVM.kfold_SVM, mode, title="SVM_GaussPCA6_prior5")
     
   
 def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0.01 ):
@@ -285,11 +296,11 @@ if __name__ == '__main__':
     prior = [0.5, 0.9, 0.1]
     pi_t = [0.5, 0.9, 0.1]
     
-    lambdas=numpy.logspace(-5,-5,1)         #For Normal Use
+    lambdas=numpy.logspace(-5,-5, 1)         #For Normal Use
     #lambdas=numpy.logspace(-5, 2, num=30)  #For Graphichs Use
     
-    Cs = numpy.logspace(-2, -2, num=1)  #For Normal Use
-    #Cs = numpy.logspace(-4, -1, num=20) #For Graphichs Use
+    #Cs = numpy.logspace(-2, -2, num=1)  #For Normal Use
+    Cs = numpy.logspace(-4, -1, num=10) #For Graphichs Use
     
     nComponents = [8] #For Normal Use
     nComponents = [2, 4, 8, 16, 32] #For Normal Use
@@ -299,6 +310,13 @@ if __name__ == '__main__':
     
     # Single split 80-20
     splits = prep.single_split_computeAll(D_Train, D_Gaussianization, L_Train)
+    
+    
+    # PLOT TMP ( CANCELLARE )
+    # Lista=[[minDCF prior 0,5],[minDCF prior 0,9],[minDCF prior 0,1]]
+    
+    
+    
     
     
     
@@ -314,14 +332,14 @@ if __name__ == '__main__':
     # SVM
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'balanced-linear')
-    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
+    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF')
 
     
     # GMM    
     #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
     #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
+    #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
     #GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
     
         

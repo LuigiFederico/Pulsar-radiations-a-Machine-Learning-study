@@ -1,4 +1,4 @@
-AAA
+SVM_kfold_raw_balancedLinear_piT5
 [K-Fold and balanced-linear - SVM] C =  0.0001 , pi_t = 0.5 , prior =  0.5 , minDCF =  0.1562736792641604
 [K-Fold and balanced-linear - SVM] C =  0.0001438449888287663 , pi_t = 0.5 , prior =  0.5 , minDCF =  0.1516489931599413
 [K-Fold and balanced-linear - SVM] C =  0.00020691380811147902 , pi_t = 0.5 , prior =  0.5 , minDCF =  0.1503849974191292
@@ -19,6 +19,7 @@ AAA
 [K-Fold and balanced-linear - SVM] C =  0.04832930238571752 , pi_t = 0.5 , prior =  0.5 , minDCF =  0.1174837020563441
 [K-Fold and balanced-linear - SVM] C =  0.06951927961775606 , pi_t = 0.5 , prior =  0.5 , minDCF =  0.11258094890717096
 [K-Fold and balanced-linear - SVM] C =  0.1 , pi_t = 0.5 , prior =  0.5 , minDCF =  0.13402741431599113
+
 [K-Fold and balanced-linear - SVM] C =  0.0001 , pi_t = 0.5 , prior =  0.9 , minDCF =  0.6252422383090159
 [K-Fold and balanced-linear - SVM] C =  0.0001438449888287663 , pi_t = 0.5 , prior =  0.9 , minDCF =  0.6262289181314135
 [K-Fold and balanced-linear - SVM] C =  0.00020691380811147902 , pi_t = 0.5 , prior =  0.9 , minDCF =  0.631553654170525
@@ -39,6 +40,7 @@ AAA
 [K-Fold and balanced-linear - SVM] C =  0.04832930238571752 , pi_t = 0.5 , prior =  0.9 , minDCF =  0.5789177107826318
 [K-Fold and balanced-linear - SVM] C =  0.06951927961775606 , pi_t = 0.5 , prior =  0.9 , minDCF =  0.5777863639887104
 [K-Fold and balanced-linear - SVM] C =  0.1 , pi_t = 0.5 , prior =  0.9 , minDCF =  0.6921829359673638
+
 [K-Fold and balanced-linear - SVM] C =  0.0001 , pi_t = 0.5 , prior =  0.1 , minDCF =  0.31096233130449047
 [K-Fold and balanced-linear - SVM] C =  0.0001438449888287663 , pi_t = 0.5 , prior =  0.1 , minDCF =  0.30360594820111203
 [K-Fold and balanced-linear - SVM] C =  0.00020691380811147902 , pi_t = 0.5 , prior =  0.1 , minDCF =  0.2947258297995334

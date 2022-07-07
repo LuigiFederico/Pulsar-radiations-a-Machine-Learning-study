@@ -136,7 +136,7 @@ def plot_heatmap(D, title=''):
     plt.show()
 
 
-def plot_DCF(x, y, xlabel,base=10, title=''):
+def plot_DCF(x, y, xlabel, base=10, title=''):
     if title=='':
         name= (str(random.uniform(0, 10))+".png")
     else: name = title
