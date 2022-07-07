@@ -79,8 +79,35 @@ def plot_minDCFs_SVM(minDCFs):
         plot_DCF(Cs, DCFs, "C", title=key)
         #print(DCFs)
 
+def plot_minDCFs_GMM(minDCFs, nComponents):
+    
+    for key in minDCFs.keys():
+        DCFs = minDCFs[key]
+        plot_DCF(nComponents, DCFs, "GMM components", 2, title=key)
+        print(DCFs)
+
+
+
 if __name__ == '__main__':
     #minDCFs = extract_minDCFs("LogReg_GraphData.txt", 20)
-    minDCFs = extract_minDCFs("RawBalancedSVM_pi_T=0_5.txt", 20)
+    #minDCFs = extract_minDCFs("RawBalancedSVM_pi_T=0_5.txt", 20)
+    minDCFs = extract_minDCFs("GmmData.txt", 4)
+    minDCFs_tied = extract_minDCFs("GmmDataTied.txt", 5)
     print (minDCFs)
-    plot_minDCFs_SVM(minDCFs)
+    plot_minDCFs_GMM(minDCFs, [2, 4, 8, 16])
+    print (minDCFs_tied)
+    plot_minDCFs_GMM(minDCFs_tied, [2, 4, 8, 16, 32])
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

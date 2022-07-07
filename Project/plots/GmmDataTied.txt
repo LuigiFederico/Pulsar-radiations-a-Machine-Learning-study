@@ -1,0 +1,32 @@
+GMM_raw_tied
+[5 K-Fold] GMM - tied-full, α=0.10, 2 gau, prior = 0.50, minDCF = 0.141
+[5 K-Fold] GMM - tied-full, α=0.10, 4 gau, prior = 0.50, minDCF = 0.153
+[5 K-Fold] GMM - tied-full, α=0.10, 8 gau, prior = 0.50, minDCF = 0.143
+[5 K-Fold] GMM - tied-full, α=0.10, 16 gau, prior = 0.50, minDCF = 0.145
+[5 K-Fold] GMM - tied-full, α=0.10, 32 gau, prior = 0.50, minDCF = 0.150
+[5 K-Fold] GMM - tied-full, α=0.10, 2 gau, prior = 0.90, minDCF = 0.672
+[5 K-Fold] GMM - tied-full, α=0.10, 4 gau, prior = 0.90, minDCF = 0.668
+[5 K-Fold] GMM - tied-full, α=0.10, 8 gau, prior = 0.90, minDCF = 0.695
+[5 K-Fold] GMM - tied-full, α=0.10, 16 gau, prior = 0.90, minDCF = 0.662
+[5 K-Fold] GMM - tied-full, α=0.10, 32 gau, prior = 0.90, minDCF = 0.656
+[5 K-Fold] GMM - tied-full, α=0.10, 2 gau, prior = 0.10, minDCF = 0.286
+[5 K-Fold] GMM - tied-full, α=0.10, 4 gau, prior = 0.10, minDCF = 0.302
+[5 K-Fold] GMM - tied-full, α=0.10, 8 gau, prior = 0.10, minDCF = 0.312
+[5 K-Fold] GMM - tied-full, α=0.10, 16 gau, prior = 0.10, minDCF = 0.307
+[5 K-Fold] GMM - tied-full, α=0.10, 32 gau, prior = 0.10, minDCF = 0.309
+Gmm_gaussPCA6_tied
+[5 K-Fold] GMM - tied-full, α=0.10, 2 gau, prior = 0.50, minDCF = 0.154
+[5 K-Fold] GMM - tied-full, α=0.10, 4 gau, prior = 0.50, minDCF = 0.159
+[5 K-Fold] GMM - tied-full, α=0.10, 8 gau, prior = 0.50, minDCF = 0.154
+[5 K-Fold] GMM - tied-full, α=0.10, 16 gau, prior = 0.50, minDCF = 0.147
+[5 K-Fold] GMM - tied-full, α=0.10, 32 gau, prior = 0.50, minDCF = 0.158
+[5 K-Fold] GMM - tied-full, α=0.10, 2 gau, prior = 0.90, minDCF = 0.695
+[5 K-Fold] GMM - tied-full, α=0.10, 4 gau, prior = 0.90, minDCF = 0.655
+[5 K-Fold] GMM - tied-full, α=0.10, 8 gau, prior = 0.90, minDCF = 0.664
+[5 K-Fold] GMM - tied-full, α=0.10, 16 gau, prior = 0.90, minDCF = 0.611
+[5 K-Fold] GMM - tied-full, α=0.10, 32 gau, prior = 0.90, minDCF = 0.642
+[5 K-Fold] GMM - tied-full, α=0.10, 2 gau, prior = 0.10, minDCF = 0.242
+[5 K-Fold] GMM - tied-full, α=0.10, 4 gau, prior = 0.10, minDCF = 0.240
+[5 K-Fold] GMM - tied-full, α=0.10, 8 gau, prior = 0.10, minDCF = 0.237
+[5 K-Fold] GMM - tied-full, α=0.10, 16 gau, prior = 0.10, minDCF = 0.239
+[5 K-Fold] GMM - tied-full, α=0.10, 32 gau, prior = 0.10, minDCF = 0.229

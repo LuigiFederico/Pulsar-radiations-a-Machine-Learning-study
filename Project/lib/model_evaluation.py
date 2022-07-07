@@ -58,25 +58,25 @@ def computeROC(TrueLabels, llRateos, NumOfClass=2):
     pylab.show()
 
 
-def computeDCFu(TrueLabel, PredLabel, pi, CostMatrix):
+def computeDCFu(TrueLabel, PredLabel, pi, cfn=1, cfp=1):
     '''
     Compute the DCFu value. 
 
     Parameters
     ----------
     TrueLabels : Type: Numpy Array
-                 Description: Array of correct labels.
+                  Description: Array of correct labels.
     PredictedLabels : Type: Numpy Array
                       Description: Array of predicted labels.
     pi : Type: Numpy Array or Float Single Value
-         Description: Array of prior probabilies or Single probabilities of TrueClass.
+          Description: Array of prior probabilies or Single probabilities of TrueClass.
     CostMatrix : Type: Numpy Array
-                 Description: Matrix of costs. Depends from the application.
+                  Description: Matrix of costs. Depends from the application.
 
     Returns
     -------
     DCFu : Type: Float Value
-           Description: DCFu Value.
+            Description: DCFu Value.
 
     '''
 
@@ -87,15 +87,12 @@ def computeDCFu(TrueLabel, PredLabel, pi, CostMatrix):
     FNR = ConfusionM[0][1]/(ConfusionM[0][1]+ConfusionM[1][1])
     FPR = ConfusionM[1][0]/(ConfusionM[0][0]+ConfusionM[1][0])
     
-    cfn=CostMatrix[0][1]
-    cfp=CostMatrix[1][0]
+    # cfn=CostMatrix[0][1]
+    # cfp=CostMatrix[1][0]
    
     return (pi*cfn*FNR +(1-pi)*cfp*FPR)
-    
-   
 
-
-def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
+def computeNormalizedDCF(TrueLabel, PredLabel, pi, cfn=1, cfp=1):
     '''
     Compute the Normalized DCF value. 
 
@@ -118,10 +115,10 @@ def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     '''
     
     # Calculate the DCFu value
-    dcf_u = computeDCFu(TrueLabel, PredLabel, pi, CostMatrix)
+    dcf_u = computeDCFu(TrueLabel, PredLabel, pi, cfn, cfp)
     
-    cfn=CostMatrix[0][1]
-    cfp=CostMatrix[1][0]
+    # cfn=CostMatrix[0][1]
+    # cfp=CostMatrix[1][0]
     
     denomin = numpy.array([pi*cfn, (1-pi)*cfp])
     index = numpy.argmin (denomin) 
@@ -168,13 +165,13 @@ def computeMinDCF(TrueLabel, llRateos, pi, CostMatrix):
     # Return the minimu DCF
     return minDCF
 
-def computeActualDCF(TrueLabel, llRateos, pi, Predicted_Label):
+
+def computeActualDCF(TrueLabel, llRateos, pi, Predicted_Label, cfn=1, cfp=1):
     
     Predicted_Label = (llRateos > (-numpy.log(pi/(1-pi)))).astype(int)
     
-    N_DCF = computeNormalizedDCF(TrueLabel, Predicted_Label, pi, Predicted_Label)
+    N_DCF = computeNormalizedDCF(TrueLabel, Predicted_Label, pi, cfn, cfp)
     
     return N_DCF
 
-    
     

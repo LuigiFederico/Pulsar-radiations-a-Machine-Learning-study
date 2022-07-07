@@ -47,7 +47,7 @@ def feature_analysis(D, L, title=''):
 #  Pi_T->ClassLabel=1  #
 ########################
 
-# Generative models      
+      
 def MVG_models(subsets, splits, prior, K):
 
     def kfold_MVG_compute(k_subsets, K, prior, title=''):
@@ -87,29 +87,29 @@ def MVG_models(subsets, splits, prior, K):
         single_split_MVG_compute(splits[i], prior, TrainLabel)
 
     
-# Discriminative models
 def LR_models(subsets, splits, prior, K, lambdas, quadratic=False, pi_t=0.5):
     
     def kfold_LR_compute(k_subsets, K, lambdas, prior , pi_t, f):   
         minDCF_LR = []
         
-        for p in prior :
-            minDCF_values,_ = f(k_subsets, K, lambdas, p, pi_t)
-            minDCF_LR.append(minDCF_values)
-        #plt.plot_DCF(lambdas, minDCF_LR, "λ")
-        print (numpy.around(minDCF_LR, 3)) # rounded
+        for pi_T in pi_t:
+            for p in prior :
+                minDCF_values,_ = f(k_subsets, K, lambdas, p, pi_T)
+                minDCF_LR.append(minDCF_values)
+            #plt.plot_DCF(lambdas, minDCF_LR, "λ")
+            print (numpy.around(minDCF_LR, 3)) # rounded
         
         return minDCF_LR
     
     
     def single_split_LR_compute(split, lambdas, prior, pi_t, f):
         minDCF_LR = [] 
-        
-        for p in prior :
-            minDCF_values,_  = f( split , lambdas, p, pi_t)
-            minDCF_LR.append(minDCF_values)
-        #plt.plot_DCF(lambdas, minDCF_LR, "λ")
-        print (numpy.around(minDCF_LR, 3)) # rounded
+        for pi_T in pi_t:
+            for p in prior :
+                minDCF_values,_  = f( split , lambdas, p, pi_T)
+                minDCF_LR.append(minDCF_values)
+            #plt.plot_DCF(lambdas, minDCF_LR, "λ")
+            print (numpy.around(minDCF_LR, 3)) # rounded
         
         return minDCF_LR    
     
@@ -287,7 +287,32 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
     kfold_GMM(k_guass, K, prior, alpha,
               nComponents, mode, psi, 'GMM-'+mode+' Gauss')
     
-     
+  
+def score_calibration(subsets, prior, K):
+    k_raw, _, _, _, _, k_gauss_PCA6 = subsets    
+    
+    # MVG Tied Full-Cov - Raw
+    # print("Start MVG Tied Full-Cov 5-folds on raw features...")
+    # actDCF_MVG = MVG.kfold_MVG_actDCF(k_raw, K, prior, MVG.MVG_models['tied-full'])
+    # print("End")
+    
+    # # LogReg (lambda=1e-5, pi_T=0.1) - Raw
+    # lambd = 0.00001
+    # pi_T = 0.1
+    # print("Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...")
+    # actDCF_LR = LR.kfold_LogReg_actDCF(k_raw, K, lambd, prior, pi_T)
+    # print("End")
+    
+    
+    # linear SVM (C=0.1, pi_T=0.5) - gauss PCA6
+    C = 0.1
+    pi_T = 0.5
+    print("Start linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
+    actDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='linear')
+    print("End")
+    
+   
+    
 
 if __name__ == '__main__':
 
@@ -323,16 +348,7 @@ if __name__ == '__main__':
     
     # Single split 80-20
     splits = prep.single_split_computeAll(D_Train, D_Gaussianization, L_Train)
-    
-    
-    # PLOT TMP ( CANCELLARE )
-    # Lista=[[minDCF prior 0,5],[minDCF prior 0,9],[minDCF prior 0,1]]
-    
-    
-    
-    
-    
-    
+     
     # MVG 
     #MVG_models(subsets, splits, prior, K)
     
@@ -345,7 +361,7 @@ if __name__ == '__main__':
     # SVM
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'balanced-linear')
-    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
+    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF')
 
     
@@ -359,6 +375,10 @@ if __name__ == '__main__':
     #----------------------------------#  
     #  Choice of the candidate models  #
     #----------------------------------#
+    
+    # Score calibration
+    score_calibration(subsets, prior, K)
+    
     
     # ROC and DET curve
     # TODO: ROC curve plot, DET curve plot

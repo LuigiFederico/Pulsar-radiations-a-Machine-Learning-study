@@ -1,0 +1,112 @@
+[0.001 0.01  0.1  ]
+########  RBF SVM  ########
+
+-------  5-FOLD  -------
+
+
+Training dataset
+Traceback (most recent call last):
+
+  File "/Applications/Spyder.app/Contents/Resources/lib/python3.9/spyder_kernels/py3compat.py", line 356, in compat_exec
+    exec(code, globals, locals)
+
+  File "/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/main.py", line 122, in <module>
+    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF', gammas)
+
+  File "/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/main.py", line 71, in SVM_models
+    kfold_SVM_RBF(k_subsets, prior, K, Cs, pi_t, SVM.kfold_SVM, mode)
+
+  File "/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/main.py", line 47, in kfold_SVM_RBF
+    minDCF_values, LabelPredicetd = f(k_subsets, Cs, pi_t, prior, K, mode, gamma)
+
+  File "/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/lib/SVM_models.py", line 241, in kfold_SVM
+    S, LabelPredicetd = SVM( DT_k, LT_k, DE_k, gamma=gamma, pi_t=pi_t, prior=prior, C=C, K_svm=1.0, mode=mode)
+
+  File "/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/lib/SVM_models.py", line 223, in SVM
+    S, predLabels = kernelRBF(DT, LT, DE, C, K_svm, gamma)
+
+  File "/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/lib/SVM_models.py", line 164, in kernelRBF
+    kernel = numpy.exp(-gamma * dist) + K
+
+KeyboardInterrupt
+
+
+runfile('/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project/main.py', wdir='/Users/alex/Desktop/ML_Exam/Pulsar-ML TEST/Project')
+Reloaded modules: lib, lib.model_evaluation, lib.dim_reduction, lib.data_preparation, lib.MVG_models, lib.LR_models, lib.SVM_models, lib.GMM_models, lib.plots
+[0.001 0.01  0.1  ]
+########  RBF SVM  ########
+
+-------  5-FOLD  -------
+
+
+Training dataset
+[K-Fold and RBF - SVM] C =  0.0001  , gamma = 0.001 , prior =  0.5 , minDCF =  0.29762532846763573
+[K-Fold and RBF - SVM] C =  0.00021544346900318845  , gamma = 0.001 , prior =  0.5 , minDCF =  0.28630840534633845
+[K-Fold and RBF - SVM] C =  0.00046415888336127773  , gamma = 0.001 , prior =  0.5 , minDCF =  0.2545010506758036
+[K-Fold and RBF - SVM] C =  0.001  , gamma = 0.001 , prior =  0.5 , minDCF =  0.21482940113582352
+[K-Fold and RBF - SVM] C =  0.002154434690031882  , gamma = 0.001 , prior =  0.5 , minDCF =  0.19438644078388767
+[K-Fold and RBF - SVM] C =  0.004641588833612777  , gamma = 0.001 , prior =  0.5 , minDCF =  0.18268569200086288
+[K-Fold and RBF - SVM] C =  0.01  , gamma = 0.001 , prior =  0.5 , minDCF =  0.17759831194826
+[K-Fold and RBF - SVM] C =  0.021544346900318822  , gamma = 0.001 , prior =  0.5 , minDCF =  0.1744069255068752
+[K-Fold and RBF - SVM] C =  0.046415888336127774  , gamma = 0.001 , prior =  0.5 , minDCF =  0.16854813849811948
+[K-Fold and RBF - SVM] C =  0.1  , gamma = 0.001 , prior =  0.5 , minDCF =  0.16535675205673467
+[K-Fold and RBF - SVM] C =  0.0001  , gamma = 0.01 , prior =  0.5 , minDCF =  0.2384054605096724
+[K-Fold and RBF - SVM] C =  0.00021544346900318845  , gamma = 0.01 , prior =  0.5 , minDCF =  0.2384054605096724
+[K-Fold and RBF - SVM] C =  0.00046415888336127773  , gamma = 0.01 , prior =  0.5 , minDCF =  0.2333020063491224
+[K-Fold and RBF - SVM] C =  0.001  , gamma = 0.01 , prior =  0.5 , minDCF =  0.21686705721240718
+[K-Fold and RBF - SVM] C =  0.002154434690031882  , gamma = 0.01 , prior =  0.5 , minDCF =  0.20616680898010836
+[K-Fold and RBF - SVM] C =  0.004641588833612777  , gamma = 0.01 , prior =  0.5 , minDCF =  0.19642259460739217
+[K-Fold and RBF - SVM] C =  0.01  , gamma = 0.01 , prior =  0.5 , minDCF =  0.194217887988405
+[K-Fold and RBF - SVM] C =  0.021544346900318822  , gamma = 0.01 , prior =  0.5 , minDCF =  0.1928152342883857
+[K-Fold and RBF - SVM] C =  0.046415888336127774  , gamma = 0.01 , prior =  0.5 , minDCF =  0.19108854459918984
+[K-Fold and RBF - SVM] C =  0.1  , gamma = 0.01 , prior =  0.5 , minDCF =  0.19059520468799104
+[K-Fold and RBF - SVM] C =  0.0001  , gamma = 0.1 , prior =  0.5 , minDCF =  0.22621137181544881
+[K-Fold and RBF - SVM] C =  0.00021544346900318845  , gamma = 0.1 , prior =  0.5 , minDCF =  0.22621137181544881
+[K-Fold and RBF - SVM] C =  0.00046415888336127773  , gamma = 0.1 , prior =  0.5 , minDCF =  0.220013225836109
+[K-Fold and RBF - SVM] C =  0.001  , gamma = 0.1 , prior =  0.5 , minDCF =  0.2043496836555466
+[K-Fold and RBF - SVM] C =  0.002154434690031882  , gamma = 0.1 , prior =  0.5 , minDCF =  0.20818839094874492
+[K-Fold and RBF - SVM] C =  0.004641588833612777  , gamma = 0.1 , prior =  0.5 , minDCF =  0.20837301785217469
+[K-Fold and RBF - SVM] C =  0.01  , gamma = 0.1 , prior =  0.5 , minDCF =  0.20914217142870878
+[K-Fold and RBF - SVM] C =  0.021544346900318822  , gamma = 0.1 , prior =  0.5 , minDCF =  0.21025368848198528
+[K-Fold and RBF - SVM] C =  0.046415888336127774  , gamma = 0.1 , prior =  0.5 , minDCF =  0.21111703332658321
+[K-Fold and RBF - SVM] C =  0.1  , gamma = 0.1 , prior =  0.5 , minDCF =  0.21148703825998233
+[[0.298 0.286 0.255 0.215 0.194 0.183 0.178 0.174 0.169 0.165]
+ [0.238 0.238 0.233 0.217 0.206 0.196 0.194 0.193 0.191 0.191]
+ [0.226 0.226 0.22  0.204 0.208 0.208 0.209 0.21  0.211 0.211]]
+5.788608304142961.png
+
+Gaussianized dataset PCA 6
+[K-Fold and RBF - SVM] C =  0.0001  , gamma = 0.001 , prior =  0.5 , minDCF =  0.24268628088406993
+[K-Fold and RBF - SVM] C =  0.00021544346900318845  , gamma = 0.001 , prior =  0.5 , minDCF =  0.2279948466710372
+[K-Fold and RBF - SVM] C =  0.00046415888336127773  , gamma = 0.001 , prior =  0.5 , minDCF =  0.21000326289368795
+[K-Fold and RBF - SVM] C =  0.001  , gamma = 0.001 , prior =  0.5 , minDCF =  0.1953723694797457
+[K-Fold and RBF - SVM] C =  0.002154434690031882  , gamma = 0.001 , prior =  0.5 , minDCF =  0.16663531965241468
+[K-Fold and RBF - SVM] C =  0.004641588833612777  , gamma = 0.001 , prior =  0.5 , minDCF =  0.16196391347743347
+[K-Fold and RBF - SVM] C =  0.01  , gamma = 0.001 , prior =  0.5 , minDCF =  0.15974238162395962
+[K-Fold and RBF - SVM] C =  0.021544346900318822  , gamma = 0.001 , prior =  0.5 , minDCF =  0.15923371873135328
+[K-Fold and RBF - SVM] C =  0.046415888336127774  , gamma = 0.001 , prior =  0.5 , minDCF =  0.16183907624655458
+[K-Fold and RBF - SVM] C =  0.1  , gamma = 0.001 , prior =  0.5 , minDCF =  0.16074438442776476
+[K-Fold and RBF - SVM] C =  0.0001  , gamma = 0.01 , prior =  0.5 , minDCF =  0.24128362718405064
+[K-Fold and RBF - SVM] C =  0.00021544346900318845  , gamma = 0.01 , prior =  0.5 , minDCF =  0.22474216830402238
+[K-Fold and RBF - SVM] C =  0.00046415888336127773  , gamma = 0.01 , prior =  0.5 , minDCF =  0.20650241231799454
+[K-Fold and RBF - SVM] C =  0.001  , gamma = 0.01 , prior =  0.5 , minDCF =  0.18932895556756021
+[K-Fold and RBF - SVM] C =  0.002154434690031882  , gamma = 0.01 , prior =  0.5 , minDCF =  0.1633359212146377
+[K-Fold and RBF - SVM] C =  0.004641588833612777  , gamma = 0.01 , prior =  0.5 , minDCF =  0.16066852064726678
+[K-Fold and RBF - SVM] C =  0.01  , gamma = 0.01 , prior =  0.5 , minDCF =  0.15750702904215744
+[K-Fold and RBF - SVM] C =  0.021544346900318822  , gamma = 0.01 , prior =  0.5 , minDCF =  0.15692100011597393
+[K-Fold and RBF - SVM] C =  0.046415888336127774  , gamma = 0.01 , prior =  0.5 , minDCF =  0.15505565246757086
+[K-Fold and RBF - SVM] C =  0.1  , gamma = 0.01 , prior =  0.5 , minDCF =  0.15326691972620538
+[K-Fold and RBF - SVM] C =  0.0001  , gamma = 0.1 , prior =  0.5 , minDCF =  0.2423491752931046
+[K-Fold and RBF - SVM] C =  0.00021544346900318845  , gamma = 0.1 , prior =  0.5 , minDCF =  0.21886805831385914
+[K-Fold and RBF - SVM] C =  0.00046415888336127773  , gamma = 0.1 , prior =  0.5 , minDCF =  0.18942314683562406
+[K-Fold and RBF - SVM] C =  0.001  , gamma = 0.1 , prior =  0.5 , minDCF =  0.16987267503802203
+[K-Fold and RBF - SVM] C =  0.002154434690031882  , gamma = 0.1 , prior =  0.5 , minDCF =  0.1615326166184043
+[K-Fold and RBF - SVM] C =  0.004641588833612777  , gamma = 0.1 , prior =  0.5 , minDCF =  0.16043642254653528
+[K-Fold and RBF - SVM] C =  0.01  , gamma = 0.1 , prior =  0.5 , minDCF =  0.15511694439320092
+[K-Fold and RBF - SVM] C =  0.021544346900318822  , gamma = 0.1 , prior =  0.5 , minDCF =  0.1505374761066648
+[K-Fold and RBF - SVM] C =  0.046415888336127774  , gamma = 0.1 , prior =  0.5 , minDCF =  0.14138004178667166
+[K-Fold and RBF - SVM] C =  0.1  , gamma = 0.1 , prior =  0.5 , minDCF =  0.129832522817722
+[[0.243 0.228 0.21  0.195 0.167 0.162 0.16  0.159 0.162 0.161]
+ [0.241 0.225 0.207 0.189 0.163 0.161 0.158 0.157 0.155 0.153]
+ [0.242 0.219 0.189 0.17  0.162 0.16  0.155 0.151 0.141 0.13 ]]
+8.932587994821542.png

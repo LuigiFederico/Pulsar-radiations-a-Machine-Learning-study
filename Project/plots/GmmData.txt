@@ -1,0 +1,26 @@
+GMM_raw_full
+[5 K-Fold] GMM - full, α=0.10, 2 gau, prior = 0.50, minDCF = 0.159
+[5 K-Fold] GMM - full, α=0.10, 4 gau, prior = 0.50, minDCF = 0.143
+[5 K-Fold] GMM - full, α=0.10, 8 gau, prior = 0.50, minDCF = 0.136
+[5 K-Fold] GMM - full, α=0.10, 16 gau, prior = 0.50, minDCF = 0.140
+[5 K-Fold] GMM - full, α=0.10, 2 gau, prior = 0.90, minDCF = 0.680
+[5 K-Fold] GMM - full, α=0.10, 4 gau, prior = 0.90, minDCF = 0.611
+[5 K-Fold] GMM - full, α=0.10, 8 gau, prior = 0.90, minDCF = 0.658
+[5 K-Fold] GMM - full, α=0.10, 16 gau, prior = 0.90, minDCF = 0.735
+[5 K-Fold] GMM - full, α=0.10, 2 gau, prior = 0.10, minDCF = 0.269
+[5 K-Fold] GMM - full, α=0.10, 4 gau, prior = 0.10, minDCF = 0.258
+[5 K-Fold] GMM - full, α=0.10, 8 gau, prior = 0.10, minDCF = 0.237
+[5 K-Fold] GMM - full, α=0.10, 16 gau, prior = 0.10, minDCF = 0.237
+Gmm_gaussPCA6_full
+[5 K-Fold] GMM - full, α=0.10, 2 gau, prior = 0.50, minDCF = 0.132
+[5 K-Fold] GMM - full, α=0.10, 4 gau, prior = 0.50, minDCF = 0.128
+[5 K-Fold] GMM - full, α=0.10, 8 gau, prior = 0.50, minDCF = 0.138
+[5 K-Fold] GMM - full, α=0.10, 16 gau, prior = 0.50, minDCF = 0.144
+[5 K-Fold] GMM - full, α=0.10, 2 gau, prior = 0.90, minDCF = 0.616
+[5 K-Fold] GMM - full, α=0.10, 4 gau, prior = 0.90, minDCF = 0.576
+[5 K-Fold] GMM - full, α=0.10, 8 gau, prior = 0.90, minDCF = 0.567
+[5 K-Fold] GMM - full, α=0.10, 16 gau, prior = 0.90, minDCF = 0.672
+[5 K-Fold] GMM - full, α=0.10, 2 gau, prior = 0.10, minDCF = 0.262
+[5 K-Fold] GMM - full, α=0.10, 4 gau, prior = 0.10, minDCF = 0.237
+[5 K-Fold] GMM - full, α=0.10, 8 gau, prior = 0.10, minDCF = 0.225
+[5 K-Fold] GMM - full, α=0.10, 16 gau, prior = 0.10, minDCF = 0.223

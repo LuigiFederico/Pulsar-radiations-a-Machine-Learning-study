@@ -1,0 +1,15 @@
+Start MVG Tied Full-Cov 5-folds on raw features...
+	MVG Tied-Full (prior=0.5): actDCF=0.191
+	MVG Tied-Full (prior=0.9): actDCF=1.422
+	MVG Tied-Full (prior=0.1): actDCF=0.274
+End
+Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...
+	LogReg (λ=1e-5, pi_T=0.1, prior=0.5): actDCF=0.179
+	LogReg (λ=1e-5, pi_T=0.1, prior=0.9): actDCF=0.826
+	LogReg (λ=1e-5, pi_T=0.1, prior=0.1): actDCF=0.312
+End
+Start linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...
+	SVM (C=0.1, pi_T=0.5, prior=0.5): actDCF=0.169
+	SVM (C=0.1, pi_T=0.5, prior=0.9): actDCF=0.614
+	SVM (C=0.1, pi_T=0.5, prior=0.1): actDCF=0.892
+End
