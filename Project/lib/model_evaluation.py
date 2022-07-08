@@ -1,5 +1,9 @@
 import numpy
 import pylab
+import lib.LR_models as LR
+
+def vrow(v):
+    return v.reshape((1, v.size))
 
 
 def computeConfusionMatrix(TrueLabels, PredictedLabels):
@@ -92,7 +96,7 @@ def computeDCFu(TrueLabel, PredLabel, pi, cfn=1, cfp=1):
    
     return (pi*cfn*FNR +(1-pi)*cfp*FPR)
 
-def computeNormalizedDCF(TrueLabel, PredLabel, pi, cfn=1, cfp=1):
+def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     '''
     Compute the Normalized DCF value. 
 
@@ -113,12 +117,11 @@ def computeNormalizedDCF(TrueLabel, PredLabel, pi, cfn=1, cfp=1):
            Description: DCF Normalized Value.
 
     '''
+    cfn=CostMatrix[0][1]
+    cfp=CostMatrix[1][0]
     
     # Calculate the DCFu value
     dcf_u = computeDCFu(TrueLabel, PredLabel, pi, cfn, cfp)
-    
-    # cfn=CostMatrix[0][1]
-    # cfp=CostMatrix[1][0]
     
     denomin = numpy.array([pi*cfn, (1-pi)*cfp])
     index = numpy.argmin (denomin) 
@@ -168,10 +171,21 @@ def computeMinDCF(TrueLabel, llRateos, pi, CostMatrix):
 
 def computeActualDCF(TrueLabel, llRateos, pi, Predicted_Label, cfn=1, cfp=1):
     
+    CostMatrix=numpy.array([[0,cfn],[cfp,0]])
+    
     Predicted_Label = (llRateos > (-numpy.log(pi/(1-pi)))).astype(int)
     
-    N_DCF = computeNormalizedDCF(TrueLabel, Predicted_Label, pi, cfn, cfp)
+    N_DCF = computeNormalizedDCF(TrueLabel, Predicted_Label, pi, CostMatrix)
     
     return N_DCF
+
+
+def calibrateScores(s, L, lambd, prior=0.5):
+    
+    s=vrow(s)
+    alpha, beta = LR.LogRegForCalibration(s,L,lambd,prior)
+    calib_scores = alpha*s+beta-numpy.log(prior/(1-prior))
+    
+    return calib_scores
 
     

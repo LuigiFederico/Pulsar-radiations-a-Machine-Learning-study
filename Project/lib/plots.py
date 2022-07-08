@@ -151,11 +151,11 @@ def plot_DCF(x, y, xlabel, base=10, title=''):
     plt.legend(["min DCF prior=0.5", "min DCF prior=0.9", "min DCF prior=0.1"],loc='lower right')
     plt.xlabel(xlabel)
     plt.ylabel("min DCF")
-    plt.savefig(name)
+    plt.savefig(name,dpi=1200)
     return
 
 
-
+###OLD###
 def computeBayesErrorPlot(TrueLabel_1 ,llRateos_1 ,CostMatrix ,Num=21 ,TrueLabel_2=None ,llRateos_2=None):
     '''
     Compute the Bayes Error Plot for one or two Models. In the first case the function takes a maximum of 4 values, in the second 
@@ -241,3 +241,35 @@ def computeBayesErrorPlot(TrueLabel_1 ,llRateos_1 ,CostMatrix ,Num=21 ,TrueLabel
     pylab.xlim([-3, 3])
 
 
+
+def bayesErrorPlot(dcf, mindcf, effPriorLogOdds, model, calibarted=None, lambd=1e-4):
+    name=model+"bayesErrorPlot"
+    if calibarted == True:
+        calibrates="  Calibrated - lambda: "+ str(lambd)
+        name="Calibarted" + model+"bayesErrorPlot"
+    else:
+        calibrates=""
+    
+    plt.figure()
+    plt.plot(effPriorLogOdds, dcf, label='act DCF', color='r')
+    plt.plot(effPriorLogOdds, mindcf, label='min DCF', color='b', linestyle="--")
+    plt.xlim([min(effPriorLogOdds), max(effPriorLogOdds)])
+    plt.legend([model + " - act DCF" + calibrates, model+" - min DCF"])
+    plt.xlabel("prior log-odds")
+    plt.ylabel("DCF")
+    plt.savefig(name,dpi=800)
+    return
+
+
+
+def plotROC(FPR1, TPR1, FPR2, TPR2, FPR3, TPR3):
+    plt.figure()
+    plt.grid(linestyle='--')
+    plt.plot(FPR1, TPR1, linewidth=2, color='r')
+    plt.plot(FPR2, TPR2, linewidth=2, color='b')
+    plt.plot(FPR3, TPR3, linewidth=2, color='g')
+    plt.legend(["MVG Tied Full-Cov", "Logistic Regression", "Linear SVM"])
+    plt.xlabel("FPR")
+    plt.ylabel("TPR")
+    plt.savefig("ROC",dpi=800)
+    return

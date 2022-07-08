@@ -290,28 +290,125 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
   
 def score_calibration(subsets, prior, K):
     k_raw, _, _, _, _, k_gauss_PCA6 = subsets    
-    
-    # MVG Tied Full-Cov - Raw
-    # print("Start MVG Tied Full-Cov 5-folds on raw features...")
-    # actDCF_MVG = MVG.kfold_MVG_actDCF(k_raw, K, prior, MVG.MVG_models['tied-full'])
-    # print("End")
-    
-    # # LogReg (lambda=1e-5, pi_T=0.1) - Raw
-    # lambd = 0.00001
-    # pi_T = 0.1
-    # print("Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...")
-    # actDCF_LR = LR.kfold_LogReg_actDCF(k_raw, K, lambd, prior, pi_T)
-    # print("End")
-    
-    
-    # linear SVM (C=0.1, pi_T=0.5) - gauss PCA6
+    numberOfPoints=21
+    effPriorLogOdds = numpy.linspace(-3, 3, numberOfPoints)
+    effPriors = 1/(1+numpy.exp(-1*effPriorLogOdds))
     C = 0.1
     pi_T = 0.5
-    print("Start linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
-    actDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='linear')
-    print("End")
+    lambd = 0.00001
+    pi_T_LogReg = 0.1
     
-   
+    # MVG Tied Full-Cov - Raw
+    #print("Start MVG Tied Full-Cov 5-folds on raw features...")
+    #actDCF_MVG = MVG.kfold_MVG_actDCF(k_raw, K, prior, MVG.MVG_models['tied-full'])
+    #print("End")
+    
+    actualDCFs=[]
+    minDCFs=[]
+    #for i in range(numberOfPoints):
+      #actDCF, minDCF = MVG.kfold_MVG_actDCF(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
+      #actDCF=actDCF[0]
+      #minDCF=minDCF[0]
+      #actualDCFs.append(actDCF)
+      #minDCFs.append(minDCF)
+      #print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    #plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov")
+    
+    
+    ##------------------------------------------------##
+    
+    
+    # # LogReg (lambda=1e-5, pi_T=0.1) - Raw
+
+    #print("Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...")
+    #actDCF_LR = LR.kfold_LogReg_actDCF(k_raw, K, lambd, prior, pi_T)
+    #print("End")
+    
+    #actualDCFs=[]
+    #minDCFs=[]
+    #for i in range(numberOfPoints):
+      #actDCF, minDCF = LR.kfold_LogReg_actDCF(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg)
+      #actDCF=actDCF[0]
+      #minDCF=minDCF[0]
+      #actualDCFs.append(actDCF)
+      #minDCFs.append(minDCF)
+      #print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    #plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg")
+    
+    
+    ##------------------------------------------------##
+        
+    
+    # linear SVM (C=0.1, pi_T=0.5) - gauss PCA6
+
+    #print("Start Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
+    #actDCF_SVM, minDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='balanced-linear')
+    #print("End")
+    
+    #actualDCFs=[]
+    #minDCFs=[]
+    #for i in range(numberOfPoints):
+      #actDCF, minDCF = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, [effPriors[i]], K, mode='balanced-linear')
+      #actDCF=actDCF[0]
+      #minDCF=minDCF[0]
+      #actualDCFs.append(actDCF)
+      #minDCFs.append(minDCF)
+      #print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    #plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear-SVM")
+    
+    
+    ##------------------------------------------------##
+    ##              CALIBRATED VERSION                ##
+    ##------------------------------------------------##
+    
+    lamb_calibration=1e-4
+    
+    ##------------------------------------------------##
+    
+    #print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      minDCF = MVG.kfold_MVG(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
+      actDCF = MVG.kfold_MVG_actDCF_Calibrated(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'],lamb_calibration)
+      actDCF=actDCF[0]
+      minDCF=minDCF[0][0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration after Calibration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov,", True,lamb_calibration)
+    
+    ##------------------------------------------------##
+    
+    print("Calibrated LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      minDCF=LR.kfold_LogReg(k_raw, K, [lambd], effPriors[i], pi_T_LogReg)
+      actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg, lamb_calibration)
+      actDCF=actDCF[0]
+      minDCF=minDCF[0][0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg,", True,lamb_calibration)
+    
+    
+    ##------------------------------------------------##
+    
+    print("Calibrated Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, effPriors[i], K=5, mode='balanced-linear')
+      actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=5, mode='balanced-linear', lambd_calib=1e-4 )
+      actDCF=actDCF[0]
+      minDCF=minDCF[0][0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear SVM,", True,lamb_calibration)
+    
     
 
 if __name__ == '__main__':
@@ -337,8 +434,8 @@ if __name__ == '__main__':
     lambdas=numpy.logspace(-5,-5, 1)         #For Normal Use
     #lambdas=numpy.logspace(-5, 2, num=30)  #For Graphichs Use
     
-    #Cs = numpy.logspace(-1, -1, num=1)  #For Normal Use
-    Cs = numpy.logspace(-4, -1, num=10) #For Graphichs Use
+    Cs = numpy.logspace(-1, -1, num=1)  #For Normal Use
+    #Cs = numpy.logspace(-4, -1, num=10) #For Graphichs Use
     
     nComponents = [8] #For Normal Use
     nComponents = [2, 4, 8, 16, 32] #For Normal Use

@@ -192,6 +192,7 @@ def single_split_MVG(split, prior, MVG_train):
 
 def kfold_MVG_actDCF(k_subsets, K, prior, MVG_train): 
     actDCF_final = []
+    minDCF_final = []
     
     for p in prior:
         scores = []
@@ -207,10 +208,38 @@ def kfold_MVG_actDCF(k_subsets, K, prior, MVG_train):
         LE = numpy.concatenate(LE).ravel()    
         scores = numpy.concatenate(scores).ravel()
         actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the minDCF
+        minDCF = ev.computeMinDCF(LE, scores, p, numpy.array([[0,1],[1,0]])) # Compute the minDCF
+        actDCF_final.append(actDCF)
+        minDCF_final.append(minDCF)
+        print('MVG Tied-Full (prior=%.1f): actDCF=%.3f' % (p, actDCF))
+        
+    return actDCF_final, minDCF_final
+
+def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4): 
+    
+    actDCF_final = []
+    
+    for p in prior:
+        scores = []
+        LE = []
+        for i in range(K):
+            DT_k, LT_k = k_subsets[i][0]  # Data and Label Train
+            DE_k, LE_k = k_subsets[i][1]  # Data and Label Test
+            
+            llRateos, _ = MVG_train(DT_k, LT_k, DE_k, LE_k, p) # Classify the DE_k data
+            scores.append(llRateos) 
+            LE.append(LE_k)
+        
+        LE = numpy.concatenate(LE).ravel()    
+        scores = numpy.concatenate(scores).ravel()
+        scores = ev.calibrateScores(scores,LE,lambd,p)
+        actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the minDCF
         actDCF_final.append(actDCF)
         print('MVG Tied-Full (prior=%.1f): actDCF=%.3f' % (p, actDCF))
         
-    return actDCF_final 
+    return actDCF_final
+
+
 
 
 
