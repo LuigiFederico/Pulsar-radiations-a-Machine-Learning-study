@@ -552,10 +552,10 @@ if __name__ == '__main__':
     #MVG_models(subsets, splits, prior, K)
     
     # LR
-    #LR_models(subsets, splits, prior, K , lambdas, pi_t=0.5)
+    LR_models(subsets, splits, prior, K , lambdas, pi_t=[0.5])
     
     # QLR
-    #LR_models(subsets, splits, prior, K, lambdas, quadratic=True, pi_t=0.5)
+    #LR_models(subsets, splits, prior, K, lambdas, quadratic=True, pi_t=[0.5])
     
     # SVM
     #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
