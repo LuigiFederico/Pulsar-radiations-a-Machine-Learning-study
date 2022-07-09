@@ -8,8 +8,8 @@ Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...
 	LogReg (λ=1e-5, pi_T=0.1, prior=0.9): actDCF=0.826
 	LogReg (λ=1e-5, pi_T=0.1, prior=0.1): actDCF=0.312
 End
-Start linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...
-	SVM (C=0.1, pi_T=0.5, prior=0.5): actDCF=0.169
-	SVM (C=0.1, pi_T=0.5, prior=0.9): actDCF=0.614
-	SVM (C=0.1, pi_T=0.5, prior=0.1): actDCF=0.892
+Start Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...
+ SVM (C=0.1, pi_T=0.5, prior=0.5): actDCF=0.124  &  minDCF=0.118732
+ SVM (C=0.1, pi_T=0.5, prior=0.9): actDCF=0.572  &  minDCF=0.524695
+ SVM (C=0.1, pi_T=0.5, prior=0.1): actDCF=0.698  &  minDCF=0.243226
 End

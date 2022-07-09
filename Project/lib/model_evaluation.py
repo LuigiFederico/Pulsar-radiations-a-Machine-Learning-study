@@ -96,6 +96,7 @@ def computeDCFu(TrueLabel, PredLabel, pi, cfn=1, cfp=1):
    
     return (pi*cfn*FNR +(1-pi)*cfp*FPR)
 
+
 def computeNormalizedDCF(TrueLabel, PredLabel, pi, CostMatrix):
     '''
     Compute the Normalized DCF value. 
