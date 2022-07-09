@@ -273,3 +273,22 @@ def plotROC(FPR1, TPR1, FPR2, TPR2, FPR3, TPR3):
     plt.ylabel("TPR")
     plt.savefig("ROC",dpi=800)
     return
+
+
+def plotDET(FPR1, FNR1, FPR2, FNR2, FPR3, FNR3):
+    plt.figure()
+    plt.grid(linestyle='--')
+    plt.plot(FPR1, FNR1, linewidth=2, color='r')
+    plt.plot(FPR2, FNR2, linewidth=2, color='b')
+    plt.plot(FPR3, FNR3, linewidth=2, color='g')
+    plt.legend(["MVG Tied Full-Cov", "Logistic Regression", "Linear SVM"])
+    plt.xlabel("FPR")
+    plt.ylabel("TPR")
+    plt.savefig("DET",dpi=800)
+    return
+
+
+
+
+
+

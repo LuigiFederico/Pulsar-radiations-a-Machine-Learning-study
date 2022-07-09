@@ -55,7 +55,7 @@ def computeROC(TrueLabels, llRateos, NumOfClass=2):
 
     for z, t in enumerate(thresolds):
         PredictedLabels = numpy.int32(llRateos > t)
-        Conf = computeConfusionMatrix(TrueLabels, PredictedLabels, NumOfClass)
+        Conf = computeConfusionMatrix(TrueLabels, PredictedLabels)
         FPR[z] = Conf[1, 0] / (Conf[1, 0]+Conf[0, 0])
         TPR[z] = Conf[1, 1] / (Conf[1, 1]+Conf[0, 1])
     pylab.plot(FPR, TPR)
@@ -189,4 +189,31 @@ def calibrateScores(s, L, lambd, prior=0.5):
     
     return calib_scores
 
+ 
+def computeFPR_TPR_FNR(llrs, TrueLabels, t):
+    
+    predLabels = (llrs > t).astype(int)
+    confM = computeConfusionMatrix(TrueLabels, predLabels)
+    
+    FNR = confM[0][1] / (confM[0][1] + confM[1][1])
+    TPR = 1-FNR
+    FPR = confM[1][0] / (confM[0][0] + confM[1][0])
+    
+    return FPR, TPR, FNR
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     

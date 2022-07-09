@@ -6,6 +6,7 @@ import lib.MVG_models as MVG
 import lib.LR_models as LR
 import lib.SVM_models as SVM
 import lib.GMM_models as GMM
+import lib.model_evaluation as ev
 
 
 #########################
@@ -341,75 +342,176 @@ def score_calibration(subsets, prior, K):
     
     # linear SVM (C=0.1, pi_T=0.5) - gauss PCA6
 
-    #print("Start Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
-    #actDCF_SVM, minDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='balanced-linear')
-    #print("End")
+    # print("Start Linear balanced SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
+    # actDCF_SVM, minDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='balanced-linear')
+    # print(actDCF_SVM)
+    # print("End")
     
-    #actualDCFs=[]
-    #minDCFs=[]
-    #for i in range(numberOfPoints):
-      #actDCF, minDCF = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, [effPriors[i]], K, mode='balanced-linear')
-      #actDCF=actDCF[0]
-      #minDCF=minDCF[0]
-      #actualDCFs.append(actDCF)
-      #minDCFs.append(minDCF)
-      #print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    #plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear-SVM")
+    # actualDCFs=[]
+    # minDCFs=[]
+    # for i in range(numberOfPoints):
+    #   actDCF, minDCF = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, [effPriors[i]], K, mode='balanced-linear')
+    #   actDCF=actDCF[0]
+    #   minDCF=minDCF[0]
+    #   actualDCFs.append(actDCF)
+    #   minDCFs.append(minDCF)
+    #   print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear-SVM")
     
     
     ##------------------------------------------------##
     ##              CALIBRATED VERSION                ##
     ##------------------------------------------------##
     
-    lamb_calibration=1e-4
+    # lamb_calibration=1e-4
     
-    ##------------------------------------------------##
+    # ##------------------------------------------------##
     
-    #print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
-    actualDCFs=[]
-    minDCFs=[]
-    for i in range(numberOfPoints):
-      minDCF = MVG.kfold_MVG(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
-      actDCF = MVG.kfold_MVG_actDCF_Calibrated(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'],lamb_calibration)
-      actDCF=actDCF[0]
-      minDCF=minDCF[0][0]
-      actualDCFs.append(actDCF)
-      minDCFs.append(minDCF)
-      print("At iteration after Calibration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov,", True,lamb_calibration)
+    # #print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
+    # actualDCFs=[]
+    # minDCFs=[]
+    # for i in range(numberOfPoints):
+    #   minDCF = MVG.kfold_MVG(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
+    #   actDCF = MVG.kfold_MVG_actDCF_Calibrated(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'],lamb_calibration)
+    #   actDCF=actDCF[0]
+    #   minDCF=minDCF[0][0]
+    #   actualDCFs.append(actDCF)
+    #   minDCFs.append(minDCF)
+    #   print("At iteration after Calibration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov,", True,lamb_calibration)
     
-    ##------------------------------------------------##
+    # ##------------------------------------------------##
     
-    print("Calibrated LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features")
-    actualDCFs=[]
-    minDCFs=[]
-    for i in range(numberOfPoints):
-      minDCF=LR.kfold_LogReg(k_raw, K, [lambd], effPriors[i], pi_T_LogReg)
-      actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg, lamb_calibration)
-      actDCF=actDCF[0]
-      minDCF=minDCF[0][0]
-      actualDCFs.append(actDCF)
-      minDCFs.append(minDCF)
-      print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg,", True,lamb_calibration)
-    
-    
-    ##------------------------------------------------##
-    
-    print("Calibrated Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6")
-    actualDCFs=[]
-    minDCFs=[]
-    for i in range(numberOfPoints):
-      minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, effPriors[i], K=5, mode='balanced-linear')
-      actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=5, mode='balanced-linear', lambd_calib=1e-4 )
-      actDCF=actDCF[0]
-      minDCF=minDCF[0][0]
-      actualDCFs.append(actDCF)
-      minDCFs.append(minDCF)
-      print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear SVM,", True,lamb_calibration)
+    # print("Calibrated LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features")
+    # actualDCFs=[]
+    # minDCFs=[]
+    # for i in range(numberOfPoints):
+    #   minDCF=LR.kfold_LogReg(k_raw, K, [lambd], effPriors[i], pi_T_LogReg)
+    #   actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg, lamb_calibration)
+    #   actDCF=actDCF[0]
+    #   minDCF=minDCF[0][0]
+    #   actualDCFs.append(actDCF)
+    #   minDCFs.append(minDCF)
+    #   print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg,", True,lamb_calibration)
     
     
+    # ##------------------------------------------------##
+    
+    # print("Calibrated Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6")
+    # actualDCFs=[]
+    # minDCFs=[]
+    # for i in range(numberOfPoints):
+    #   minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, effPriors[i], K=5, mode='balanced-linear')
+    #   actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=5, mode='balanced-linear', lambd_calib=1e-4 )
+    #   actDCF=actDCF[0]
+    #   minDCF=minDCF[0][0]
+    #   actualDCFs.append(actDCF)
+    #   minDCFs.append(minDCF)
+    #   print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear SVM,", True,lamb_calibration)
+    
+    False
+    
+
+def ROC(subsets, K, prior, isTrainSet=True):
+    k_raw, _, _, _, _, k_gauss_PCA6 = subsets    
+    
+    
+    # MVG Tied Full-Cov - Raw
+    print("Start MVG....")
+    FPR_MVG = []
+    TPR_MVG = []
+    FNR_MVG = []
+
+    if isTrainSet:
+        scores_MVG, LE_MVG = MVG.kfold_MVG(
+                        k_raw, K, prior, 
+                        MVG.MVG_models['tied-full'], getScores=True)        
+    else:
+        scores_MVG, LE_MVG = MVG.kfold_MVG_actDCF_Calibrated(
+                        k_raw, K, prior, 
+                        MVG.MVG_models['tied-full'], getScores=True)
+    scores_MVG = scores_MVG[0].flatten()
+    sortedScores_MVG = numpy.sort(scores_MVG)
+
+    for t in sortedScores_MVG:
+        FPR, TPR, FNR = ev.computeFPR_TPR_FNR(scores_MVG, LE_MVG, t)
+        FPR_MVG.append(FPR)
+        TPR_MVG.append(TPR)
+        FNR_MVG.append(FNR)
+    print("- MVG done.")
+    
+    
+    # Linear LR lambda=1e-5, pi_T=0.5
+    print("Start LR...")
+    FPR_LR = []
+    TPR_LR = []
+    FNR_LR = []
+    pi_T_LR = 0.1
+    
+    if isTrainSet:
+        lambd = [0.00001]
+        scores_LR, LE_LR = LR.kfold_LogReg(
+                        k_raw, K, lambd, prior, pi_T_LR, getScores=True)
+    else:
+        lambd = 0.00001
+        scores_LR, LE_LR = LR.kfold_LogReg_actDCF_Calibrated(
+                        k_raw, K, lambd, prior, pi_T_LR, getScores=True)
+    scores_LR = scores_LR[0].flatten()
+    print(scores_LR.shape)
+    sortedScores_LR = numpy.sort(scores_LR)
+    
+    for t in sortedScores_LR:
+        FPR, TPR, FNR = ev.computeFPR_TPR_FNR(scores_LR, LE_LR, t)
+        FPR_LR.append(FPR)
+        TPR_LR.append(TPR)
+        FNR_LR.append(FNR)
+    print("- LR done.")
+    
+    
+    # Linear SVM C=0.1, pi_T=0.5
+    print("Start SVM....")
+    FPR_SVM = []
+    TPR_SVM = []
+    FNR_SVM = []
+    pi_T_SVM = 0.5
+    
+    if isTrainSet:
+        C = [0.1]
+        scores_SVM, LE_SVM = SVM.kfold_SVM(
+                        k_gauss_PCA6, C, pi_T_SVM, prior,
+                        K, mode='balanced-linear', getScores=True)
+    else:
+        C = 0.1
+        scores_SVM, LE_SVM = SVM.kfold_SVM_actDCF_Calibrated(
+                        k_gauss_PCA6, C, pi_T_SVM, prior,
+                        K, mode='balanced-linear', getScores=True)
+    scores_SVM = scores_SVM[0].flatten()
+    print(scores_SVM.shape)
+    sortedScores_SVM = numpy.sort(scores_SVM)
+    
+    for t in sortedScores_SVM:
+        FPR, TPR, FNR = ev.computeFPR_TPR_FNR(scores_SVM, LE_SVM, t)
+        FPR_SVM.append(FPR)
+        TPR_SVM.append(TPR)
+        FNR_SVM.append(FNR)
+    print("- SVM done.")
+
+
+    # ROC plot
+    print("Plotting ROC and DET...")
+    plt.plotROC(FPR_MVG, TPR_MVG,
+                FPR_LR,  TPR_LR,
+                FPR_SVM, TPR_SVM)
+    # plt.plotDET(FPR_MVG, FNR_MVG,
+    #             FPR_LR,  FNR_LR,
+    #             FPR_SVM, FNR_SVM)
+    print("- ROC and DET done.")
+
+
+
+
 
 if __name__ == '__main__':
 
@@ -474,23 +576,14 @@ if __name__ == '__main__':
     #----------------------------------#
     
     # Score calibration
-    score_calibration(subsets, prior, K)
+    #score_calibration(subsets, prior, K)
     
     
     # ROC and DET curve
-    # TODO: ROC curve plot, DET curve plot
+    ROC(subsets, K, [0.5])
     
     # Evaluation with other metrics
-    # TODO: actual DCF
-    # TODO: Bayes error plot
     
-    # Merging models
-    # TODO: fuse the most promising models
-    # TODO: minDCF evaluation, actDCF, ROC, Bayesian error plot
-    
-    
-    # TODO: Choose the best and final model!
-        
         
 
 
@@ -501,8 +594,25 @@ if __name__ == '__main__':
     ###########################
     # D_Test, L_Test = load('data/Test.txt')
     
-    # We need to replicate the analisys done before
+    # D_Gauss_Test =  prep.gaussianization(D_Test)
+    # subsets_Test = prep.kfold_computeAll(D_Test, D_Gauss_Test, L_Test, K)
+
+    # MVG
+
+    # LR
+
+    # SVM
+
+    # GMM    
+
     
+    # actDCFs
+    
+    # actDCFs calibrated
+
+
+    # # We need to replicate the analisys done before
+    # ROC(subsets_Test, K, [0.5], isTrainSet=False)
     
     
     

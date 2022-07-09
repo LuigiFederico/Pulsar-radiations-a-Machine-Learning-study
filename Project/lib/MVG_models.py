@@ -154,9 +154,11 @@ MVG_models = {
     'tied-diag': MVG_TiedDiag }
 
 
-def kfold_MVG(k_subsets, K, prior, MVG_train):
+def kfold_MVG(k_subsets, K, prior, MVG_train, getScores=False):
     
     minDCF_final = []
+    scores_final = []
+    
     
     for p in prior:
         scores = []
@@ -171,10 +173,13 @@ def kfold_MVG(k_subsets, K, prior, MVG_train):
         
         LE = numpy.concatenate(LE).ravel()    
         scores = numpy.concatenate(scores).ravel()
+        if getScores: scores_final.append(vcol(scores))
         minDCF = ev.computeMinDCF(LE, scores, p, numpy.array([[0,1],[1,0]])) # Compute the minDCF
         minDCF_final.append(minDCF)
-        
-    return minDCF_final, scores  
+    
+    if getScores:
+        return scores_final, LE 
+    return minDCF_final  
    
 def single_split_MVG(split, prior, MVG_train):
     
@@ -215,9 +220,10 @@ def kfold_MVG_actDCF(k_subsets, K, prior, MVG_train):
         
     return actDCF_final, minDCF_final
 
-def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4): 
+def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4, getScores=False): 
     
     actDCF_final = []
+    scores_final = []
     
     for p in prior:
         scores = []
@@ -233,10 +239,14 @@ def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4):
         LE = numpy.concatenate(LE).ravel()    
         scores = numpy.concatenate(scores).ravel()
         scores = ev.calibrateScores(scores,LE,lambd,p)
+        if getScores: scores_final.append(vcol(scores))
         actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the minDCF
         actDCF_final.append(actDCF)
-        print('MVG Tied-Full (prior=%.1f): actDCF=%.3f' % (p, actDCF))
+        #print('MVG Tied-Full (prior=%.1f): actDCF=%.3f' % (p, actDCF))
         
+    if getScores:
+        return scores_final, LE
+
     return actDCF_final
 
 
