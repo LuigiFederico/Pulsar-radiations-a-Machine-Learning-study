@@ -178,11 +178,10 @@ def GMM_EM_TiedDiag(X, gmm, psi=0.01):
     return gmm
 
 
-def GMM_LBG(X, alpha, prior, nComponents, GMM_EM_train, psi = 0.01):
+def GMM_LBG(X, alpha, nComponents, GMM_EM_train, psi = 0.01):
     # GMM_EM_train is a callback retrived from the GMM_EM_models dictionary
     
-    gmm = [(prior, mvg.empirical_mean(X), mvg.empirical_cov(X))]
-    # gmm = [(1, mvg.empirical_mean(X), mvg.empirical_cov(X))]
+    gmm = [(1, mvg.empirical_mean(X), mvg.empirical_cov(X))]
     
     while len(gmm) <= nComponents:
         # # print(f'\nGMM has {len(gmm)} components')
@@ -227,8 +226,8 @@ def kfold_GMM(subset, K, prior, mode, alpha, nComponents, psi=0.01):
             DT_1 = DT_k[:, LT_k==1]
             
             # Train        
-            gmm_c0 = GMM_LBG(DT_0, alpha, prior, Comp, GMM_EM_models[mode], psi)
-            gmm_c1 = GMM_LBG(DT_1, alpha, prior, Comp, GMM_EM_models[mode], psi)
+            gmm_c0 = GMM_LBG(DT_0, alpha, Comp, GMM_EM_models[mode], psi)
+            gmm_c1 = GMM_LBG(DT_1, alpha, Comp, GMM_EM_models[mode], psi)
             
             # Test
             _, llr_0 = logpdf_GMM(DE_k, gmm_c0)
