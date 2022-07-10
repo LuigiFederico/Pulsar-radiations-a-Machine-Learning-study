@@ -56,6 +56,15 @@ def PCA(D, m):
   
     return DP
 
+def PCA_On_Test(D_Train,D_eval,m):
+    
+    C = covariance_matrix(D_Train)        # Covariance matrix
+    U, s, Vh = numpy.linalg.svd(C)        # Singular Value Decomposition
+    P = U[:, 0:m]                         # U = eigenvectors, s = eigenvalues (sorted)
+    D_EvalPCA = numpy.dot(P.T, D_eval)
+  
+    return D_EvalPCA
+
 
 def LDA(D, L, m, n=2):
     """

@@ -552,7 +552,7 @@ if __name__ == '__main__':
     #MVG_models(subsets, splits, prior, K)
     
     # LR
-    LR_models(subsets, splits, prior, K , lambdas, pi_t=[0.5])
+    #LR_models(subsets, splits, prior, K , lambdas, pi_t=[0.5])
     
     # QLR
     #LR_models(subsets, splits, prior, K, lambdas, quadratic=True, pi_t=[0.5])
@@ -580,7 +580,7 @@ if __name__ == '__main__':
     
     
     # ROC and DET curve
-    ROC(subsets, K, [0.5])
+    #ROC(subsets, K, [0.5])
     
     # Evaluation with other metrics
     
@@ -592,23 +592,88 @@ if __name__ == '__main__':
     ###########################
     #   EVALUATION SECTION    #
     ###########################
-    # D_Test, L_Test = load('data/Test.txt')
     
-    # D_Gauss_Test =  prep.gaussianization(D_Test)
-    # subsets_Test = prep.kfold_computeAll(D_Test, D_Gauss_Test, L_Test, K)
+    D_Test, L_Test = load('data/Test.txt')
+    #D_Train, L_Train = load('data/Train.txt') #Already Loaded butto re-member the names
+    
+    D_Gauss_Test =  prep.gaussianization(D_Train,D_Test)
+    
+    D_Gauss_Test_PCA6=dim_red.PCA_On_Test(D_Train,D_Test,6) #Compute PCA Over TestSet
+    D_Gauss_Train_PCA6=dim_red.PCA(D_Train,6) #Compute PCA Over TrainSet
+    
+    Split_Raw_Test=[[D_Train, L_Train],[D_Test, L_Test]]
+    Split_GaussPCA_Test=[[D_Gauss_Train_PCA6, L_Train],[D_Gauss_Test_PCA6, L_Test]]
+
+    
+
+
 
     # MVG
-
+    print ("\n \n#----------Raw Data and MVG----------# \n")
+    
+    MVG.MVG_EVALUATION(Split_Raw_Test, prior, MVG.MVG_models['full'], 1e-4, "full")
+    MVG.MVG_EVALUATION(Split_Raw_Test, prior, MVG.MVG_models['diag'], 1e-4, "diag")
+    MVG.MVG_EVALUATION(Split_Raw_Test, prior, MVG.MVG_models['tied-full'], 1e-4, "tied-full")
+    MVG.MVG_EVALUATION(Split_Raw_Test, prior, MVG.MVG_models['tied-diag'], 1e-4, "tied-diag")
+    
+    print ("\n \n#----------Gauss Data + PCA6 and MVG----------# \n")
+    
+    MVG.MVG_EVALUATION(Split_GaussPCA_Test, prior, MVG.MVG_models['full'], 1e-4, "full")
+    MVG.MVG_EVALUATION(Split_GaussPCA_Test, prior, MVG.MVG_models['diag'], 1e-4, "diag")
+    MVG.MVG_EVALUATION(Split_GaussPCA_Test, prior, MVG.MVG_models['tied-full'], 1e-4, "tied-full")
+    MVG.MVG_EVALUATION(Split_GaussPCA_Test, prior, MVG.MVG_models['tied-diag'], 1e-4, "tied-diag")
+    
+    
+    
+    
     # LR
-
+    print ("\n \n#----------Raw Data and LR----------# \n")
+    
+    LR.LR_EVALUATION(Split_Raw_Test,prior,0.1,1e-5,lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_Raw_Test,prior,0.5,1e-5,lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_Raw_Test,prior,0.9,1e-5,lambd_calib=1e-4)
+    
+    print ("\n \n#----------Gauss Data + PCA6 and LR----------# \n")
+    
+    LR.LR_EVALUATION(Split_GaussPCA_Test,prior,0.1,1e-5,lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_GaussPCA_Test,prior,0.5,1e-5,lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_GaussPCA_Test,prior,0.9,1e-5,lambd_calib=1e-4)
+    
+    
+    
+    
     # SVM
-
+    print ("\n \n#----------Raw Data and SVM----------# \n")
+    
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.5, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.9, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    
+    print ("\n \n#----------Gauss Data + PCA6 and SVM----------# \n")
+    
+    SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='linear')
+    SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.5, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.9, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    
+    
+    
+    
     # GMM    
-
+    print ("\n \n#----------Raw Data and GMM----------# \n")
     
-    # actDCFs
+    GMM.GMM_EVALUATION(Split_Raw_Test, prior, mode="full", alpha=0.1, Component=2, psi=0.01, lambd_calib=1e-4)
+    GMM.GMM_EVALUATION(Split_Raw_Test, prior, mode="diag", alpha=0.1, Component=4, psi=0.01, lambd_calib=1e-4)
+    GMM.GMM_EVALUATION(Split_Raw_Test, prior, mode="tied-full", alpha=0.1, Component=8, psi=0.01, lambd_calib=1e-4)
+    GMM.GMM_EVALUATION(Split_Raw_Test, prior, mode="tied-diag", alpha=0.1, Component=16, psi=0.01, lambd_calib=1e-4)
     
-    # actDCFs calibrated
+    print ("\n \n#----------Gauss Data + PCA6 and GMM----------# \n")
+    
+    GMM.GMM_EVALUATION(Split_GaussPCA_Test, prior, mode="full", alpha=0.1, Component=2, psi=0.01, lambd_calib=1e-4)
+    GMM.GMM_EVALUATION(Split_GaussPCA_Test, prior, mode="diag", alpha=0.1, Component=4, psi=0.01, lambd_calib=1e-4)
+    GMM.GMM_EVALUATION(Split_GaussPCA_Test, prior, mode="tied-full", alpha=0.1, Component=8, psi=0.01, lambd_calib=1e-4)
+    GMM.GMM_EVALUATION(Split_GaussPCA_Test, prior, mode="tied-diag", alpha=0.1, Component=16, psi=0.01, lambd_calib=1e-4)
 
 
     # # We need to replicate the analisys done before

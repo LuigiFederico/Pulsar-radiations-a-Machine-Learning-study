@@ -212,7 +212,7 @@ def kfold_MVG_actDCF(k_subsets, K, prior, MVG_train):
         
         LE = numpy.concatenate(LE).ravel()    
         scores = numpy.concatenate(scores).ravel()
-        actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the minDCF
+        actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the actDCF
         minDCF = ev.computeMinDCF(LE, scores, p, numpy.array([[0,1],[1,0]])) # Compute the minDCF
         actDCF_final.append(actDCF)
         minDCF_final.append(minDCF)
@@ -240,7 +240,7 @@ def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4, getS
         scores = numpy.concatenate(scores).ravel()
         scores = ev.calibrateScores(scores,LE,lambd,p)
         if getScores: scores_final.append(vcol(scores))
-        actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the minDCF
+        actDCF = ev.computeActualDCF(LE, scores, p, 1, 1) # Compute the actDCF
         actDCF_final.append(actDCF)
         #print('MVG Tied-Full (prior=%.1f): actDCF=%.3f' % (p, actDCF))
         
@@ -251,6 +251,32 @@ def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4, getS
 
 
 
+
+
+def MVG_EVALUATION(split, prior, MVG_train, lambd_calib=1e-4, mode="full"):
+    
+    DT, LT = split[0] # Train Data and Labels
+    DE, LE = split[1] # Test Data and Labels
+    minDCF_final = []
+    actDCF_final = []
+    actDCFCalibrated_final = []
+
+    for p in prior:
+        llRateos,_ = MVG_train(DT, LT, DE, LE, p)
+        actDCF = ev.computeActualDCF(LE, llRateos, p, 1, 1) # Compute the actDCF
+        minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
+        
+        
+        llR_Calib = ev.calibrateScores(llRateos,LE,lambd_calib,p)
+        actDCFCalibrated = ev.computeActualDCF(LE, llR_Calib, p, 1, 1) # Compute the actDCF
+        
+        minDCF_final.append(minDCF)
+        actDCF_final.append(actDCF)
+        actDCFCalibrated_final.append(actDCFCalibrated)
+        print ("MVG- %s with prior = %.1f , minDCF = %.3f , actDCF = %.3f, actDCF (Calibrated) = %.3f" % (mode,p,minDCF,actDCF,actDCFCalibrated))
+        
+
+    return minDCF_final, actDCF_final, actDCFCalibrated_final
 
 
 

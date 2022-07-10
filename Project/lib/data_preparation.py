@@ -115,16 +115,18 @@ def k_fold(D, L, seed=0, K=5):
     return subsets
 
 
-def gaussianization (D_Train, D_Evaluation=0):
+def gaussianization (D_Train, D_Evaluation=numpy.array([])):
     
     # If D_Evaluation is equal to 0 we are using the function to gaussianize Training Data
-    if(D_Evaluation != 0):
+    if(D_Evaluation.size !=0):
         
         # Create a temporary array to takes the stack values
         Stack = numpy.zeros([D_Evaluation.shape[0], D_Evaluation.shape[1]])
         
         # Iterate over each samples and calculate tha stack
-        for row_count,(i,row_samples) in D_Train, enumerate(D_Evaluation):
+        for temp in zip(D_Train , enumerate(D_Evaluation)):
+            row_count,temp2 = temp
+            i,row_samples=temp2
             for (j,x) in enumerate(row_samples):
                 Stack[i,j] = ((row_count<x).sum() + 1 )/(D_Train.shape[1]+2)
     
@@ -148,13 +150,6 @@ def gaussianization (D_Train, D_Evaluation=0):
         
     return D_Gaussianized
 
-
-def ZNormalization(D):
-    
-    mean = D.mean(axis=1)
-    standardDeviation = D.std(axis=1)
-    ZD = (D-vcol(mean))/vcol(standardDeviation)
-    return ZD, mean, standardDeviation
 
 
 def ksplit(D, L, K, idx):

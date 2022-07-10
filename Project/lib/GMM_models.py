@@ -253,8 +253,8 @@ def single_split_GMM(split, prior, mode, alpha, nComponents, psi=0.01):
 
     for Comp in nComponents:
         # Train        
-        gmm_c0 = GMM_LBG(DT_0, alpha, prior, Comp, GMM_EM_models[mode], psi)
-        gmm_c1 = GMM_LBG(DT_1, alpha, prior, Comp, GMM_EM_models[mode], psi)
+        gmm_c0 = GMM_LBG(DT_0, alpha, Comp, GMM_EM_models[mode], psi)
+        gmm_c1 = GMM_LBG(DT_1, alpha, Comp, GMM_EM_models[mode], psi)
         
         # Test
         _, llr_0 = logpdf_GMM(DE, gmm_c0)
@@ -266,8 +266,39 @@ def single_split_GMM(split, prior, mode, alpha, nComponents, psi=0.01):
         print("[Single_Split] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, Comp, prior, minDCF))
     
     return minDCF_final
+
+
+def GMM_EVALUATION(split, prior, mode, alpha, Component, psi=0.01, lambd_calib=1e-4):
     
+    DT, LT = split[0] # Train Data and Labels
+    DE, LE = split[1] # Test Data and Labels
+    DT_0 = DT[:, LT==0]
+    DT_1 = DT[:, LT==1]
+    minDCF_final = []
+    actDCF_final = []
+    actDCFCalibrated_final = []
+    
+    for p in prior:
+        # Train        
+        gmm_c0 = GMM_LBG(DT_0, alpha, Component, GMM_EM_models[mode], psi)
+        gmm_c1 = GMM_LBG(DT_1, alpha, Component, GMM_EM_models[mode], psi)
+        
+        # Test
+        _, llr_0 = logpdf_GMM(DE, gmm_c0)
+        _, llr_1 = logpdf_GMM(DE, gmm_c1)
+        llRateos = llr_1 - llr_0
+        
+        actDCF = ev.computeActualDCF(LE, llRateos, p, 1, 1) # Compute the actDCF
+        minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
+        
+        
+        llR_Calib = ev.calibrateScores(llRateos,LE,lambd_calib,p)
+        actDCFCalibrated = ev.computeActualDCF(LE, llR_Calib, p, 1, 1) # Compute the actDCF
+        
+        minDCF_final.append(minDCF)
+        actDCF_final.append(actDCF)
+        actDCFCalibrated_final.append(actDCFCalibrated)
+        print ("GMM- %s with components = %.0f , prior = %.1f , minDCF = %.3f , actDCF = %.3f, actDCF (Calibrated) = %.3f" % (mode,Component,p,minDCF,actDCF,actDCFCalibrated))
+        
 
-
-
-
+    return minDCF_final, actDCF_final, actDCFCalibrated_final
