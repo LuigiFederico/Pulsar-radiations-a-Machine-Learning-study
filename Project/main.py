@@ -60,13 +60,13 @@ def MVG_models(subsets, splits, prior, K):
                 print("- %s, prior = %.2f, minDCF = %.3f" % (k, p, minDCF[i]))
         
 
-    #def single_split_MVG_compute(split, prior, title=''):
-    #    
-    #    print(title)
-    #    for k in MVG.MVG_models.keys():
-    #        minDCF = numpy.round( MVG.single_split_MVG(split, prior, MVG.MVG_models[k]), 3)
-    #        for i,p in enumerate(prior):
-    #            print("- %s, prior = %.2f, minDCF = %.3f" % (k, p, minDCF[i]))
+    def single_split_MVG_compute(split, prior, title=''):
+        
+        print(title)
+        for k in MVG.MVG_models.keys():
+            minDCF = numpy.round( MVG.single_split_MVG(split, prior, MVG.MVG_models[k]), 3)
+            for i,p in enumerate(prior):
+                print("- %s, prior = %.2f, minDCF = %.3f" % (k, p, minDCF[i]))
     
     TrainMod = ['Raw dataset',
                 'Raw dataset + PCA m = 7',
@@ -92,9 +92,8 @@ def LR_models(subsets, splits, prior, K, lambdas, quadratic=False, pi_t=0.5):
         minDCF_LR = []
         
         for pi_T in pi_t:
-            for p in prior :
-                minDCF_values = f(k_subsets, K, lambdas, p, pi_T)
-                minDCF_LR.append(minDCF_values)
+            minDCF_values = f(k_subsets, K, lambdas, prior, pi_T)
+            minDCF_LR.append(minDCF_values)
             #plt.plot_DCF(lambdas, minDCF_LR, "λ")
             #print (numpy.around(minDCF_LR, 3)) # rounded
         
@@ -104,9 +103,8 @@ def LR_models(subsets, splits, prior, K, lambdas, quadratic=False, pi_t=0.5):
     def single_split_LR_compute(split, lambdas, prior, pi_t, f):
         minDCF_LR = [] 
         for pi_T in pi_t:
-            for p in prior :
-                minDCF_values  = f( split , lambdas, p, pi_T)
-                minDCF_LR.append(minDCF_values)
+            minDCF_values  = f( split , lambdas, prior, pi_T)
+            minDCF_LR.append(minDCF_values)
             #plt.plot_DCF(lambdas, minDCF_LR, "λ")
             #print (numpy.around(minDCF_LR, 3)) # rounded
         
@@ -156,19 +154,17 @@ def LR_models(subsets, splits, prior, K, lambdas, quadratic=False, pi_t=0.5):
         
 def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
     
-    #def single_split_SVM(split, prior, Cs, pi_t, f, mode):
-    #    minDCF_SVM = []
-    #    
-    #    if mode == 'balanced-linear':
-    #        for pi_T in pi_t:
-    #            for p in prior:
-    #                minDCF_values, LabelPredicetd = f(split, Cs, pi_T, p, mode)
-    #    else:
-    #        for p in prior :
-    #            minDCF_values, LabelPredicetd = f(split, Cs, pi_t, p, mode)
-    #            minDCF_SVM.append(minDCF_values)
-    #    
-    #    return minDCF_SVM
+    def single_split_SVM(split, prior, Cs, pi_t, f, mode):
+        minDCF_SVM = []
+        
+        if mode == 'balanced-linear':
+            for pi_T in pi_t:
+                for p in prior:
+                    minDCF_values, LabelPredicetd = f(split, Cs, pi_T, p, mode)
+        else:
+            minDCF_SVM, LabelPredicetd = f(split, Cs, pi_t, prior, mode)
+            
+        return minDCF_SVM
     
     
     def kfold_SVM(k_subsets, prior, K, Cs, pi_t, f, mode='linear', title=''):
@@ -176,9 +172,8 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         
         if mode == 'balanced-linear':
             for pi_T in pi_t:
-                for p in prior:
-                    minDCF_values = f(k_subsets, Cs, pi_T, p, K, mode)
-                    minDCF_SVM.append(minDCF_values)
+                minDCF_values = f(k_subsets, Cs, pi_T, prior, K, mode)
+                minDCF_SVM.append(minDCF_values)
             print (numpy.around(minDCF_SVM, 3)) # rounded
         
         elif mode=='poly': # prior=0.5
@@ -192,7 +187,7 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         elif mode=='RBF':
             gammas=numpy.logspace(-3,-1,3) # prior=0.5
             for gamma in gammas:
-                minDCF_values = f(k_subsets, Cs, pi_t, 0.5, K, mode, gamma)
+                minDCF_values = f(k_subsets, Cs, pi_t, [0.5], K, mode, gamma)
                 minDCF_SVM.append(minDCF_values)
             print (numpy.around(minDCF_SVM, 3)) # rounded
             plt.plot_DCF(Cs, minDCF_SVM, "C")
@@ -200,11 +195,8 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
             
             return minDCF_SVM
             
-                    
-        else:            
-            for p in prior:
-                minDCF_values = f(k_subsets, Cs, pi_t, p, K, mode)
-                minDCF_SVM.append(minDCF_values)
+        else:               
+            minDCF_SVM = f(k_subsets, Cs, pi_t, prior, K, mode)
             print (numpy.around(minDCF_SVM, 3)) # rounded
         
         return minDCF_SVM
@@ -241,37 +233,31 @@ def GMM_models(subsets, splits, prior, K, alpha, nComponents, mode='full', psi=0
     def single_split_GMM(split, prior, alpha, nComponents, mode='full', psi=0.01):
 
         minDCF_GMM = []
-        for p in prior:
-            minDCF = GMM.single_split_GMM(split, p, 
-                                          mode, 
+        minDCF_GMM = GMM.single_split_GMM(split, prior, mode, 
                                           alpha, nComponents, psi)
-            minDCF_GMM.append(minDCF)
         print (numpy.around(minDCF_GMM, 3)) # rounded
         #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components",2)
     
     def kfold_GMM(subset, K, prior, alpha, nComponents, mode='full', psi=0.01, title=''):
         
         minDCF_GMM = []
-        for p in prior:
-            minDCF = GMM.kfold_GMM(subset, K, p,
-                                   mode,
+        minDCF_GMM = GMM.kfold_GMM(subset, K, prior, mode,
                                    alpha, nComponents, psi)
-            minDCF_GMM.append(minDCF)
+
         print (numpy.around(minDCF_GMM, 3)) # rounded
-        plt.plot_DCF(nComponents, minDCF_GMM, 
-                     "GMM Components", 2, title)        
+        #plt.plot_DCF(nComponents, minDCF_GMM, "GMM Components", 2, title)        
         
 
     print('########  GMM - %s-cov  ########\n' % mode)
      
-    print('------- SINGLE SPLIT -------')
-    train_split, _, _, gauss_split, _, _ = splits
+    # print('------- SINGLE SPLIT -------')
+    # train_split, _, _, gauss_split, _, _ = splits
     
-    print('\nRaw dataset')    
-    single_split_GMM(train_split, prior, alpha, nComponents, mode, psi)
+    # print('\nRaw dataset')    
+    # single_split_GMM(train_split, prior, alpha, nComponents, mode, psi)
     
-    print('\nGaussianized dataset')    
-    single_split_GMM(gauss_split, prior, alpha, nComponents, mode, psi)
+    # print('\nGaussianized dataset')    
+    # single_split_GMM(gauss_split, prior, alpha, nComponents, mode, psi)
     
     print('-------  %d-FOLD  -------\n' % K)
     k_subset, _, _, k_guass, _, _ = subsets    
@@ -296,41 +282,41 @@ def score_calibration(subsets, prior, K):
     pi_T_LogReg = 0.1
     
     # MVG Tied Full-Cov - Raw
-    #print("Start MVG Tied Full-Cov 5-folds on raw features...")
-    #actDCF_MVG = MVG.kfold_MVG_actDCF(k_raw, K, prior, MVG.MVG_models['tied-full'])
-    #print("End")
+    print("Start MVG Tied Full-Cov 5-folds on raw features...")
+    actDCF_MVG = MVG.kfold_MVG_actDCF(k_raw, K, prior, MVG.MVG_models['tied-full'])
+    print("End")
     
     actualDCFs=[]
     minDCFs=[]
-    #for i in range(numberOfPoints):
-      #actDCF, minDCF = MVG.kfold_MVG_actDCF(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
-      #actDCF=actDCF[0]
-      #minDCF=minDCF[0]
-      #actualDCFs.append(actDCF)
-      #minDCFs.append(minDCF)
-      #print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    #plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov")
+    for i in range(numberOfPoints):
+      actDCF, minDCF = MVG.kfold_MVG_actDCF(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
+      actDCF=actDCF[0]
+      minDCF=minDCF[0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov")
     
     
-    ##------------------------------------------------##
+    #------------------------------------------------##
     
     
-    # # LogReg (lambda=1e-5, pi_T=0.1) - Raw
+    # LogReg (lambda=1e-5, pi_T=0.1) - Raw
 
-    #print("Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...")
-    #actDCF_LR = LR.kfold_LogReg_actDCF(k_raw, K, lambd, prior, pi_T)
-    #print("End")
+    print("Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...")
+    actDCF_LR = LR.kfold_LogReg_actDCF(k_raw, K, lambd, prior, pi_T)
+    print("End")
     
-    #actualDCFs=[]
-    #minDCFs=[]
-    #for i in range(numberOfPoints):
-      #actDCF, minDCF = LR.kfold_LogReg_actDCF(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg)
-      #actDCF=actDCF[0]
-      #minDCF=minDCF[0]
-      #actualDCFs.append(actDCF)
-      #minDCFs.append(minDCF)
-      #print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    #plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      actDCF, minDCF = LR.kfold_LogReg_actDCF(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg)
+      actDCF=actDCF[0]
+      minDCF=minDCF[0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg")
     
     
     ##------------------------------------------------##
@@ -338,21 +324,21 @@ def score_calibration(subsets, prior, K):
     
     # linear SVM (C=0.1, pi_T=0.5) - gauss PCA6
 
-    # print("Start Linear balanced SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
-    # actDCF_SVM, minDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='balanced-linear')
-    # print(actDCF_SVM)
-    # print("End")
+    print("Start Linear balanced SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6...")
+    actDCF_SVM, minDCF_SVM = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, prior, K, mode='balanced-linear')
+    print(actDCF_SVM)
+    print("End")
     
-    # actualDCFs=[]
-    # minDCFs=[]
-    # for i in range(numberOfPoints):
-    #   actDCF, minDCF = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, [effPriors[i]], K, mode='balanced-linear')
-    #   actDCF=actDCF[0]
-    #   minDCF=minDCF[0]
-    #   actualDCFs.append(actDCF)
-    #   minDCFs.append(minDCF)
-    #   print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear-SVM")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      actDCF, minDCF = SVM.kfold_SVM_actDCF(k_gauss_PCA6, C, pi_T, [effPriors[i]], K, mode='balanced-linear')
+      actDCF=actDCF[0]
+      minDCF=minDCF[0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear-SVM")
     
     
     ##------------------------------------------------##
@@ -361,56 +347,56 @@ def score_calibration(subsets, prior, K):
     
     # lamb_calibration=1e-4
     
-    # ##------------------------------------------------##
+    ##------------------------------------------------##
     
-    # #print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
-    # actualDCFs=[]
-    # minDCFs=[]
-    # for i in range(numberOfPoints):
-    #   minDCF = MVG.kfold_MVG(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
-    #   actDCF = MVG.kfold_MVG_actDCF_Calibrated(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'],lamb_calibration)
-    #   actDCF=actDCF[0]
-    #   minDCF=minDCF[0][0]
-    #   actualDCFs.append(actDCF)
-    #   minDCFs.append(minDCF)
-    #   print("At iteration after Calibration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov,", True,lamb_calibration)
+    #print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      minDCF = MVG.kfold_MVG(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
+      actDCF = MVG.kfold_MVG_actDCF_Calibrated(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'],lamb_calibration)
+      actDCF=actDCF[0]
+      minDCF=minDCF[0][0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration after Calibration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "MVG Tied Full-Cov,", True,lamb_calibration)
     
-    # ##------------------------------------------------##
+    ##------------------------------------------------##
     
-    # print("Calibrated LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features")
-    # actualDCFs=[]
-    # minDCFs=[]
-    # for i in range(numberOfPoints):
-    #   minDCF=LR.kfold_LogReg(k_raw, K, [lambd], effPriors[i], pi_T_LogReg)
-    #   actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg, lamb_calibration)
-    #   actDCF=actDCF[0]
-    #   minDCF=minDCF[0][0]
-    #   actualDCFs.append(actDCF)
-    #   minDCFs.append(minDCF)
-    #   print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg,", True,lamb_calibration)
+    print("Calibrated LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      minDCF=LR.kfold_LogReg(k_raw, K, [lambd], effPriors[i], pi_T_LogReg)
+      actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg, lamb_calibration)
+      actDCF=actDCF[0]
+      minDCF=minDCF[0][0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "LogReg,", True,lamb_calibration)
     
     
-    # ##------------------------------------------------##
+    ##------------------------------------------------##
     
-    # print("Calibrated Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6")
-    # actualDCFs=[]
-    # minDCFs=[]
-    # for i in range(numberOfPoints):
-    #   minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, effPriors[i], K=5, mode='balanced-linear')
-    #   actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=5, mode='balanced-linear', lambd_calib=1e-4 )
-    #   actDCF=actDCF[0]
-    #   minDCF=minDCF[0][0]
-    #   actualDCFs.append(actDCF)
-    #   minDCFs.append(minDCF)
-    #   print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
-    # plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear SVM,", True,lamb_calibration)
+    print("Calibrated Linear SVM (C=0.1, pi_T=0.5) 5-folds on gaussianized features with PCA m=6")
+    actualDCFs=[]
+    minDCFs=[]
+    for i in range(numberOfPoints):
+      minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, effPriors[i], K=5, mode='balanced-linear')
+      actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=5, mode='balanced-linear', lambd_calib=1e-4 )
+      actDCF=actDCF[0]
+      minDCF=minDCF[0][0]
+      actualDCFs.append(actDCF)
+      minDCFs.append(minDCF)
+      print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
+    plt.bayesErrorPlot(actualDCFs, minDCFs, effPriorLogOdds, "Linear SVM,", True,lamb_calibration)
     
     False
     
 
-def ROC(subsets, K, prior, isTrainSet=True):
+def ROC(subsets, K, prior, calibrated=True):
     k_raw, _, _, _, _, k_gauss_PCA6 = subsets    
     
     
@@ -420,7 +406,7 @@ def ROC(subsets, K, prior, isTrainSet=True):
     TPR_MVG = []
     FNR_MVG = []
 
-    if isTrainSet:
+    if not calibrated:
         scores_MVG, LE_MVG = MVG.kfold_MVG(
                         k_raw, K, prior, 
                         MVG.MVG_models['tied-full'], getScores=True)        
@@ -444,9 +430,9 @@ def ROC(subsets, K, prior, isTrainSet=True):
     FPR_LR = []
     TPR_LR = []
     FNR_LR = []
-    pi_T_LR = 0.1
+    pi_T_LR = 0.5
     
-    if isTrainSet:
+    if not calibrated:
         lambd = [0.00001]
         scores_LR, LE_LR = LR.kfold_LogReg(
                         k_raw, K, lambd, prior, pi_T_LR, getScores=True)
@@ -473,7 +459,7 @@ def ROC(subsets, K, prior, isTrainSet=True):
     FNR_SVM = []
     pi_T_SVM = 0.5
     
-    if isTrainSet:
+    if not calibrated:
         C = [0.1]
         scores_SVM, LE_SVM = SVM.kfold_SVM(
                         k_gauss_PCA6, C, pi_T_SVM, prior,
@@ -496,14 +482,14 @@ def ROC(subsets, K, prior, isTrainSet=True):
 
 
     # ROC plot
-    print("Plotting ROC and DET...")
+    print("Plotting ROC ...")
     plt.plotROC(FPR_MVG, TPR_MVG,
                 FPR_LR,  TPR_LR,
                 FPR_SVM, TPR_SVM)
     # plt.plotDET(FPR_MVG, FNR_MVG,
     #             FPR_LR,  FNR_LR,
     #             FPR_SVM, FNR_SVM)
-    print("- ROC and DET done.")
+    print("- ROC plot done.")
 
 
 
@@ -564,29 +550,24 @@ if __name__ == '__main__':
     
     
     # GMM    
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
-    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
+    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
+    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
+    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
+    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
     
         
-    #----------------------------------#  
-    #  Choice of the candidate models  #
-    #----------------------------------#
+    #-----------------------------#  
+    #  Score calibration section  #
+    #-----------------------------#
     
-    # Score calibration
+    # Evaluation with other metrics
     #score_calibration(subsets, prior, K)
     
     
     # ROC and DET curve
     #ROC(subsets, K, [0.5])
     
-    # Evaluation with other metrics
     
-        
-
-
-
 
     ###########################
     #   EVALUATION SECTION    #
@@ -595,18 +576,15 @@ if __name__ == '__main__':
     D_Test, L_Test = load('data/Test.txt')
     #D_Train, L_Train = load('data/Train.txt') #Already Loaded butto re-member the names
     
-    D_Gauss_Test =  prep.gaussianization(D_Train,D_Test)
+    D_Gauss_Test =  prep.gaussianization(D_Train, D_Test)
     
-    D_Gauss_Test_PCA6=dim_red.PCA_On_Test(D_Train,D_Test,6) #Compute PCA Over TestSet
-    D_Gauss_Train_PCA6=dim_red.PCA(D_Train,6) #Compute PCA Over TrainSet
+    D_Gauss_Test_PCA6 = dim_red.PCA_On_Test(D_Train, D_Test,6) #Compute PCA Over TestSet
+    D_Gauss_Train_PCA6 = dim_red.PCA(D_Train, 6) #Compute PCA Over TrainSet
     
-    Split_Raw_Test=[[D_Train, L_Train],[D_Test, L_Test]]
-    Split_GaussPCA_Test=[[D_Gauss_Train_PCA6, L_Train],[D_Gauss_Test_PCA6, L_Test]]
+    Split_Raw_Test = [[D_Train, L_Train], [D_Test, L_Test]]
+    Split_GaussPCA_Test = [[D_Gauss_Train_PCA6, L_Train], [D_Gauss_Test_PCA6, L_Test]]
 
     
-
-
-
     # MVG
     print ("\n \n#----------Raw Data and MVG----------# \n")
     
@@ -623,31 +601,27 @@ if __name__ == '__main__':
     MVG.MVG_EVALUATION(Split_GaussPCA_Test, prior, MVG.MVG_models['tied-diag'], 1e-4, "tied-diag")
     
     
-    
-    
     # LR
     print ("\n \n#----------Raw Data and LR----------# \n")
     
-    LR.LR_EVALUATION(Split_Raw_Test,prior,0.1,1e-5,lambd_calib=1e-4)
-    LR.LR_EVALUATION(Split_Raw_Test,prior,0.5,1e-5,lambd_calib=1e-4)
-    LR.LR_EVALUATION(Split_Raw_Test,prior,0.9,1e-5,lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_Raw_Test, prior, 0.1, 1e-5, lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_Raw_Test, prior, 0.5, 1e-5, lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_Raw_Test, prior, 0.9, 1e-5, lambd_calib=1e-4)
     
     print ("\n \n#----------Gauss Data + PCA6 and LR----------# \n")
     
-    LR.LR_EVALUATION(Split_GaussPCA_Test,prior,0.1,1e-5,lambd_calib=1e-4)
-    LR.LR_EVALUATION(Split_GaussPCA_Test,prior,0.5,1e-5,lambd_calib=1e-4)
-    LR.LR_EVALUATION(Split_GaussPCA_Test,prior,0.9,1e-5,lambd_calib=1e-4)
-    
-    
+    LR.LR_EVALUATION(Split_GaussPCA_Test, prior, 0.1, 1e-5, lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_GaussPCA_Test, prior, 0.5, 1e-5, lambd_calib=1e-4)
+    LR.LR_EVALUATION(Split_GaussPCA_Test, prior, 0.9, 1e-5, lambd_calib=1e-4)
     
     
     # SVM
     print ("\n \n#----------Raw Data and SVM----------# \n")
     
-    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='linear')
-    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
-    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.5, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
-    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.9, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.1, prior=prior, lambd_calib=1e-4, mode='linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.1, prior=prior, lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.5, prior=prior, lambd_calib=1e-4, mode='balanced-linear')
+    SVM.SVM_EVALUATION(Split_Raw_Test, C=0.1, pi_t=0.9, prior=prior, lambd_calib=1e-4, mode='balanced-linear')
     
     print ("\n \n#----------Gauss Data + PCA6 and SVM----------# \n")
     
@@ -655,7 +629,6 @@ if __name__ == '__main__':
     SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.1, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
     SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.5, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
     SVM.SVM_EVALUATION(Split_GaussPCA_Test, C=0.1, pi_t=0.9, prior=prior,lambd_calib=1e-4, mode='balanced-linear')
-    
     
     
     

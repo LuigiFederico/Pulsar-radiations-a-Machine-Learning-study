@@ -215,32 +215,33 @@ GMM_EM_models = {
 def kfold_GMM(subset, K, prior, mode, alpha, nComponents, psi=0.01): 
     minDCF_final = []  
     
-    for Comp in nComponents:
-        scores = []
-        LE = []
-        
-        for i in range(K):
-            DT_k, LT_k = subset[i][0]  # Data and Label Train
-            DE_k, LE_k = subset[i][1]  # Data and Label Test
-            DT_0 = DT_k[:, LT_k==0]
-            DT_1 = DT_k[:, LT_k==1]
+    for p in prior:
+        for Comp in nComponents:
+            scores = []
+            LE = []
             
-            # Train        
-            gmm_c0 = GMM_LBG(DT_0, alpha, Comp, GMM_EM_models[mode], psi)
-            gmm_c1 = GMM_LBG(DT_1, alpha, Comp, GMM_EM_models[mode], psi)
-            
-            # Test
-            _, llr_0 = logpdf_GMM(DE_k, gmm_c0)
-            _, llr_1 = logpdf_GMM(DE_k, gmm_c1)
-            
-            scores.append(llr_1 - llr_0)
-            LE.append(LE_k)
-            
-        LE = numpy.concatenate(LE).ravel()
-        scores = numpy.concatenate(scores).ravel()
-        minDCF = ev.computeMinDCF(LE, scores, prior, numpy.array([[0,1],[1,0]]))
-        minDCF_final.append(minDCF)
-        print("[%d K-Fold] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (K,mode, alpha, Comp, prior, minDCF))
+            for i in range(K):
+                DT_k, LT_k = subset[i][0]  # Data and Label Train
+                DE_k, LE_k = subset[i][1]  # Data and Label Test
+                DT_0 = DT_k[:, LT_k==0]
+                DT_1 = DT_k[:, LT_k==1]
+                
+                # Train        
+                gmm_c0 = GMM_LBG(DT_0, alpha, Comp, GMM_EM_models[mode], psi)
+                gmm_c1 = GMM_LBG(DT_1, alpha, Comp, GMM_EM_models[mode], psi)
+                
+                # Test
+                _, llr_0 = logpdf_GMM(DE_k, gmm_c0)
+                _, llr_1 = logpdf_GMM(DE_k, gmm_c1)
+                
+                scores.append(llr_1 - llr_0)
+                LE.append(LE_k)
+                
+            LE = numpy.concatenate(LE).ravel()
+            scores = numpy.concatenate(scores).ravel()
+            minDCF = ev.computeMinDCF(LE, scores, p, numpy.array([[0,1],[1,0]]))
+            minDCF_final.append(minDCF)
+            print("[%d K-Fold] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (K,mode, alpha, Comp, p, minDCF))
     
     return minDCF_final
 
@@ -251,21 +252,23 @@ def single_split_GMM(split, prior, mode, alpha, nComponents, psi=0.01):
     DT_1 = DT[:, LT==1]
     minDCF_final = []  
 
-    for Comp in nComponents:
-        # Train        
-        gmm_c0 = GMM_LBG(DT_0, alpha, Comp, GMM_EM_models[mode], psi)
-        gmm_c1 = GMM_LBG(DT_1, alpha, Comp, GMM_EM_models[mode], psi)
-        
-        # Test
-        _, llr_0 = logpdf_GMM(DE, gmm_c0)
-        _, llr_1 = logpdf_GMM(DE, gmm_c1)
-        llRateos = llr_1 - llr_0
-        
-        minDCF = ev.computeMinDCF(LE, llRateos, prior, numpy.array([[0,1],[1,0]]))
-        minDCF_final.append(minDCF)
-        print("[Single_Split] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, Comp, prior, minDCF))
+    for p in prior:
+        for Comp in nComponents:
+            # Train        
+            gmm_c0 = GMM_LBG(DT_0, alpha, Comp, GMM_EM_models[mode], psi)
+            gmm_c1 = GMM_LBG(DT_1, alpha, Comp, GMM_EM_models[mode], psi)
+            
+            # Test
+            _, llr_0 = logpdf_GMM(DE, gmm_c0)
+            _, llr_1 = logpdf_GMM(DE, gmm_c1)
+            llRateos = llr_1 - llr_0
+            
+            minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
+            minDCF_final.append(minDCF)
+            print("[Single_Split] GMM - %s, α=%.2f, %d gau, prior = %.2f, minDCF = %.3f" % (mode, alpha, Comp, p, minDCF))
     
     return minDCF_final
+
 
 
 def GMM_EVALUATION(split, prior, mode, alpha, Component, psi=0.01, lambd_calib=1e-4):
@@ -298,7 +301,8 @@ def GMM_EVALUATION(split, prior, mode, alpha, Component, psi=0.01, lambd_calib=1
         minDCF_final.append(minDCF)
         actDCF_final.append(actDCF)
         actDCFCalibrated_final.append(actDCFCalibrated)
-        print ("GMM- %s with components = %.0f , prior = %.1f , minDCF = %.3f , actDCF = %.3f, actDCF (Calibrated) = %.3f" % (mode,Component,p,minDCF,actDCF,actDCFCalibrated))
+        print ("GMM- %s with components = %.0f , prior = %.1f , minDCF = %.3f , actDCF = %.3f, actDCF (Calibrated) = %.3f"
+               % (mode, Component, p, minDCF, actDCF, actDCFCalibrated))
         
 
     return minDCF_final, actDCF_final, actDCFCalibrated_final

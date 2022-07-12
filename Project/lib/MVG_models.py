@@ -220,6 +220,7 @@ def kfold_MVG_actDCF(k_subsets, K, prior, MVG_train):
         
     return actDCF_final, minDCF_final
 
+
 def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4, getScores=False): 
     
     actDCF_final = []
@@ -248,9 +249,6 @@ def kfold_MVG_actDCF_Calibrated(k_subsets, K, prior, MVG_train, lambd=1e-4, getS
         return scores_final, LE
 
     return actDCF_final
-
-
-
 
 
 def MVG_EVALUATION(split, prior, MVG_train, lambd_calib=1e-4, mode="full"):
