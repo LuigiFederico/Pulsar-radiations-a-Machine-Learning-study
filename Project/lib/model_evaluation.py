@@ -189,6 +189,14 @@ def calibrateScores(s, L, lambd, prior=0.5):
     
     return calib_scores
 
+def calibrateScoresForEvaluation(score_train,LTR, score_eval, lambd, prior=0.5):
+    
+    score_eval=vrow(score_eval)
+    score_train=vrow(score_train)
+    alpha, beta = LR.LogRegForCalibration(score_train,LTR,lambd,prior)
+    calib_scores = alpha*score_eval+beta-numpy.log(prior/(1-prior))
+    return calib_scores
+
  
 def computeFPR_TPR_FNR(llrs, TrueLabels, t):
     

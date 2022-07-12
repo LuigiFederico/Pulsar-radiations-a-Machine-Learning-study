@@ -345,7 +345,7 @@ def score_calibration(subsets, prior, K):
     ##              CALIBRATED VERSION                ##
     ##------------------------------------------------##
     
-    # lamb_calibration=1e-4
+    lamb_calibration=1e-4
     
     ##------------------------------------------------##
     
