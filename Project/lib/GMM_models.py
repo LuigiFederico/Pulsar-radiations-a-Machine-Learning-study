@@ -295,7 +295,12 @@ def GMM_EVALUATION(split, prior, mode, alpha, Component, psi=0.01, lambd_calib=1
         minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
         
         
-        llR_Calib = ev.calibrateScores(llRateos,LE,lambd_calib,p)
+        ##########
+        _, llr_Train_0 = logpdf_GMM(DT, gmm_c0)
+        _, llr_Train_1 = logpdf_GMM(DT, gmm_c1)
+        llTrain = llr_Train_1 - llr_Train_0
+        #########
+        llR_Calib = ev.calibrateScoresForEvaluation(llTrain,LT,llRateos,lambd_calib,p)
         actDCFCalibrated = ev.computeActualDCF(LE, llR_Calib, p, 1, 1) # Compute the actDCF
         
         minDCF_final.append(minDCF)

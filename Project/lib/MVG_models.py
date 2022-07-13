@@ -265,8 +265,8 @@ def MVG_EVALUATION(split, prior, MVG_train, lambd_calib=1e-4, mode="full"):
         minDCF = ev.computeMinDCF(LE, llRateos, p, numpy.array([[0,1],[1,0]]))
 
         
-        sc,_=MVG_train(DT, LT, DT, LT, p)
-        llR_Calib = ev.calibrateScoresForEvaluation(sc,LT,llRateos,lambd_calib,p)
+        llRTrain,_=MVG_train(DT, LT, DT, LT, p)
+        llR_Calib = ev.calibrateScoresForEvaluation(llRTrain,LT,llRateos,lambd_calib,p)
         actDCFCalibrated = ev.computeActualDCF(LE, llR_Calib, p, 1, 1) # Compute the actDCF
         
         minDCF_final.append(minDCF)
