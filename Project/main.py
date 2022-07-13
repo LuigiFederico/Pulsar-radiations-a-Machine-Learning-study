@@ -531,29 +531,29 @@ if __name__ == '__main__':
     splits = prep.single_split_computeAll(D_Train, D_Gaussianization, L_Train)
      
     # MVG 
-    #MVG_models(subsets, splits, prior, K)
+    MVG_models(subsets, splits, prior, K)
     
     
     # LR
-    #LR_models(subsets, splits, prior, K , lambdas, pi_t=[0.5])
+    LR_models(subsets, splits, prior, K , lambdas, pi_t=[0.5])
     
     
     # QLR
-    #LR_models(subsets, splits, prior, K, lambdas, quadratic=True, pi_t=[0.5])
+    LR_models(subsets, splits, prior, K, lambdas, quadratic=True, pi_t=[0.5])
     
     
     # SVM
-    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
-    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'balanced-linear')
-    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
-    #SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF')
+    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'linear')
+    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'balanced-linear')
+    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'poly')
+    SVM_models(subsets, splits, prior, K, Cs, pi_t, 'RBF')
     
     
     # GMM    
-    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
-    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
-    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
-    # GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='full', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='diag', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-full', psi=0.01)
+    GMM_models(subsets, splits, prior, K, alpha=0.1, nComponents=nComponents, mode='tied-diag', psi=0.01)
     
         
     #-----------------------------#  
@@ -561,11 +561,11 @@ if __name__ == '__main__':
     #-----------------------------#
     
     # Evaluation with other metrics
-    #score_calibration(subsets, prior, K)
+    score_calibration(subsets, prior, K)
     
     
     # ROC and DET curve
-    #ROC(subsets, K, [0.5])
+    ROC(subsets, K, [0.5])
     
     
 
