@@ -179,9 +179,8 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
         elif mode=='poly': # prior=0.5
             c_vec = [0, 1, 10, 30]
             for c in c_vec:
-                minDCF_values = f(k_subsets, Cs, c=c, mode=mode)
+                minDCF_values = f(k_subsets, Cs, c=c, K=K, mode=mode)
                 minDCF_SVM.append(minDCF_values)
-            plt.plot_DCF(Cs, minDCF_SVM, "C", title)
             print (numpy.around(minDCF_SVM), 3)
 
         elif mode=='RBF':
@@ -190,8 +189,6 @@ def SVM_models(subsets, splits, prior, K, Cs, pi_t=0.5, mode='linear'):
                 minDCF_values = f(k_subsets, Cs, pi_t, [0.5], K, mode, gamma)
                 minDCF_SVM.append(minDCF_values)
             print (numpy.around(minDCF_SVM, 3)) # rounded
-            plt.plot_DCF(Cs, minDCF_SVM, "C")
-            print (numpy.around(minDCF_SVM), 3)
             
             return minDCF_SVM
             
@@ -279,7 +276,6 @@ def score_calibration(subsets, prior, K):
     C = 0.1
     pi_T = 0.5
     lambd = 0.00001
-    pi_T_LogReg = 0.1
     
     # MVG Tied Full-Cov - Raw
     print("Start MVG Tied Full-Cov 5-folds on raw features...")
@@ -301,16 +297,16 @@ def score_calibration(subsets, prior, K):
     #------------------------------------------------##
     
     
-    # LogReg (lambda=1e-5, pi_T=0.1) - Raw
+    # LogReg (lambda=1e-5, pi_T=0.5) - Raw
 
-    print("Start LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features...")
+    print("Start LogReg (λ=1e-5, pi_T=0.5) 5-folds on raw features...")
     actDCF_LR = LR.kfold_LogReg_actDCF(k_raw, K, lambd, prior, pi_T)
     print("End")
     
     actualDCFs=[]
     minDCFs=[]
     for i in range(numberOfPoints):
-      actDCF, minDCF = LR.kfold_LogReg_actDCF(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg)
+      actDCF, minDCF = LR.kfold_LogReg_actDCF(k_raw, K, lambd, [effPriors[i]], pi_T)
       actDCF=actDCF[0]
       minDCF=minDCF[0]
       actualDCFs.append(actDCF)
@@ -349,14 +345,14 @@ def score_calibration(subsets, prior, K):
     
     ##------------------------------------------------##
     
-    #print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
+    print("Calibrated MVG Tied Full-Cov 5-folds on raw features")
     actualDCFs=[]
     minDCFs=[]
     for i in range(numberOfPoints):
       minDCF = MVG.kfold_MVG(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'])
       actDCF = MVG.kfold_MVG_actDCF_Calibrated(k_raw, K, [effPriors[i]], MVG.MVG_models['tied-full'],lamb_calibration)
       actDCF=actDCF[0]
-      minDCF=minDCF[0][0]
+      minDCF=minDCF[0]
       actualDCFs.append(actDCF)
       minDCFs.append(minDCF)
       print("At iteration after Calibration", i, "the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
@@ -364,14 +360,14 @@ def score_calibration(subsets, prior, K):
     
     ##------------------------------------------------##
     
-    print("Calibrated LogReg (λ=1e-5, pi_T=0.1) 5-folds on raw features")
+    print("Calibrated LogReg (λ=1e-5, pi_T=0.5) 5-folds on raw features")
     actualDCFs=[]
     minDCFs=[]
     for i in range(numberOfPoints):
-      minDCF=LR.kfold_LogReg(k_raw, K, [lambd], effPriors[i], pi_T_LogReg)
-      actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T_LogReg, lamb_calibration)
+      minDCF=LR.kfold_LogReg(k_raw, K, [lambd], [effPriors[i]], pi_T)
+      actDCF=LR.kfold_LogReg_actDCF_Calibrated(k_raw, K, lambd, [effPriors[i]], pi_T, lamb_calibration)
       actDCF=actDCF[0]
-      minDCF=minDCF[0][0]
+      minDCF=minDCF[0]
       actualDCFs.append(actDCF)
       minDCFs.append(minDCF)
       print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
@@ -384,10 +380,10 @@ def score_calibration(subsets, prior, K):
     actualDCFs=[]
     minDCFs=[]
     for i in range(numberOfPoints):
-      minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, effPriors[i], K=5, mode='balanced-linear')
-      actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=5, mode='balanced-linear', lambd_calib=1e-4 )
+      minDCF=SVM.kfold_SVM(k_gauss_PCA6, [C], pi_T, [effPriors[i]], K=K, mode='balanced-linear')
+      actDCF=SVM.kfold_SVM_actDCF_Calibrated(k_gauss_PCA6, C, pi_T, [effPriors[i]], K=K, mode='balanced-linear', lambd_calib=1e-4 )
       actDCF=actDCF[0]
-      minDCF=minDCF[0][0]
+      minDCF=minDCF[0]
       actualDCFs.append(actDCF)
       minDCFs.append(minDCF)
       print("At iteration", i, " after Calibration with effPriors ="  ,effPriors[i] ,"the min DCF is", minDCFs[i], "and the actual DCF is", actualDCFs[i])
@@ -501,17 +497,17 @@ if __name__ == '__main__':
     #  Data analysis  #
     #-----------------#
     D_Train, L_Train = load('data/Train.txt')
-    #feature_analysis(D_Train, L_Train, 'Feature correlation')
+    feature_analysis(D_Train, L_Train, 'Feature correlation')
 
     # Gaussianization to clear the outliers
     D_Gaussianization = prep.gaussianization(D_Train)
-    #feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
+    feature_analysis(D_Gaussianization, L_Train, 'Gaussianized features')
 
     
     #------------------------------#
     #  Model training with K-FOLD  #
     #------------------------------#
-    K = 2  # k-fold 
+    K = 5  # k-fold 
     prior = [0.5, 0.9, 0.1]
     pi_t = [0.5, 0.9, 0.1]
     
@@ -574,7 +570,7 @@ if __name__ == '__main__':
     ###########################
     
     D_Test, L_Test = load('data/Test.txt')
-    #D_Train, L_Train = load('data/Train.txt') #Already Loaded butto re-member the names
+    #D_Train, L_Train = load('data/Train.txt') #Already Loaded but to re-member the names
     
     D_Gauss_Test =  prep.gaussianization(D_Train, D_Test)
     
